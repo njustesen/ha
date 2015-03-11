@@ -1,0 +1,68 @@
+########### TEST ###########
+AP: 5
+SAP: 3
+TURN LIMT: 100
+~~~~~~~~~ Player 1 ~~~~~~~~~
+MCTS
+Time budget = 2075
+C = 0.7071067811865475
+Leaf evaluation = Rollout Evaluator [depth=1 rolls=1 policy=Random heuristic evaluator=Material Balance Evaluator]
+Cut = false
+Collapse = false
+~~~~~~~~~ Player 2 ~~~~~~~~~
+MCTS
+Time budget = 2075
+C = 0.7071067811865475
+Threads = 4
+Leaf evaluation = Rollout Evaluator [depth=1 rolls=1 policy=Random heuristic evaluator=Material Balance Evaluator]
+~~~~~~~~~~~ SETUP ~~~~~~~~~~
+Map: a-small
+Deck Size: SMALL
+Randomness: false
+Runs: 50
+~~~~~~~~~~ RUNNING ~~~~~~~~~
+~~~~~~~~~~ RESULTS ~~~~~~~~~
+P1 = 27 = 54.0%
+P2 = 23 = 46.0%
+Dr = 0
+~~~~~~~~~~~ STATS ~~~~~~~~~~
+P1 MCTS
+Time spend (avg) = 374.59628311585607
+Time spend (std.dev) = 860.2749316405398
+Time spend (min) = 0.0
+Time spend (max) = 15942.0
+Time spend (datapoints) = 2529
+Iterations (avg) = 116303.92517006803
+Iterations (std.dev) = 94720.68781542896
+Iterations (min) = 19328.0
+Iterations (max) = 1123788.0
+Iterations (datapoints) = 441
+Max. depths (avg) = 8.013605442176871
+Max. depths (std.dev) = 1.7287212104507903
+Max. depths (min) = 4.0
+Max. depths (max) = 17.0
+Max. depths (datapoints) = 441
+Avg. depths (avg) = 6.167410983619606
+Avg. depths (std.dev) = 1.1946900232407216
+Avg. depths (min) = 2.9841656516443362
+Avg. depths (max) = 10.806977070753677
+Avg. depths (datapoints) = 441
+Min. depths (avg) = 3.750566893424036
+Min. depths (std.dev) = 0.7007646589285711
+Min. depths (min) = 1.0
+Min. depths (max) = 6.0
+Min. depths (datapoints) = 441
+
+P2 MCTS - Root Parallelized
+Time spend (avg) = 380.1862980769231
+Time spend (std.dev) = 820.9940397407249
+Time spend (min) = 0.0
+Time spend (max) = 3587.0
+Time spend (datapoints) = 2496
+Iterations (avg) = 280602.628959276
+Iterations (std.dev) = 169773.23736743617
+Iterations (min) = 53653.0
+Iterations (max) = 2136773.0
+Iterations (datapoints) = 442
+
+############################
