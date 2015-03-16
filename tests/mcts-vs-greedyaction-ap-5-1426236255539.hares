@@ -1,0 +1,70 @@
+########### TEST ###########
+AP: 5
+SAP: 4
+TURN LIMT: 600
+~~~~~~~~~ Player 1 ~~~~~~~~~
+GreedyAction
+State evaluatior = Heuristic Evaluator
+~~~~~~~~~ Player 2 ~~~~~~~~~
+MCTS
+Time budget = 3075
+C = 0.35355339059327373
+Leaf evaluation = Rollout Evaluator [depth=1 rolls=1 policy=Random heuristic evaluator=Material Balance Evaluator]
+Cut = false
+Collapse = false
+~~~~~~~~~~~ SETUP ~~~~~~~~~~
+Map: a
+Deck Size: STANDARD
+Randomness: false
+Runs: 50
+~~~~~~~~~~ RUNNING ~~~~~~~~~
+~~~~~~~~~~ RESULTS ~~~~~~~~~
+P1 = 32 = 68.0%
+P2 = 14 = 32.0%
+Dr = 4
+~~~~~~~~~~~ STATS ~~~~~~~~~~
+P1 GreedyAction
+Time spend (avg) = 0.14341315390197243
+Time spend (std.dev) = 0.3504936820968789
+Time spend (min) = 0.0
+Time spend (max) = 1.0
+Time spend (datapoints) = 15159
+Branching factor (avg) = 38.49137038315499
+Branching factor (std.dev) = 29.220951542764052
+Branching factor (min) = 0.0
+Branching factor (max) = 144.0
+Branching factor (datapoints) = 81116
+Pruned branching factor (avg) = 37.59909265742887
+Pruned branching factor (std.dev) = 28.813136505982538
+Pruned branching factor (min) = 0.0
+Pruned branching factor (max) = 112.0
+Pruned branching factor (datapoints) = 81116
+
+P2 MCTS
+Time spend (avg) = 578.4852280262286
+Time spend (std.dev) = 1209.2899029694136
+Time spend (min) = 0.0
+Time spend (max) = 3778.0
+Time spend (datapoints) = 13573
+Iterations (avg) = 116994.74327412694
+Iterations (std.dev) = 61403.095171529385
+Iterations (min) = 15178.0
+Iterations (max) = 2130072.0
+Iterations (datapoints) = 24941
+Max. depths (avg) = 5.3593280141133075
+Max. depths (std.dev) = 1.536763341442114
+Max. depths (min) = 0.0
+Max. depths (max) = 26.0
+Max. depths (datapoints) = 24941
+Avg. depths (avg) = 4.232862397252875
+Avg. depths (std.dev) = 0.9067265793512602
+Avg. depths (min) = 0.0
+Avg. depths (max) = 13.761144347982547
+Avg. depths (datapoints) = 24941
+Min. depths (avg) = 3.4227577081913316
+Min. depths (std.dev) = 0.6402069902543087
+Min. depths (min) = 0.0
+Min. depths (max) = 7.0
+Min. depths (datapoints) = 24941
+
+############################

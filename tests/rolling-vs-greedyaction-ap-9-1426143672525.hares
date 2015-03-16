@@ -1,0 +1,60 @@
+########### TEST ###########
+AP: 9
+SAP: 8
+TURN LIMT: 600
+~~~~~~~~~ Player 1 ~~~~~~~~~
+GreedyAction
+State evaluatior = Heuristic Evaluator
+~~~~~~~~~ Player 2 ~~~~~~~~~
+Rolling Horizon Evolution
+Pop. size = 100
+Budget = 3075ms.
+Mut. rate = 0.5
+Kill rate = 0.75
+State evaluator = Rollout Evaluator [depth=1 rolls=1 policy=Random heuristic evaluator=Heuristic Evaluator]
+~~~~~~~~~~~ SETUP ~~~~~~~~~~
+Map: a
+Deck Size: STANDARD
+Randomness: false
+Runs: 50
+~~~~~~~~~~ RUNNING ~~~~~~~~~
+~~~~~~~~~~ RESULTS ~~~~~~~~~
+P1 = 1 = 2.0%
+P2 = 49 = 98.0%
+Dr = 0
+~~~~~~~~~~~ STATS ~~~~~~~~~~
+P1 GreedyAction
+Time spend (avg) = 0.16582438408085912
+Time spend (std.dev) = 0.38609035301872524
+Time spend (min) = 0.0
+Time spend (max) = 5.0
+Time spend (datapoints) = 6332
+Branching factor (avg) = 38.34632516703786
+Branching factor (std.dev) = 28.59831337019813
+Branching factor (min) = 0.0
+Branching factor (max) = 142.0
+Branching factor (datapoints) = 127516
+Pruned branching factor (avg) = 37.1820242165689
+Pruned branching factor (std.dev) = 27.98971537298512
+Pruned branching factor (min) = 0.0
+Pruned branching factor (max) = 109.0
+Pruned branching factor (datapoints) = 127516
+
+P2 Rolling Horizon Evolution
+Time spend (avg) = 309.61335871807074
+Time spend (std.dev) = 925.8204769659807
+Time spend (min) = 0.0
+Time spend (max) = 3095.0
+Time spend (datapoints) = 6303
+Vists (selected genome) (avg) = 26.944303243967095
+Vists (selected genome) (std.dev) = 276.18868214876215
+Vists (selected genome) (min) = 1.0
+Vists (selected genome) (max) = 15705.0
+Vists (selected genome) (datapoints) = 36591
+Generations (avg) = 2137.850782979421
+Generations (std.dev) = 1106.245213722239
+Generations (min) = 80.0
+Generations (max) = 15705.0
+Generations (datapoints) = 36591
+
+############################
