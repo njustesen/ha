@@ -4,7 +4,9 @@ import game.GameState;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import model.HaMap;
@@ -26,7 +28,8 @@ public class RollingHorizonEvolution implements AI {
 	private final List<Genome> pop;
 	public List<Action> actions;
 	private final Random random;
-	
+	public Map<Integer, Double> fitnesses;
+	public List<List<Action>> bestActions;
 
 	public RollingHorizonEvolution(int popSize, double mutRate, double killRate, int budget, IStateEvaluator evaluator) {
 		super();
@@ -40,6 +43,8 @@ public class RollingHorizonEvolution implements AI {
 		random = new Random();
 		this.generations = new ArrayList<Double>();
 		this.bestVisits = new ArrayList<Double>();
+		this.fitnesses = new HashMap<Integer, Double>();
+		this.bestActions = new ArrayList<List<Action>>();
 	}
 
 	@Override
@@ -106,6 +111,9 @@ public class RollingHorizonEvolution implements AI {
 
 			}
 			
+			fitnesses.put(g, pop.get(0).fitness());
+			bestActions.add(clone(pop.get(0).actions));
+			
 		}
 
 		//System.out.println("Best Genome: " + pop.get(0).actions);
@@ -117,6 +125,12 @@ public class RollingHorizonEvolution implements AI {
 		generations.add((double)g);
 		bestVisits.add((double)(pop.get(0).visits));
 
+	}
+	
+	private List<Action> clone(List<Action> other) {
+		List<Action> actions = new ArrayList<Action>();
+		actions.addAll(other);
+		return actions;
 	}
 
 	private void setup(GameState state) {

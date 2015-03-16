@@ -1,14 +1,22 @@
 package testcase;
 
+import game.Game;
+import game.GameArguments;
 import game.GameState;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import model.DECK_SIZE;
 import model.HaMap;
+import ui.UI;
+import util.CachedLines;
 import util.MapLoader;
+import action.Action;
+import action.SingletonAction;
 import ai.AI;
 import ai.GreedyActionAI;
 import ai.GreedyTurnAI;
@@ -86,6 +94,181 @@ public class TestSuite {
 			HybridVsGreedyAction(Integer.parseInt(args[1]), args[2]);
 		else if (args[0].equals("hybrid-vs-greedy-turn"))
 			HybridVsGreedyTurn(Integer.parseInt(args[1]), args[2]);
+		else if (args[0].equals("hybrid-vs-rolling"))
+			HybridVsRolling(Integer.parseInt(args[1]), args[2]);
+		else if (args[0].equals("fitness-rolling-mcts"))
+			fitnessRollingMcts();
+		else if (args[0].equals("fitness-rolling"))
+			fitnessRolling();
+			
+	}
+	
+	private static void fitnessRolling() {
+		
+		AI random = new RandomAI(RAND_METHOD.TREE);
+		
+		GameState state;
+		try {
+			state = new GameState(MapLoader.get("a"));
+			state.init(DECK_SIZE.STANDARD);
+			SingletonAction.init(state.map);
+			CachedLines.load(state.map);
+			
+			boolean p1Turn = state.p1Turn;
+			for(int i = 0; i < 20; i++){
+				p1Turn = state.p1Turn;
+				while(p1Turn == state.p1Turn && !state.isTerminal)
+					state.update(random.act(state, -1));
+			}
+			RollingHorizonEvolution rollingA = new RollingHorizonEvolution(100, .5, .75, 5000, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+			RollingHorizonEvolution rollingB = new RollingHorizonEvolution(100, .5, .75, 5000, new RolloutEvaluator(10, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+			RollingHorizonEvolution rollingC = new RollingHorizonEvolution(100, .5, .75, 5000, new RolloutEvaluator(100, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+			RollingHorizonEvolution rollingD = new RollingHorizonEvolution(100, .5, .75, 5000, new RolloutEvaluator(1000, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+			RollingHorizonEvolution rollingE = new RollingHorizonEvolution(100, .5, .75, 5000, new RolloutEvaluator(10000, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+			
+			rollingA.act(state.copy(), -1);
+			rollingB.act(state.copy(), -1);
+			rollingC.act(state.copy(), -1);
+			rollingD.act(state.copy(), -1);
+			rollingE.act(state.copy(), -1);
+			
+			System.out.println(new HeuristicEvaluator(false).eval(state, state.p1Turn));
+			
+			System.out.println("Rolling 1");
+			int i = 0;
+			List<Integer> keys = new ArrayList<Integer>();
+			keys.addAll(rollingA.fitnesses.keySet());
+			Collections.sort(keys);
+			for(Integer t : keys){
+				System.out.println(t + "\t" + rollingA.fitnesses.get(t));
+				i++;
+			}
+			
+			System.out.println("Rolling 10");
+			i = 0;
+			keys.clear();
+			keys.addAll(rollingB.fitnesses.keySet());
+			Collections.sort(keys);
+			for(Integer t : keys){
+				System.out.println(i + "\t" + rollingB.fitnesses.get(t));
+				i++;
+			}
+			
+			System.out.println("Rolling 100");
+			i = 0;
+			keys.clear();
+			keys.addAll(rollingC.fitnesses.keySet());
+			Collections.sort(keys);
+			for(Integer t : keys){
+				System.out.println(i + "\t" + rollingC.fitnesses.get(t));
+				i++;
+			}
+			
+			System.out.println("Rolling 1000");
+			i = 0;
+			keys.clear();
+			keys.addAll(rollingD.fitnesses.keySet());
+			Collections.sort(keys);
+			for(Integer t : keys){
+				System.out.println(i + "\t" + rollingD.fitnesses.get(t));
+				i++;
+			}
+			
+			System.out.println("Rolling 10000");
+			i = 0;
+			keys.clear();
+			keys.addAll(rollingE.fitnesses.keySet());
+			Collections.sort(keys);
+			for(Integer t : keys){
+				System.out.println(i + "\t" + rollingE.fitnesses.get(t));
+				i++;
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+			
+	}
+	
+	private static void fitnessRollingMcts() {
+		
+		AI random = new RandomAI(RAND_METHOD.TREE);
+		
+		GameState state;
+		try {
+			state = new GameState(MapLoader.get("a"));
+			state.init(DECK_SIZE.STANDARD);
+			SingletonAction.init(state.map);
+			CachedLines.load(state.map);
+			
+			boolean p1Turn = state.p1Turn;
+			for(int i = 0; i < 20; i++){
+				p1Turn = state.p1Turn;
+				while(p1Turn == state.p1Turn && !state.isTerminal)
+					state.update(random.act(state, -1));
+			}
+			Mcts mcts = new Mcts(5000, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+			RollingHorizonEvolution rolling = new RollingHorizonEvolution(100, .5, .75, 5000, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+			
+			GameState cloneA = state.copy();
+			GameState cloneB = state.copy();
+			
+			mcts.act(cloneA, -1);
+			rolling.act(cloneB, -1);
+			
+			System.out.println(new HeuristicEvaluator(false).eval(state, state.p1Turn));
+			
+			System.out.println("MCTS");
+			int i = 0;
+			List<Integer> keys = new ArrayList<Integer>();
+			keys.addAll(mcts.fitnesses.keySet());
+			Collections.sort(keys);
+			for(Integer t : keys){
+				System.out.println(t + "\t" + mcts.fitnesses.get(t));
+				i++;
+			}
+			
+			System.out.println("Rolling");
+			i = 0;
+			keys.clear();
+			keys.addAll(rolling.fitnesses.keySet());
+			Collections.sort(keys);
+			for(Integer t : keys){
+				System.out.println(i + "\t" + rolling.fitnesses.get(t));
+				i++;
+			}
+			
+			UI ui = new UI(cloneB, true, true);
+			for(List<Action> actions : rolling.bestActions){
+				ui.actionLayer.addAll(actions);
+				ui.repaint();
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				ui.actionLayer.clear();
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+			
+	}
+
+	private static void HybridVsRolling(int runs, String size) {
+		
+		AI rolling = new RollingHorizonEvolution(100, .5, .75, 15000, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+		HybridAI hybrid = new HybridAI(new MeanEvaluator(), 4000, 500,  
+				new RolloutEvaluator(500, 1, new RandomHeuristicAI(0.1), new MeanEvaluator(), true, true), 10,
+				new RollingHorizonEvolution(32, .3, .66, 1000, new MeanEvaluator()));
+		if (size.equals("small"))
+			GameState.TURN_LIMIT = 400;
+		if (size.equals("standard"))
+			GameState.TURN_LIMIT = 600;
+		TestCase.GFX = true;
+		new TestCase(new StatisticAi(rolling), new StatisticAi(hybrid), runs, "hybrid-vs-rolling", map(size), deck(size)).run();
 		
 	}
 	

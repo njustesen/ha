@@ -48,7 +48,8 @@ public class Mcts implements AI {
 	private long lastState;
 
 	private int initTurn;
-
+	
+	public Map<Integer, Double> fitnesses;
 	
 	public Mcts(long budget, IStateEvaluator defaultPolicy) {
 		this.budget = budget;
@@ -68,6 +69,7 @@ public class Mcts implements AI {
 		lastState = 0;
 		initTurn = 0;
 		resetRoot = true;
+		this.fitnesses = new HashMap<Integer, Double>();
 	}
 
 	@Override
@@ -125,7 +127,9 @@ public class Mcts implements AI {
 
 			time = (start + budget) - System.currentTimeMillis();
 			rolls++;
-
+			
+			fitnesses.put(rolls, bestMoveValue(root, state.p1Turn));
+			
 			// saveTree();
 			
 		}
@@ -346,6 +350,20 @@ public class Mcts implements AI {
 		if (!move.contains(SingletonAction.endTurnAction))
 			move.add(SingletonAction.endTurnAction);
 		return move;
+	}
+	
+	private Double bestMoveValue(MctsNode node, boolean p1) {
+		MctsEdge edge = best(node, false);
+		if (edge != null && !edge.isLeaf())
+			if (edge.p1 != p1)
+				return edge.avg();
+			else{
+				if (edge.to == null || edge.to.isLeaf())
+					return edge.avg();
+				else
+					return bestMoveValue(edge.to, p1);
+			}
+		return null;
 	}
 
 	@Override
