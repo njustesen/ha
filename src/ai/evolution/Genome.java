@@ -153,7 +153,7 @@ public abstract class Genome implements Comparable<Genome> {
 	}
 
 	public abstract double fitness();
-
+	
 	public double avgValue() {
 		if (visits == 0)
 			return 0;
