@@ -28,7 +28,7 @@ public class NeatTrainer {
 	private static final int POP_SIZE = 64;
 	private static final double PROP_LINK = 0.5;
 	private static final boolean RECURRENT = false;
-	private static final int GENERATIONS = 1;
+	private static final int GENERATIONS = 200;
 	private static final int MATCHES = 50;
 	private static Random random;
 	private static GameArguments gameArgs = new GameArguments(false, null, null, "a-tiny", DECK_SIZE.TINY);
@@ -101,7 +101,7 @@ public class NeatTrainer {
 			// EPOCH
 			pop.epoch(gen);
 			
-			pop.print_to_filename("pop_"+gen);
+			//pop.print_to_filename("pop_"+gen);
 			//pop.print_to_file_by_species("pop_spe_"+gen);
 			
 			//System.out.print("\n  Population : innov num   = " + pop.getCur_innov_num());
