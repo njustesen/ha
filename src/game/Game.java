@@ -2,6 +2,7 @@ package game;
 
 import java.io.IOException;
 import java.util.Stack;
+
 import model.HaMap;
 import ui.UI;
 import util.CachedLines;
@@ -11,6 +12,7 @@ import action.Action;
 import action.SingletonAction;
 import action.UndoAction;
 import ai.AI;
+import ai.evolution.AiVisualizor;
 
 public class Game {
 
@@ -50,6 +52,7 @@ public class Game {
 		this.gameArgs = gameArgs;
 		this.player1 = gameArgs.players[0];
 		this.player2 = gameArgs.players[1];
+		
 		history = new Stack<GameState>();
 		this.state = state;
 
@@ -64,10 +67,17 @@ public class Game {
 		if (SingletonAction.positions == null)
 			SingletonAction.init(this.state.map);
 		
-		if (gameArgs.gfx)
+		if (gameArgs.gfx){
 			this.ui = new UI(this.state, (this.player1 == null),
 					(this.player2 == null));
 
+			if (player1 instanceof AiVisualizor)
+				((AiVisualizor)player1).enableVisualization(ui);
+			if (player2 instanceof AiVisualizor)
+				((AiVisualizor)player2).enableVisualization(ui);
+		
+		}
+		
 		history = new Stack<GameState>();
 		if (CachedLines.posMap.isEmpty() || this.state.map != CachedLines.map)
 			CachedLines.load(this.state.map);

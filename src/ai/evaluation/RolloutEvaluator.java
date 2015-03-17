@@ -19,25 +19,18 @@ public class RolloutEvaluator implements IStateEvaluator {
 		this.evaluator = evaluator;
 		this.policy = policy;
 		this.copy = false;
+		if (rolls > 1)
+			this.copy = true;
 	}
 	
-	public RolloutEvaluator(int rolls, int depth, AI policy, IStateEvaluator evaluator, boolean copy) {
+	public RolloutEvaluator(int rolls, int depth, AI policy, IStateEvaluator evaluator, boolean worst) {
 		super();
 		this.rolls = rolls;
 		this.depth = depth;
 		this.evaluator = evaluator;
 		this.policy = policy;
-		this.copy = copy;
-		this.worst = false;
-	}
-	
-	public RolloutEvaluator(int rolls, int depth, AI policy, IStateEvaluator evaluator, boolean copy, boolean worst) {
-		super();
-		this.rolls = rolls;
-		this.depth = depth;
-		this.evaluator = evaluator;
-		this.policy = policy;
-		this.copy = copy;
+		if (rolls > 1)
+			this.copy = true;
 		this.worst = worst;
 	}
 	

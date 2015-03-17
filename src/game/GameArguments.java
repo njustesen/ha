@@ -10,8 +10,11 @@ import ai.NmSearchAI;
 import ai.RandomAI;
 import ai.RandomHeuristicAI;
 import ai.evaluation.HeuristicEvaluator;
+import ai.evaluation.LeafParallelizer;
 import ai.evaluation.MaterialBalanceEvaluator;
 import ai.evaluation.RolloutEvaluator;
+import ai.evaluation.LeafParallelizer.LEAF_METHOD;
+import ai.evolution.ParallelizedHorizonEvolution;
 import ai.evolution.RollingHorizonEvolution;
 import ai.mcts.Mcts;
 import ai.util.ComplexActionComparator;
@@ -182,12 +185,26 @@ public class GameArguments {
 							new MaterialBalanceEvaluator(true), false));
 				}
 				if (args[a].toLowerCase().equals("rolling")){
-					AI rolling = new RollingHorizonEvolution(100, .33, .66, 5000, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.2), new HeuristicEvaluator(false)));
+					a++;
+					int rolls = Integer.parseInt(args[a]);
+					RollingHorizonEvolution rolling = new RollingHorizonEvolution(100, .33, .66, 5000, new RolloutEvaluator(rolls, 1, new RandomHeuristicAI(0.2), new HeuristicEvaluator(false)));
+					players[p] = rolling;
+				}
+				if (args[a].toLowerCase().equals("leafrolling")){
+					a++;
+					int rolls = Integer.parseInt(args[a]);
+					RollingHorizonEvolution rolling = new RollingHorizonEvolution(100, .33, .66, 5000, new LeafParallelizer(new RolloutEvaluator(rolls, 1, new RandomHeuristicAI(0.2), new HeuristicEvaluator(false)), LEAF_METHOD.WORST));
+					players[p] = rolling;
+				}
+				if (args[a].toLowerCase().equals("pararolling")){
+					a++;
+					int rolls = Integer.parseInt(args[a]);
+					ParallelizedHorizonEvolution rolling = new ParallelizedHorizonEvolution(100, .33, .66, 5000, new RolloutEvaluator(rolls, 1, new RandomHeuristicAI(0.2), new HeuristicEvaluator(false)));
 					players[p] = rolling;
 				}
 				if (args[a].toLowerCase().equals("hybrid")){
 					players[p] = new HybridAI(new HeuristicEvaluator(false), 4000, 100, 
-							new RolloutEvaluator(100, 1, new RandomHeuristicAI(0.2), new HeuristicEvaluator(false), true, true), 10,
+							new RolloutEvaluator(100, 1, new RandomHeuristicAI(0.2), new HeuristicEvaluator(false), true), 10,
 							new RollingHorizonEvolution(32, .3, .66, 1000, new HeuristicEvaluator(true)));
 					
 				}

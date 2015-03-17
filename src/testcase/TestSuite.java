@@ -31,6 +31,7 @@ import ai.evaluation.MeanEvaluator;
 import ai.evaluation.RolloutEvaluator;
 import ai.evaluation.WinLoseEvaluator;
 import ai.evaluation.LeafParallelizer.LEAF_METHOD;
+import ai.evolution.ParallelizedHorizonEvolution;
 import ai.evolution.RollingHorizonEvolution;
 import ai.mcts.Mcts;
 import ai.mcts.RootParallelizedMcts;
@@ -100,9 +101,19 @@ public class TestSuite {
 			fitnessRollingMcts();
 		else if (args[0].equals("fitness-rolling"))
 			fitnessRolling();
+		else if (args[0].equals("leaf-rolling"))
+			leafRolling(Integer.parseInt(args[1]), args[2]);
 			
 	}
 	
+	private static void leafRolling(int runs, String size) {
+		RollingHorizonEvolution rollingA = new RollingHorizonEvolution(100, .5, .75, 2000, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+		RollingHorizonEvolution rollingB = new RollingHorizonEvolution(100, .5, .75, 2000, new LeafParallelizer(new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)), LEAF_METHOD.WORST));
+		
+		new TestCase(new StatisticAi(rollingA), new StatisticAi(rollingB), runs, "leaf-rolling", map(size), deck(size)).run();
+		
+	}
+
 	private static void fitnessRolling() {
 		
 		AI random = new RandomAI(RAND_METHOD.TREE);
@@ -261,7 +272,7 @@ public class TestSuite {
 		
 		AI rolling = new RollingHorizonEvolution(100, .5, .75, 15000, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
 		HybridAI hybrid = new HybridAI(new MeanEvaluator(), 4000, 500,  
-				new RolloutEvaluator(500, 1, new RandomHeuristicAI(0.1), new MeanEvaluator(), true, true), 10,
+				new RolloutEvaluator(500, 1, new RandomHeuristicAI(0.1), new MeanEvaluator(), true), 10,
 				new RollingHorizonEvolution(32, .3, .66, 1000, new MeanEvaluator()));
 		if (size.equals("small"))
 			GameState.TURN_LIMIT = 400;
@@ -276,7 +287,7 @@ public class TestSuite {
 		
 		AI p1 = new GreedyTurnAI(new HeuristicEvaluator(false), 15000);
 		HybridAI hybrid = new HybridAI(new MeanEvaluator(), 4000, 500,  
-				new RolloutEvaluator(500, 1, new RandomHeuristicAI(0.1), new MeanEvaluator(), true, true), 10,
+				new RolloutEvaluator(500, 1, new RandomHeuristicAI(0.1), new MeanEvaluator(), true), 10,
 				new RollingHorizonEvolution(32, .3, .66, 1000, new MeanEvaluator()));
 		if (size.equals("small"))
 			GameState.TURN_LIMIT = 400;
@@ -291,7 +302,7 @@ public class TestSuite {
 		
 		AI p1 = new GreedyActionAI(new HeuristicEvaluator(false));
 		HybridAI hybrid = new HybridAI(new HeuristicEvaluator(false), 4000, 100, 
-				new RolloutEvaluator(100, 1, new RandomHeuristicAI(0.1), new HeuristicEvaluator(false), true, true), 10,
+				new RolloutEvaluator(100, 1, new RandomHeuristicAI(0.1), new HeuristicEvaluator(false), true), 10,
 				new RollingHorizonEvolution(32, .3, .66, 1000, new HeuristicEvaluator(true)));
 		if (size.equals("small"))
 			GameState.TURN_LIMIT = 400;
