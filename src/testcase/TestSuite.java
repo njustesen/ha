@@ -103,9 +103,21 @@ public class TestSuite {
 			fitnessRolling();
 		else if (args[0].equals("leaf-rolling"))
 			leafRolling(Integer.parseInt(args[1]), args[2]);
-			
+		else if (args[0].equals("greedy-vs-action-time"))
+			greedyTurnVsGreedyAction(Integer.parseInt(args[1]), args[2]);
+		
 	}
 	
+	private static void greedyTurnVsGreedyAction(int runs, String size) {
+		
+		for(int budget = 10; budget <= 15000; budget = budget*5){
+			AI turn = new GreedyTurnAI(new HeuristicEvaluator(false), budget);
+			AI action = new GreedyActionAI(new HeuristicEvaluator(false));
+			new TestCase(new StatisticAi(turn), new StatisticAi(action), runs, "action-vs-turn-"+budget+"ms", map(size), deck(size)).run();
+		}
+		
+	}
+
 	private static void leafRolling(int runs, String size) {
 		RollingHorizonEvolution rollingA = new RollingHorizonEvolution(100, .5, .75, 2000, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
 		RollingHorizonEvolution rollingB = new RollingHorizonEvolution(100, .5, .75, 2000, new LeafParallelizer(new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)), LEAF_METHOD.WORST));
