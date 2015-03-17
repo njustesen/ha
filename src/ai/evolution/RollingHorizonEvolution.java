@@ -9,12 +9,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import ui.UI;
 import model.HaMap;
 import action.Action;
 import ai.AI;
 import ai.evaluation.IStateEvaluator;
 
-public class RollingHorizonEvolution implements AI {
+public class RollingHorizonEvolution implements AI, AiVisualizor {
 
 	public int popSize;
 	public int budget;
@@ -24,13 +25,17 @@ public class RollingHorizonEvolution implements AI {
 	
 	public List<Double> generations;
 	public List<Double> bestVisits;
-	
-	private final List<Genome> pop;
+
 	public List<Action> actions;
-	private final Random random;
+	
+	public final List<Genome> pop;
 	public Map<Integer, Double> fitnesses;
 	public List<List<Action>> bestActions;
-
+	
+	private RollingHorizonVisualizor visualizor;
+	private Map<Long, Double> visited;
+	private final Random random;
+	
 	public RollingHorizonEvolution(int popSize, double mutRate, double killRate, int budget, IStateEvaluator evaluator) {
 		super();
 		this.popSize = popSize;
@@ -45,6 +50,11 @@ public class RollingHorizonEvolution implements AI {
 		this.bestVisits = new ArrayList<Double>();
 		this.fitnesses = new HashMap<Integer, Double>();
 		this.bestActions = new ArrayList<List<Action>>();
+		this.visited = new HashMap<Long, Double>();
+	}
+	
+	public void enableVisualization(UI ui){
+		this.visualizor = new RollingHorizonVisualizor(ui, this);
 	}
 
 	@Override
@@ -61,6 +71,10 @@ public class RollingHorizonEvolution implements AI {
 	public void search(GameState state) {
 
 		Long start = System.currentTimeMillis();
+		
+		fitnesses.clear();
+		bestActions.clear();
+		visited.clear();
 		
 		setup(state);
 
@@ -81,8 +95,19 @@ public class RollingHorizonEvolution implements AI {
 				clone.imitate(state);
 				clone.update(genome.actions);
 				val = evaluator.eval(clone, state.p1Turn);
-				if (genome.visits == 0 || val < genome.value)
+				if (genome.visits == 0 || val < genome.value){
+					/*
+					Long hash = clone.hash();
+					if (visited.containsKey(hash) && visited.get(hash) > val)
+						visited.put(hash, val);
+					else if (visited.containsKey(hash))
+						val = visited.get(hash);
+					else 
+						visited.put(hash, val);
+					*/
 					genome.value = val;
+					
+				}
 				genome.visits++;
 			}
 
@@ -111,6 +136,7 @@ public class RollingHorizonEvolution implements AI {
 
 			}
 			
+			// TODO: Only if needed?!
 			fitnesses.put(g, pop.get(0).fitness());
 			bestActions.add(clone(pop.get(0).actions));
 			
@@ -120,11 +146,30 @@ public class RollingHorizonEvolution implements AI {
 		//System.out.println("Visits: " + pop.get(0).visits);
 		//System.out.println("Value: " + pop.get(0).avgValue());
 
+		if (visualizor != null){
+			visualizor.p1 = state.p1Turn;
+			visualizor.update();
+			while(visualizor.rendering){
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			};
+		}
+		
 		actions = pop.get(0).actions;
 		
 		generations.add((double)g);
 		bestVisits.add((double)(pop.get(0).visits));
 
+	}
+	
+	private Map<Integer, Double> clone(Map<Integer, Double> other) {
+		Map<Integer, Double> clone = new HashMap<Integer, Double>();
+		for (Integer i : other.keySet())
+			clone.put(i, other.get(i));
+		return clone;
 	}
 	
 	private List<Action> clone(List<Action> other) {
@@ -172,7 +217,13 @@ public class RollingHorizonEvolution implements AI {
 
 	@Override
 	public AI copy() {
+		if (visualizor!=null){
+			RollingHorizonEvolution evo = new RollingHorizonEvolution(popSize, mutRate, killRate, budget, evaluator.copy());
+			return evo;
+		}
+		
 		return new RollingHorizonEvolution(popSize, mutRate, killRate, budget, evaluator.copy());
+		
 	}
 
 }

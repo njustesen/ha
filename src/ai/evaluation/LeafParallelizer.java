@@ -20,18 +20,18 @@ public class LeafParallelizer implements IStateEvaluator {
 		
 		public RolloutEvaluator evaluator;
 		public GameState state;
-		public boolean p1Turn;
+		public boolean p1;
 		
-		public RolloutThread(RolloutEvaluator evaluator, GameState state, boolean p1Turn) {
+		public RolloutThread(RolloutEvaluator evaluator, GameState state, boolean p1) {
 			super();
 			this.evaluator = evaluator;
 			this.state = state;
-			this.p1Turn = p1Turn;
+			this.p1 = p1;
 		}
 
 		@Override
 		public Double call() throws Exception {
-			return evaluator.eval(state, p1Turn);
+			return evaluator.eval(state, p1);
 		} 
 		
 	}
@@ -70,11 +70,11 @@ public class LeafParallelizer implements IStateEvaluator {
 		
 		for(RolloutThread thread : threads){
 			thread.state.imitate(state);
-			thread.p1Turn = state.p1Turn;
+			thread.p1 = p1;
 		}
 		
-		best = 0;
-		worst = 0;
+		best = -10000000;
+		worst = 10000000;
 		sum = 0;
 		val = 0;
 		try {

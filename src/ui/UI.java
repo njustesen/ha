@@ -514,7 +514,7 @@ public class UI extends JComponent {
 
 	private void paintLastUnitAction(Graphics g) {
 
-		if (lastAction == null || lastAction instanceof EndTurnAction)
+		if (lastAction == null || !(lastAction instanceof UnitAction))
 			return;
 
 		paintUnitAction(g, (UnitAction)lastAction);
