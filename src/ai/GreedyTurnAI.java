@@ -9,14 +9,16 @@ import action.Action;
 import action.SingletonAction;
 import ai.evaluation.IStateEvaluator;
 import ai.movesearch.BestMoveSearcher;
+import ai.movesearch.ParallelMoveSearcher;
+import ai.movesearch.ValuedMove;
 
 public class GreedyTurnAI implements AI {
 
-	private final BestMoveSearcher searcher;
+	//private final BestMoveSearcher searcher;
+	private final ParallelMoveSearcher searcher;
 	private List<Action> actions;
 	private final IStateEvaluator evaluator;
 	
-	public List<Double> moves;
 	private boolean anytime;
 	public int budget;
 
@@ -24,20 +26,19 @@ public class GreedyTurnAI implements AI {
 		super();
 		this.evaluator = evaluator;
 		this.actions = new ArrayList<Action>();
-		this.moves = new ArrayList<Double>();
-		this.searcher = new BestMoveSearcher();
+		//this.searcher = new BestMoveSearcher();
 		this.anytime = false;
 		this.budget = -1;
+		this.searcher = new ParallelMoveSearcher(1, budget, evaluator);
 	}
 	
 	public GreedyTurnAI(IStateEvaluator evaluator, int budget) {
 		super();
 		this.evaluator = evaluator;
 		this.actions = new ArrayList<Action>();
-		this.moves = new ArrayList<Double>();
-		this.searcher = new BestMoveSearcher();
 		this.anytime = true;
 		this.budget = budget;
+		this.searcher = new ParallelMoveSearcher(1, budget, evaluator);
 	}
 
 	@Override
@@ -49,10 +50,11 @@ public class GreedyTurnAI implements AI {
 			return action;
 		}
 		
-		actions = searcher.bestMove(state, evaluator, budget);
-		
-		moves.add((double)searcher.moves);
-		
+		List<ValuedMove> moves = searcher.search(state);
+		actions.clear();
+		if (!moves.isEmpty())
+			actions = moves.get(0).actions;
+			
 		if (actions == null || actions.isEmpty())
 			return SingletonAction.endTurnAction;
 		
@@ -72,6 +74,16 @@ public class GreedyTurnAI implements AI {
 	public String header() {
 		String name = title()+"\n";
 		name += "State evaluatior = " + evaluator.title() + "\n";
+		if (searcher instanceof ParallelMoveSearcher){
+			name += "Parallelized = true\n";
+			name += "Processors = " + Runtime.getRuntime().availableProcessors() + "\n";
+		} else {
+			name += "Parallelized = false\n";
+		}
+		if (budget != -1)
+			name += "Budget = " + budget + " ms.\n";
+		else
+			name += "Budget = no limit \n";
 		return name;
 	}
 

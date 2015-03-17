@@ -159,9 +159,11 @@ public class GameArguments {
 				}
 				if (args[a].toLowerCase().equals("greedyturn")) {
 					a++;
-					if (args[a].toLowerCase().equals("heuristic"))
-						players[p] = new GreedyTurnAI(new HeuristicEvaluator(false));
-					else if (args[a].toLowerCase().equals("rollouts")) {
+					if (args[a].toLowerCase().equals("heuristic")){
+						a++;
+						int budget = Integer.parseInt(args[a]);
+						players[p] = new GreedyTurnAI(new HeuristicEvaluator(false), budget);
+					} else if (args[a].toLowerCase().equals("rollouts")) {
 						a++;
 						final int rolls = Integer.parseInt(args[a]);
 						a++;
