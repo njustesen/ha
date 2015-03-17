@@ -110,11 +110,12 @@ public class TestSuite {
 	
 	private static void greedyTurnVsGreedyAction(int runs, String size) {
 		
-		for(int budget = 10; budget <= 15000; budget = budget*5){
-			AI turn = new GreedyTurnAI(new HeuristicEvaluator(false), budget);
-			AI action = new GreedyActionAI(new HeuristicEvaluator(false));
-			new TestCase(new StatisticAi(turn), new StatisticAi(action), runs, "action-vs-turn-"+budget+"ms", map(size), deck(size)).run();
-		}
+		//for(int budget = 10; budget <= 15000; budget = budget*5){
+		int budget = 12500;	
+		AI turn = new GreedyTurnAI(new HeuristicEvaluator(false), budget);
+		AI action = new GreedyActionAI(new HeuristicEvaluator(false));
+		new TestCase(new StatisticAi(turn), new StatisticAi(action), runs, "action-vs-turn-"+budget+"ms", map(size), deck(size)).run();
+		//}
 		
 	}
 
