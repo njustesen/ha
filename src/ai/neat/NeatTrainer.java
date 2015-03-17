@@ -34,7 +34,7 @@ public class NeatTrainer {
 	private static GameArguments gameArgs = new GameArguments(false, null, null, "a-tiny", DECK_SIZE.TINY);
 
 	private static final String pop_file = "";
-	//private static final String pop_file = "pop_256";
+	//private static final String pop_file = "pop_200";
 	
 	
 	public static void main(String[] args) throws Exception{
@@ -52,7 +52,7 @@ public class NeatTrainer {
 			pop = new Population(pop_file);
 			gen = Integer.parseInt(pop_file.split("_")[1]) + 1;
 		} else {
-			pop = new Population(POP_SIZE,  4, 1, 100, RECURRENT, PROP_LINK);
+			pop = new Population(POP_SIZE,  4, 1, 10, RECURRENT, PROP_LINK);
 		}
 		
 		random = new Random();
@@ -101,7 +101,7 @@ public class NeatTrainer {
 			// EPOCH
 			pop.epoch(gen);
 			
-			//pop.print_to_filename("pop_"+gen);
+			pop.print_to_filename("pop_"+gen);
 			//pop.print_to_file_by_species("pop_spe_"+gen);
 			
 			//System.out.print("\n  Population : innov num   = " + pop.getCur_innov_num());

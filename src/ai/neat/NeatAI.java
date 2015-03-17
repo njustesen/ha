@@ -35,8 +35,9 @@ public abstract class NeatAI implements AI{
 		double bestVal = 0;
 		Action bestAction = null;
 		for(Action action : possible){
-			if (!started)
+			if (started)
 				clone.imitate(state);
+			clone.update(action);
 			double val = eval(clone);
 			if (started || val > bestVal){
 				bestVal = val;
