@@ -119,15 +119,24 @@ public class UI extends JComponent {
 		}
 
 	}
+	
+	public void setActionLayer(List<Action> actions){
+		synchronized (this) {
+			actionLayer.clear();
+			actionLayer.addAll(actions);
+		}
+	}
 
 	private void paintActionLayer(Graphics g) {
-		for(Action action : actionLayer){
-			if (action instanceof UnitAction)
-				paintUnitAction(g, (UnitAction)action);
-			else if (action instanceof DropAction)
-				paintDropAction(g, (DropAction)action);
-			else if (action instanceof SwapCardAction)
-				paintSwapAction(g, (SwapCardAction)action);
+		synchronized (this) {
+			for(Action action : actionLayer){
+				if (action instanceof UnitAction)
+					paintUnitAction(g, (UnitAction)action);
+				else if (action instanceof DropAction)
+					paintDropAction(g, (DropAction)action);
+				else if (action instanceof SwapCardAction)
+					paintSwapAction(g, (SwapCardAction)action);
+			}
 		}
 	}
 

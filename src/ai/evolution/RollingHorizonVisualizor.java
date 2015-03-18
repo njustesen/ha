@@ -87,7 +87,7 @@ public class RollingHorizonVisualizor extends JComponent implements KeyListener 
 					points.add(new Point(x,y));
 				}
 				if (rolling.bestActions.size() > gen)
-					ui.actionLayer = rolling.bestActions.get(gen);
+					ui.setActionLayer(rolling.bestActions.get(gen));
 				if (!control){
 					repaint();
 					ui.repaint();
