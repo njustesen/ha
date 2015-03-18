@@ -1,14 +1,11 @@
 package testcase;
 
-import game.Game;
-import game.GameArguments;
 import game.GameState;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import model.DECK_SIZE;
 import model.HaMap;
@@ -109,24 +106,33 @@ public class TestSuite {
 			greedyTurnVsGreedyAction(Integer.parseInt(args[1]), args[2]);
 		else if (args[0].equals("rolling-vs-greedy-time"))
 			rollingVsGreedyTurn(Integer.parseInt(args[1]), args[2]);
+		else if (args[0].equals("rolling-vs-history"))
+			rollingVsHistory(Integer.parseInt(args[1]), args[2]);
+	}
+	
+	private static void rollingVsHistory(int runs, String size) {
+		int budget = 5000;
+		RollingHorizonEvolution rolling = new RollingHorizonEvolution(false, 100, .5, .75, budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+		IslandHorizonEvolution island = new IslandHorizonEvolution(true, 100, .5, .75, budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+		new TestCase(new StatisticAi(rolling), new StatisticAi(island), runs, "rolling-vs-island-"+budget+"ms", map(size), deck(size)).run();
 	}
 	
 	private static void rollingVsIsland(int runs, String size) {
 		int budget = 5000;
-		RollingHorizonEvolution rolling = new RollingHorizonEvolution(100, .5, .75, budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
-		IslandHorizonEvolution island = new IslandHorizonEvolution(100, .5, .75, budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+		RollingHorizonEvolution rolling = new RollingHorizonEvolution(false, 100, .5, .75, budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+		IslandHorizonEvolution island = new IslandHorizonEvolution(false, 100, .5, .75, budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
 		new TestCase(new StatisticAi(rolling), new StatisticAi(island), runs, "rolling-vs-island-"+budget+"ms", map(size), deck(size)).run();
 	}
 
 	private static void rollingVsGreedyTurn(int runs, String size) {
 		for(int budget = 10; budget <= 15000; budget = budget*5){
 			AI turn = new GreedyTurnAI(new HeuristicEvaluator(false), budget);
-			RollingHorizonEvolution rolling = new RollingHorizonEvolution(100, .5, .75, budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+			RollingHorizonEvolution rolling = new RollingHorizonEvolution(false, 100, .5, .75, budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
 			new TestCase(new StatisticAi(turn), new StatisticAi(rolling), runs, "action-vs-turn-"+budget+"ms", map(size), deck(size)).run();
 		}
 		int budget = 12500;
 		AI turn = new GreedyTurnAI(new HeuristicEvaluator(false), budget);
-		RollingHorizonEvolution rolling = new RollingHorizonEvolution(100, .5, .75, budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+		RollingHorizonEvolution rolling = new RollingHorizonEvolution(false, 100, .5, .75, budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
 		
 		new TestCase(new StatisticAi(turn), new StatisticAi(rolling), runs, "rolling-vs-greedy-turn-"+budget+"ms", map(size), deck(size)).run();
 		
@@ -144,8 +150,8 @@ public class TestSuite {
 	}
 
 	private static void leafRolling(int runs, String size) {
-		RollingHorizonEvolution rollingA = new RollingHorizonEvolution(100, .5, .75, 2000, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
-		RollingHorizonEvolution rollingB = new RollingHorizonEvolution(100, .5, .75, 2000, new LeafParallelizer(new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)), LEAF_METHOD.WORST));
+		RollingHorizonEvolution rollingA = new RollingHorizonEvolution(false, 100, .5, .75, 2000, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+		RollingHorizonEvolution rollingB = new RollingHorizonEvolution(false, 100, .5, .75, 2000, new LeafParallelizer(new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)), LEAF_METHOD.WORST));
 		
 		new TestCase(new StatisticAi(rollingA), new StatisticAi(rollingB), runs, "leaf-rolling", map(size), deck(size)).run();
 		
@@ -168,11 +174,11 @@ public class TestSuite {
 				while(p1Turn == state.p1Turn && !state.isTerminal)
 					state.update(random.act(state, -1));
 			}
-			RollingHorizonEvolution rollingA = new RollingHorizonEvolution(100, .5, .75, 5000, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
-			RollingHorizonEvolution rollingB = new RollingHorizonEvolution(100, .5, .75, 5000, new RolloutEvaluator(10, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
-			RollingHorizonEvolution rollingC = new RollingHorizonEvolution(100, .5, .75, 5000, new RolloutEvaluator(100, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
-			RollingHorizonEvolution rollingD = new RollingHorizonEvolution(100, .5, .75, 5000, new RolloutEvaluator(1000, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
-			RollingHorizonEvolution rollingE = new RollingHorizonEvolution(100, .5, .75, 5000, new RolloutEvaluator(10000, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+			RollingHorizonEvolution rollingA = new RollingHorizonEvolution(false, 100, .5, .75, 5000, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+			RollingHorizonEvolution rollingB = new RollingHorizonEvolution(false, 100, .5, .75, 5000, new RolloutEvaluator(10, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+			RollingHorizonEvolution rollingC = new RollingHorizonEvolution(false, 100, .5, .75, 5000, new RolloutEvaluator(100, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+			RollingHorizonEvolution rollingD = new RollingHorizonEvolution(false, 100, .5, .75, 5000, new RolloutEvaluator(1000, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+			RollingHorizonEvolution rollingE = new RollingHorizonEvolution(false, 100, .5, .75, 5000, new RolloutEvaluator(10000, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
 			
 			rollingA.act(state.copy(), -1);
 			rollingB.act(state.copy(), -1);
@@ -256,7 +262,7 @@ public class TestSuite {
 					state.update(random.act(state, -1));
 			}
 			Mcts mcts = new Mcts(5000, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
-			RollingHorizonEvolution rolling = new RollingHorizonEvolution(100, .5, .75, 5000, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+			RollingHorizonEvolution rolling = new RollingHorizonEvolution(false, 100, .5, .75, 5000, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
 			
 			GameState cloneA = state.copy();
 			GameState cloneB = state.copy();
@@ -307,10 +313,10 @@ public class TestSuite {
 
 	private static void HybridVsRolling(int runs, String size) {
 		
-		AI rolling = new RollingHorizonEvolution(100, .5, .75, 15000, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+		AI rolling = new RollingHorizonEvolution(false, 100, .5, .75, 15000, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
 		HybridAI hybrid = new HybridAI(new MeanEvaluator(), 4000, 500,  
 				new RolloutEvaluator(500, 1, new RandomHeuristicAI(0.1), new MeanEvaluator(), true), 10,
-				new RollingHorizonEvolution(32, .3, .66, 1000, new MeanEvaluator()));
+				new RollingHorizonEvolution(false, 32, .3, .66, 1000, new MeanEvaluator()));
 		if (size.equals("small"))
 			GameState.TURN_LIMIT = 400;
 		if (size.equals("standard"))
@@ -325,7 +331,7 @@ public class TestSuite {
 		AI p1 = new GreedyTurnAI(new HeuristicEvaluator(false), 15000);
 		HybridAI hybrid = new HybridAI(new MeanEvaluator(), 4000, 500,  
 				new RolloutEvaluator(500, 1, new RandomHeuristicAI(0.1), new MeanEvaluator(), true), 10,
-				new RollingHorizonEvolution(32, .3, .66, 1000, new MeanEvaluator()));
+				new RollingHorizonEvolution(false, 32, .3, .66, 1000, new MeanEvaluator()));
 		if (size.equals("small"))
 			GameState.TURN_LIMIT = 400;
 		if (size.equals("standard"))
@@ -340,7 +346,7 @@ public class TestSuite {
 		AI p1 = new GreedyActionAI(new HeuristicEvaluator(false));
 		HybridAI hybrid = new HybridAI(new HeuristicEvaluator(false), 4000, 100, 
 				new RolloutEvaluator(100, 1, new RandomHeuristicAI(0.1), new HeuristicEvaluator(false), true), 10,
-				new RollingHorizonEvolution(32, .3, .66, 1000, new HeuristicEvaluator(true)));
+				new RollingHorizonEvolution(false, 32, .3, .66, 1000, new HeuristicEvaluator(true)));
 		if (size.equals("small"))
 			GameState.TURN_LIMIT = 400;
 		if (size.equals("standard"))
@@ -353,7 +359,7 @@ public class TestSuite {
 	private static void RollingVsGreedyActionAp(int runs, String size, int apFrom, int apTo) {
 
 		AI p1 = new GreedyActionAI(new HeuristicEvaluator(false));
-		AI rolling = new RollingHorizonEvolution(100, .5, .75, 3075, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+		AI rolling = new RollingHorizonEvolution(false, 100, .5, .75, 3075, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
 		
 		for(int ap = apFrom; ap < apTo; ap++){
 
@@ -467,10 +473,10 @@ public class TestSuite {
 
 		final List<TestCase> tests = new ArrayList<TestCase>();
 
-		final AI p2 = new RollingHorizonEvolution(100, .66, .75, 2000,
+		final AI p2 = new RollingHorizonEvolution(false, 100, .66, .75, 2000,
 				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3),
 						new HeuristicEvaluator(false)));
-		final AI p1 = new RollingHorizonEvolution(100, .33, .75, 2000,
+		final AI p1 = new RollingHorizonEvolution(false, 100, .33, .75, 2000,
 				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3),
 						new HeuristicEvaluator(false)));
 		// AI p3 = new RollingHorizonEvolution(100, .5, .75, 2000, new
@@ -490,13 +496,13 @@ public class TestSuite {
 
 		final List<TestCase> tests = new ArrayList<TestCase>();
 
-		final AI p2 = new RollingHorizonEvolution(100, .5, .66, 2000,
+		final AI p2 = new RollingHorizonEvolution(false, 100, .5, .66, 2000,
 				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3),
 						new HeuristicEvaluator(false)));
-		final AI p1 = new RollingHorizonEvolution(100, .5, .33, 2000,
+		final AI p1 = new RollingHorizonEvolution(false, 100, .5, .33, 2000,
 				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3),
 						new HeuristicEvaluator(false)));
-		final AI p3 = new RollingHorizonEvolution(100, .5, .85, 2000,
+		final AI p3 = new RollingHorizonEvolution(false, 100, .5, .85, 2000,
 				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3),
 						new HeuristicEvaluator(false)));
 
@@ -511,7 +517,7 @@ public class TestSuite {
 
 	private static void RollingVsGreedyAction(int runs, String size) {
 		final AI p2 = new GreedyActionAI(new HeuristicEvaluator(false));
-		final AI p1 = new RollingHorizonEvolution(100, .5, .75, 2000,
+		final AI p1 = new RollingHorizonEvolution(false, 100, .5, .75, 2000,
 				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3),
 						new HeuristicEvaluator(false)));
 		new TestCase(p1, p2, runs, "rolling-vs-greedy-action", map(size),
@@ -523,16 +529,16 @@ public class TestSuite {
 		final List<TestCase> tests = new ArrayList<TestCase>();
 
 		final AI p2 = new GreedyActionAI(new HeuristicEvaluator(false));
-		final AI rolling1 = new RollingHorizonEvolution(100, .5, .75, 100,
+		final AI rolling1 = new RollingHorizonEvolution(false, 100, .5, .75, 100,
 				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3),
 						new HeuristicEvaluator(false)));
-		final AI rolling2 = new RollingHorizonEvolution(100, .5, .75, 500,
+		final AI rolling2 = new RollingHorizonEvolution(false, 100, .5, .75, 500,
 				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3),
 						new HeuristicEvaluator(false)));
-		final AI rolling3 = new RollingHorizonEvolution(100, .5, .75, 1000,
+		final AI rolling3 = new RollingHorizonEvolution(false, 100, .5, .75, 1000,
 				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3),
 						new HeuristicEvaluator(false)));
-		final AI rolling4 = new RollingHorizonEvolution(100, .5, .75, 4000,
+		final AI rolling4 = new RollingHorizonEvolution(false, 100, .5, .75, 4000,
 				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3),
 						new HeuristicEvaluator(false)));
 
@@ -554,7 +560,7 @@ public class TestSuite {
 		final List<TestCase> tests = new ArrayList<TestCase>();
 
 		final AI p2 = new GreedyTurnAI(new HeuristicEvaluator(false));
-		final AI rolling4 = new RollingHorizonEvolution(100, .5, .75, 6000,
+		final AI rolling4 = new RollingHorizonEvolution(false, 100, .5, .75, 6000,
 				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3),
 						new HeuristicEvaluator(false)));
 
@@ -570,16 +576,16 @@ public class TestSuite {
 		final List<TestCase> tests = new ArrayList<TestCase>();
 
 		final AI p2 = new GreedyTurnAI(new HeuristicEvaluator(false));
-		final AI rolling1 = new RollingHorizonEvolution(100, .5, .75, 100,
+		final AI rolling1 = new RollingHorizonEvolution(false, 100, .5, .75, 100,
 				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3),
 						new HeuristicEvaluator(false)));
-		final AI rolling2 = new RollingHorizonEvolution(100, .5, .75, 500,
+		final AI rolling2 = new RollingHorizonEvolution(false, 100, .5, .75, 500,
 				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3),
 						new HeuristicEvaluator(false)));
-		final AI rolling3 = new RollingHorizonEvolution(100, .5, .75, 1000,
+		final AI rolling3 = new RollingHorizonEvolution(false, 100, .5, .75, 1000,
 				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3),
 						new HeuristicEvaluator(false)));
-		final AI rolling4 = new RollingHorizonEvolution(100, .5, .75, 4000,
+		final AI rolling4 = new RollingHorizonEvolution(false, 100, .5, .75, 4000,
 				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3),
 						new HeuristicEvaluator(false)));
 

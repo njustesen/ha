@@ -29,7 +29,10 @@ public class IslandHorizonEvolution implements AI, AiVisualizor {
 	private ExecutorService executor;
 	private List<Future<RollingHorizonEvolution>> futures;
 	
-	public IslandHorizonEvolution(int popSize, double mutRate, double killRate, int budget, IStateEvaluator evaluator) {
+	private SharedStateTable table;
+	private boolean useHistory;
+	
+	public IslandHorizonEvolution(boolean useHistory, int popSize, double mutRate, double killRate, int budget, IStateEvaluator evaluator) {
 		super();
 		this.popSize = popSize;
 		this.mutRate = mutRate;
@@ -39,6 +42,8 @@ public class IslandHorizonEvolution implements AI, AiVisualizor {
 		this.threads = new ArrayList<RollingThread>();
 		this.futures = new ArrayList<Future<RollingHorizonEvolution>>();
 		this.actions = new ArrayList<Action>();
+		this.table = new SharedStateTable();
+		this.useHistory = useHistory;
 		setup();
 	}
 	
@@ -47,7 +52,7 @@ public class IslandHorizonEvolution implements AI, AiVisualizor {
 		System.out.println("Processors: " + processors);
 		this.executor = Executors.newFixedThreadPool(processors);
 		for(int i=0; i < processors; i++) {
-			RollingThread thread = new RollingThread(new RollingHorizonEvolution(popSize, mutRate, killRate, budget, evaluator.copy()), new GameState(null));
+			RollingThread thread = new RollingThread(new RollingHorizonEvolution(useHistory, popSize, mutRate, killRate, budget, evaluator.copy()), new GameState(null), table);
 			threads.add(thread);
 		}
 		if (threads.size() > 1){
@@ -82,6 +87,8 @@ public class IslandHorizonEvolution implements AI, AiVisualizor {
 
 	public void search(GameState state) {
 
+		table.clear();
+		
 		for(RollingThread thread : threads)
 			thread.state.imitate(state);
 		
@@ -118,7 +125,7 @@ public class IslandHorizonEvolution implements AI, AiVisualizor {
 		name += "Mut. rate = " + mutRate + "\n";
 		name += "Kill rate = " + killRate + "\n";
 		name += "State evaluator = " + evaluator.title() + "\n";
-		
+		name += "History = " + useHistory + "\n";
 		return name;
 	}
 

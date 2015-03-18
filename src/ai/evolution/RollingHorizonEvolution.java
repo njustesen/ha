@@ -36,10 +36,11 @@ public class RollingHorizonEvolution implements AI, AiVisualizor {
 	public List<Genome> newcomers;
 	
 	private RollingHorizonVisualizor visualizor;
-	private Map<Long, Double> visited;
 	private final Random random;
+	public SharedStateTable table;
+	public boolean useHistory;
 	
-	public RollingHorizonEvolution(int popSize, double mutRate, double killRate, int budget, IStateEvaluator evaluator) {
+	public RollingHorizonEvolution(boolean useHistory, int popSize, double mutRate, double killRate, int budget, IStateEvaluator evaluator) {
 		super();
 		this.popSize = popSize;
 		this.mutRate = mutRate;
@@ -53,8 +54,9 @@ public class RollingHorizonEvolution implements AI, AiVisualizor {
 		this.bestVisits = new ArrayList<Double>();
 		this.fitnesses = new HashMap<Integer, Double>();
 		this.bestActions = new ArrayList<List<Action>>();
-		this.visited = new HashMap<Long, Double>();
+		this.table = new SharedStateTable();
 		this.newcomers = new ArrayList<Genome>();
+		this.useHistory = useHistory;
 	}
 	
 	public void enableVisualization(UI ui){
@@ -67,6 +69,7 @@ public class RollingHorizonEvolution implements AI, AiVisualizor {
 		if (actions.isEmpty())
 			search(state);
 
+		table.clear();
 		final Action next = actions.get(0);
 		actions.remove(0);
 		return next;
@@ -78,7 +81,6 @@ public class RollingHorizonEvolution implements AI, AiVisualizor {
 		
 		fitnesses.clear();
 		bestActions.clear();
-		visited.clear();
 		
 		setup(state);
 
@@ -100,17 +102,11 @@ public class RollingHorizonEvolution implements AI, AiVisualizor {
 				clone.update(genome.actions);
 				val = evaluator.eval(clone, state.p1Turn);
 				if (genome.visits == 0 || val < genome.value){
-					/*
-					Long hash = clone.hash();
-					if (visited.containsKey(hash) && visited.get(hash) > val)
-						visited.put(hash, val);
-					else if (visited.containsKey(hash))
-						val = visited.get(hash);
-					else 
-						visited.put(hash, val);
-					*/
+					if (useHistory){
+						Long hash = clone.hash();
+						val = table.visit(hash, val);
+					}
 					genome.value = val;
-					
 				}
 				genome.visits++;
 			}
@@ -231,7 +227,7 @@ public class RollingHorizonEvolution implements AI, AiVisualizor {
 		name += "Mut. rate = " + mutRate + "\n";
 		name += "Kill rate = " + killRate + "\n";
 		name += "State evaluator = " + evaluator.title() + "\n";
-		
+		name += "History = " + useHistory + "\n";
 		return name;
 	}
 
@@ -244,11 +240,11 @@ public class RollingHorizonEvolution implements AI, AiVisualizor {
 	@Override
 	public AI copy() {
 		if (visualizor!=null){
-			RollingHorizonEvolution evo = new RollingHorizonEvolution(popSize, mutRate, killRate, budget, evaluator.copy());
+			RollingHorizonEvolution evo = new RollingHorizonEvolution(useHistory, popSize, mutRate, killRate, budget, evaluator.copy());
 			return evo;
 		}
 		
-		return new RollingHorizonEvolution(popSize, mutRate, killRate, budget, evaluator.copy());
+		return new RollingHorizonEvolution(useHistory, popSize, mutRate, killRate, budget, evaluator.copy());
 		
 	}
 
