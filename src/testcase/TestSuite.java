@@ -31,7 +31,7 @@ import ai.evaluation.MeanEvaluator;
 import ai.evaluation.RolloutEvaluator;
 import ai.evaluation.WinLoseEvaluator;
 import ai.evaluation.LeafParallelizer.LEAF_METHOD;
-import ai.evolution.ParallelizedHorizonEvolution;
+import ai.evolution.IslandHorizonEvolution;
 import ai.evolution.RollingHorizonEvolution;
 import ai.mcts.Mcts;
 import ai.mcts.RootParallelizedMcts;
@@ -103,12 +103,21 @@ public class TestSuite {
 			fitnessRolling();
 		else if (args[0].equals("leaf-rolling"))
 			leafRolling(Integer.parseInt(args[1]), args[2]);
+		else if (args[0].equals("rolling-vs-island"))
+			rollingVsIsland(Integer.parseInt(args[1]), args[2]);
 		else if (args[0].equals("greedy-vs-action-time"))
 			greedyTurnVsGreedyAction(Integer.parseInt(args[1]), args[2]);
 		else if (args[0].equals("rolling-vs-greedy-time"))
 			rollingVsGreedyTurn(Integer.parseInt(args[1]), args[2]);
 	}
 	
+	private static void rollingVsIsland(int runs, String size) {
+		int budget = 5000;
+		RollingHorizonEvolution rolling = new RollingHorizonEvolution(100, .5, .75, budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+		IslandHorizonEvolution island = new IslandHorizonEvolution(100, .5, .75, budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
+		new TestCase(new StatisticAi(rolling), new StatisticAi(island), runs, "rolling-vs-island-"+budget+"ms", map(size), deck(size)).run();
+	}
+
 	private static void rollingVsGreedyTurn(int runs, String size) {
 		for(int budget = 10; budget <= 15000; budget = budget*5){
 			AI turn = new GreedyTurnAI(new HeuristicEvaluator(false), budget);
