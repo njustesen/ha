@@ -14,7 +14,7 @@ import ai.evaluation.LeafParallelizer;
 import ai.evaluation.MaterialBalanceEvaluator;
 import ai.evaluation.RolloutEvaluator;
 import ai.evaluation.LeafParallelizer.LEAF_METHOD;
-import ai.evolution.ParallelizedHorizonEvolution;
+import ai.evolution.IslandHorizonEvolution;
 import ai.evolution.RollingHorizonEvolution;
 import ai.mcts.Mcts;
 import ai.util.ComplexActionComparator;
@@ -198,10 +198,10 @@ public class GameArguments {
 					RollingHorizonEvolution rolling = new RollingHorizonEvolution(100, .33, .66, 5000, new LeafParallelizer(new RolloutEvaluator(rolls, 1, new RandomHeuristicAI(0.2), new HeuristicEvaluator(false)), LEAF_METHOD.WORST));
 					players[p] = rolling;
 				}
-				if (args[a].toLowerCase().equals("pararolling")){
+				if (args[a].toLowerCase().equals("islandrolling")){
 					a++;
 					int rolls = Integer.parseInt(args[a]);
-					ParallelizedHorizonEvolution rolling = new ParallelizedHorizonEvolution(100, .33, .66, 5000, new RolloutEvaluator(rolls, 1, new RandomHeuristicAI(0.2), new HeuristicEvaluator(false)));
+					IslandHorizonEvolution rolling = new IslandHorizonEvolution(100, .33, .66, 5000, new RolloutEvaluator(rolls, 1, new RandomHeuristicAI(0.2), new HeuristicEvaluator(false)));
 					players[p] = rolling;
 				}
 				if (args[a].toLowerCase().equals("hybrid")){

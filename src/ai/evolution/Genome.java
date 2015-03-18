@@ -3,8 +3,6 @@ package ai.evolution;
 import game.GameState;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -16,10 +14,10 @@ import ai.util.ComplexActionComparator;
 
 public abstract class Genome implements Comparable<Genome> {
 
-	static ActionPruner pruner = new ActionPruner();
-	static ComplexActionComparator comparator = new ComplexActionComparator();
+	private ActionPruner pruner;
+	private ComplexActionComparator comparator;
 
-	public static Random random = new Random();
+	public static Random random;
 	public List<Action> actions;
 	public double value;
 	public int visits;
@@ -27,7 +25,10 @@ public abstract class Genome implements Comparable<Genome> {
 
 	public Genome() {
 		super();
+		pruner = new ActionPruner();
+		comparator = new ComplexActionComparator();
 		actions = new ArrayList<Action>();
+		random = new Random();
 		value = 0;
 		visits = 0;
 	}
@@ -64,7 +65,7 @@ public abstract class Genome implements Comparable<Genome> {
 		visits = 0;
 		value = 0;
 		final ArrayList<Action> possible = new ArrayList<Action>();
-		for (int i = 0; i < a.actions.size(); i++) {
+		for (int i = 0; i < Math.max(a.actions.size(), b.actions.size()); i++) {
 			state.possibleActions(possible);
 			pruner.prune(possible, state);
 			if (possible.isEmpty()){
@@ -102,6 +103,9 @@ public abstract class Genome implements Comparable<Genome> {
 
 	public void mutate(GameState state) {
 
+		if (actions.isEmpty())
+			return;
+		
 		final int mutIdx = random.nextInt(actions.size());
 		final List<Action> possible = new ArrayList<Action>();
 		int i = 0;

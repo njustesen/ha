@@ -4,8 +4,6 @@ import game.GameState;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -17,26 +15,7 @@ import action.SingletonAction;
 import ai.AI;
 import ai.evaluation.IStateEvaluator;
 
-public class ParallelizedHorizonEvolution implements AI, AiVisualizor {
-	
-	private class RollingThread implements Callable<RollingHorizonEvolution> {
-		
-		public RollingHorizonEvolution rolling;
-		public GameState state;
-		
-		public RollingThread(RollingHorizonEvolution rolling, GameState state) {
-			super();
-			this.rolling = rolling;
-			this.state = state;
-		}
-
-		@Override
-		public RollingHorizonEvolution call() throws Exception {
-			rolling.search(state);
-			return rolling;
-		} 
-		
-	}
+public class IslandHorizonEvolution implements AI, AiVisualizor {
 
 	public int popSize;
 	public int budget;
@@ -50,7 +29,7 @@ public class ParallelizedHorizonEvolution implements AI, AiVisualizor {
 	private ExecutorService executor;
 	private List<Future<RollingHorizonEvolution>> futures;
 	
-	public ParallelizedHorizonEvolution(int popSize, double mutRate, double killRate, int budget, IStateEvaluator evaluator) {
+	public IslandHorizonEvolution(int popSize, double mutRate, double killRate, int budget, IStateEvaluator evaluator) {
 		super();
 		this.popSize = popSize;
 		this.mutRate = mutRate;
@@ -70,6 +49,15 @@ public class ParallelizedHorizonEvolution implements AI, AiVisualizor {
 		for(int i=0; i < processors; i++) {
 			RollingThread thread = new RollingThread(new RollingHorizonEvolution(popSize, mutRate, killRate, budget, evaluator.copy()), new GameState(null));
 			threads.add(thread);
+		}
+		if (threads.size() > 1){
+			for(int i = 0; i < threads.size(); i++){
+				if (threads.size() > i + 1){
+					threads.get(i).rolling.neighbor = threads.get(i+1).rolling;
+				} else {
+					threads.get(i).rolling.neighbor = threads.get(0).rolling;
+				}
+			}
 		}
 	}
 
@@ -137,7 +125,7 @@ public class ParallelizedHorizonEvolution implements AI, AiVisualizor {
 
 	@Override
 	public String title() {
-		return "Parallelized Rolling Horizon Evolution";
+		return "Parallelized (island) Rolling Horizon Evolution";
 	}
 
 	@Override

@@ -16,7 +16,7 @@ import ai.mcts.MctsNode;
 
 public class TestCase {
 
-	public static boolean GFX = false;
+	public static boolean GFX = true;
 	public AI p1;
 	public AI p2;
 	public int runs;

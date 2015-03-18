@@ -23,6 +23,8 @@ import util.Statistics;
 
 public class RollingHorizonVisualizor extends JComponent implements KeyListener {
 
+	static int y = 0;
+	
 	public UI ui;
 	public boolean rendering;
 	public boolean p1;
@@ -44,8 +46,10 @@ public class RollingHorizonVisualizor extends JComponent implements KeyListener 
 		this.rendering = false;
 		frame = new JFrame();
 		frame.addKeyListener(this);
-		width = 800;
-		height = 260;
+		width = 500;
+		height = 160;
+		frame.setLocation(800, y);
+		y += height*1.2;
 		div = 10;
 		frame.setSize(width, height+32);
 		frame.setTitle("Evolution");
@@ -78,14 +82,16 @@ public class RollingHorizonVisualizor extends JComponent implements KeyListener 
 				x = (int) (div + (((double)(width-div-div)) * xprog));
 				val = rolling.fitnesses.get(gen);
 				val = (val - min) / (max -min);
-				y = (int) ((height-div) - val * (height-div-div));	
-				points.add(new Point(x,y));
+				y = (int) ((height-div) - val * (height-div-div));
+				synchronized (this) {
+					points.add(new Point(x,y));
+				}
 				if (rolling.bestActions.size() > gen)
 					ui.actionLayer = rolling.bestActions.get(gen);
 				if (!control){
 					repaint();
 					ui.repaint();
-					Thread.sleep(20);
+					Thread.sleep(5);
 				}
 			}
 
@@ -106,33 +112,38 @@ public class RollingHorizonVisualizor extends JComponent implements KeyListener 
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, width, height);
+		g.setColor(new Color(50,50,50));
+		g.fillRect(0, 0, width*2, height*2);
 		
-		g.setColor(Color.BLACK);
+		g.setColor(new Color(200, 200, 200));
 		g.drawLine(div, div, div, height-div);
 		g.drawLine(div, height-div, width-div, height-div);
 		
+		g.setColor(Color.GREEN);
+		
+		/*
 		if (p1)
 			g.setColor(Color.RED);
 		else
 			g.setColor(Color.BLUE);
-		
-		int lastX = 0;
-		int lastY = 0;
+		*/
+		int lastX = -100;
+		int lastY = -100;
 		int i = 0;
-		for(Point point : points){
-			
-			if (i > 0)
-				g.drawLine(lastX, lastY, point.x, point.y);
-			
-			lastX = point.x;
-			lastY = point.y;
-			i++;
-			
+		synchronized (this) {
+			for(Point point : points){
+				
+				if (i > 0)
+					g.drawLine(lastX, lastY, point.x, point.y);
+				
+				lastX = point.x;
+				lastY = point.y;
+				i++;
+				
+			}
 		}
 		
-		g.setColor(Color.BLACK);
+		g.setColor(new Color(200, 200, 200));
 		g.drawOval(lastX-5, lastY-5, 10, 10);
 		
 	}

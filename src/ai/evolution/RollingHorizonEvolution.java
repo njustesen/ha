@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Random;
 
 import ui.UI;
-import model.HaMap;
 import action.Action;
 import ai.AI;
 import ai.evaluation.IStateEvaluator;
@@ -32,6 +31,10 @@ public class RollingHorizonEvolution implements AI, AiVisualizor {
 	public Map<Integer, Double> fitnesses;
 	public List<List<Action>> bestActions;
 	
+	// Island evolution
+	public RollingHorizonEvolution neighbor;
+	public List<Genome> newcomers;
+	
 	private RollingHorizonVisualizor visualizor;
 	private Map<Long, Double> visited;
 	private final Random random;
@@ -51,6 +54,7 @@ public class RollingHorizonEvolution implements AI, AiVisualizor {
 		this.fitnesses = new HashMap<Integer, Double>();
 		this.bestActions = new ArrayList<List<Action>>();
 		this.visited = new HashMap<Long, Double>();
+		this.newcomers = new ArrayList<Genome>();
 	}
 	
 	public void enableVisualization(UI ui){
@@ -119,22 +123,24 @@ public class RollingHorizonEvolution implements AI, AiVisualizor {
 				killed.add(pop.get(i));
 			
 			// Crossover new ones
-			for (final Genome genome : killed) {
+			for (int i = 0; i < killed.size(); i++) {
 				final int a = random.nextInt(idx);
 				int b = random.nextInt(idx);
 				while (b == a)
 					b = random.nextInt(idx);
 
 				clone.imitate(state);
-				genome.crossover(pop.get(a), pop.get(b), clone);
+				killed.get(i).crossover(pop.get(a), pop.get(b), clone);
 
 				// Mutation
 				if (Math.random() < mutRate) {
 					clone.imitate(state);
-					genome.mutate(clone);
+					killed.get(i).mutate(clone);
 				}
-
 			}
+			
+			// add newcomers
+			takeinNewcomers();
 			
 			// TODO: Only if needed?!
 			fitnesses.put(g, pop.get(0).fitness());
@@ -165,6 +171,26 @@ public class RollingHorizonEvolution implements AI, AiVisualizor {
 
 	}
 	
+	public void recieveGenome(Genome g) {
+		synchronized (this) {
+			newcomers.add(g);
+		}		
+	}
+	
+	private void takeinNewcomers() {
+		synchronized (this) {
+			if (!newcomers.isEmpty()){
+				Genome newcomer = newcomers.get(0);
+				newcomers.remove(0);
+				pop.add(newcomer);
+			}
+			if (neighbor != null && pop.size() > popSize-5){
+				neighbor.recieveGenome(pop.get(pop.size()-2));
+				pop.remove(pop.get(pop.size()-2));
+			}
+		}		
+	}
+
 	private Map<Integer, Double> clone(Map<Integer, Double> other) {
 		Map<Integer, Double> clone = new HashMap<Integer, Double>();
 		for (Integer i : other.keySet())
