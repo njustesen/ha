@@ -96,9 +96,12 @@ public class IslandHorizonEvolution implements AI, AiVisualizor {
 		try {
 			futures = executor.invokeAll(threads);
 			actions.clear();
+			actions.add(SingletonAction.endTurnAction);
 			double bestFitness = -1000000;
 			for(Future<RollingHorizonEvolution> f : futures){
-				double fitness = f.get().fitnesses.get(f.get().fitnesses.size()-1);
+				if (f.get().fitnesses.isEmpty())
+					continue;
+				double fitness = f.get().fitnesses.get(f.get().fitnesses.size());
 				if (fitness > bestFitness && !f.get().actions.isEmpty()){
 					bestFitness = fitness;
 					actions = f.get().actions;
@@ -126,6 +129,7 @@ public class IslandHorizonEvolution implements AI, AiVisualizor {
 		name += "Kill rate = " + killRate + "\n";
 		name += "State evaluator = " + evaluator.title() + "\n";
 		name += "History = " + useHistory + "\n";
+		name += "Threads = " + threads.size() + "\n";
 		return name;
 	}
 
