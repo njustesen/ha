@@ -114,7 +114,7 @@ public class IslandHorizonEvolution implements AI, AiVisualizor {
 	
 	@Override
 	public void init(GameState state, long ms) {
-		// TODO: 
+		actions = new ArrayList<Action>();
 	}
 	
 	@Override
