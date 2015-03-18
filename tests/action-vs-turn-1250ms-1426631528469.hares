@@ -1,0 +1,53 @@
+########### TEST ###########
+AP: 5
+SAP: 3
+TURN LIMT: 100
+~~~~~~~~~ Player 1 ~~~~~~~~~
+GreedyTurn
+State evaluatior = Heuristic Evaluator
+Parallelized = true
+Processors = 4
+Budget = 1250 ms.
+~~~~~~~~~ Player 2 ~~~~~~~~~
+Rolling Horizon Evolution
+Pop. size = 100
+Budget = 1250ms.
+Mut. rate = 0.5
+Kill rate = 0.75
+State evaluator = Rollout Evaluator [depth=1 rolls=1 policy=Random heuristic evaluator=Heuristic Evaluator]
+~~~~~~~~~~~ SETUP ~~~~~~~~~~
+Map: a
+Deck Size: STANDARD
+Randomness: false
+Runs: 50
+~~~~~~~~~~ RUNNING ~~~~~~~~~
+~~~~~~~~~~ RESULTS ~~~~~~~~~
+P1 = 8 = 16.0%
+P2 = 42 = 84.0%
+Dr = 0
+~~~~~~~~~~~ STATS ~~~~~~~~~~
+P1 GreedyTurn
+Time spend (avg) = 171.49301090299133
+Time spend (std.dev) = 422.7238435224489
+Time spend (min) = 0.0
+Time spend (max) = 1380.0
+Time spend (datapoints) = 7154
+
+P2 Rolling Horizon Evolution
+Time spend (avg) = 210.07028710725893
+Time spend (std.dev) = 467.6069909785908
+Time spend (min) = 0.0
+Time spend (max) = 1363.0
+Time spend (datapoints) = 7384
+Vists (selected genome) (avg) = 64.79354838709678
+Vists (selected genome) (std.dev) = 260.7743913504236
+Vists (selected genome) (min) = 1.0
+Vists (selected genome) (max) = 2788.0
+Vists (selected genome) (datapoints) = 1240
+Generations (avg) = 568.9516129032259
+Generations (std.dev) = 231.15705995787
+Generations (min) = 82.0
+Generations (max) = 2788.0
+Generations (datapoints) = 1240
+
+############################

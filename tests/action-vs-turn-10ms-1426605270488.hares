@@ -1,0 +1,49 @@
+########### TEST ###########
+AP: 5
+SAP: 3
+TURN LIMT: 100
+~~~~~~~~~ Player 1 ~~~~~~~~~
+GreedyTurn
+State evaluatior = Heuristic Evaluator
+Parallelized = true
+Processors = 4
+Budget = 10 ms.
+~~~~~~~~~ Player 2 ~~~~~~~~~
+GreedyAction
+State evaluatior = Heuristic Evaluator
+~~~~~~~~~~~ SETUP ~~~~~~~~~~
+Map: a
+Deck Size: STANDARD
+Randomness: false
+Runs: 50
+~~~~~~~~~~ RUNNING ~~~~~~~~~
+~~~~~~~~~~ RESULTS ~~~~~~~~~
+P1 = 1 = 8.0%
+P2 = 43 = 92.0%
+Dr = 6
+~~~~~~~~~~~ STATS ~~~~~~~~~~
+P1 GreedyTurn
+Time spend (avg) = 1.887319966111268
+Time spend (std.dev) = 4.365665397090876
+Time spend (min) = 0.0
+Time spend (max) = 52.0
+Time spend (datapoints) = 7082
+
+P2 GreedyAction
+Time spend (avg) = 0.12471598081292602
+Time spend (std.dev) = 0.5129945610937655
+Time spend (min) = 0.0
+Time spend (max) = 18.0
+Time spend (datapoints) = 7922
+Branching factor (avg) = 45.7736682655895
+Branching factor (std.dev) = 26.39577300472741
+Branching factor (min) = 1.0
+Branching factor (max) = 140.0
+Branching factor (datapoints) = 7922
+Pruned branching factor (avg) = 44.04228730118657
+Pruned branching factor (std.dev) = 26.098493926377845
+Pruned branching factor (min) = 1.0
+Pruned branching factor (max) = 100.0
+Pruned branching factor (datapoints) = 7922
+
+############################
