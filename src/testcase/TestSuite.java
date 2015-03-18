@@ -123,7 +123,7 @@ public class TestSuite {
 	}
 	
 	private static void rollingVsIsland(int runs, String size) {
-		for(int budget = 10; budget <= 15000; budget = budget*5){
+		for(int budget = 50; budget <= 15000; budget = budget*5){
 			RollingHorizonEvolution rolling = new RollingHorizonEvolution(false, 100, .5, .75, budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
 			IslandHorizonEvolution island = new IslandHorizonEvolution(false, 100, .5, .75, budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.3), new HeuristicEvaluator(false)));
 			new TestCase(new StatisticAi(rolling), new StatisticAi(island), runs, "rolling-vs-island-"+budget+"ms", map(size), deck(size)).run();
