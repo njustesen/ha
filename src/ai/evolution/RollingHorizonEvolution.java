@@ -180,10 +180,11 @@ public class RollingHorizonEvolution implements AI, AiVisualizor {
 				newcomers.remove(0);
 				pop.add(newcomer);
 			}
-			if (neighbor != null && pop.size() > popSize-5){
-				neighbor.recieveGenome(pop.get(pop.size()-2));
-				pop.remove(pop.get(pop.size()-2));
-			}
+		}
+		
+		if (neighbor != null && pop.size() > popSize-5){
+			neighbor.recieveGenome(pop.get(pop.size()-2));
+			pop.remove(pop.get(pop.size()-2));
 		}		
 	}
 
