@@ -1,0 +1,66 @@
+########### TEST ###########
+AP: 5
+SAP: 3
+TURN LIMT: 100
+~~~~~~~~~ Player 1 ~~~~~~~~~
+Rolling Horizon Evolution
+Pop. size = 100
+Budget = 10ms.
+Mut. rate = 0.5
+Kill rate = 0.75
+State evaluator = Rollout Evaluator [depth=1 rolls=1 policy=Random heuristic evaluator=Heuristic Evaluator]
+History = false
+~~~~~~~~~ Player 2 ~~~~~~~~~
+Rolling Horizon Evolution
+Pop. size = 100
+Budget = 10ms.
+Mut. rate = 0.5
+Kill rate = 0.75
+State evaluator = Rollout Evaluator [depth=1 rolls=1 policy=Random heuristic evaluator=Heuristic Evaluator]
+History = true
+~~~~~~~~~~~ SETUP ~~~~~~~~~~
+Map: a
+Deck Size: STANDARD
+Randomness: false
+Runs: 50
+~~~~~~~~~~ RUNNING ~~~~~~~~~
+~~~~~~~~~~ RESULTS ~~~~~~~~~
+P1 = 14 = 48.0%
+P2 = 16 = 52.0%
+Dr = 20
+~~~~~~~~~~~ STATS ~~~~~~~~~~
+P1 Rolling Horizon Evolution
+Time spend (avg) = 2.6051293389343355
+Time spend (std.dev) = 7.764308907710651
+Time spend (min) = 0.0
+Time spend (max) = 88.0
+Time spend (datapoints) = 13569
+Vists (selected genome) (avg) = 1.7025843188786685
+Vists (selected genome) (std.dev) = 2.936848435861979
+Vists (selected genome) (min) = 0.0
+Vists (selected genome) (max) = 50.0
+Vists (selected genome) (datapoints) = 2283
+Generations (avg) = 2.4826982041173893
+Generations (std.dev) = 3.0035798891103656
+Generations (min) = 0.0
+Generations (max) = 50.0
+Generations (datapoints) = 2283
+
+P2 Rolling Horizon Evolution
+Time spend (avg) = 2.5532744665194995
+Time spend (std.dev) = 7.665394506633126
+Time spend (min) = 0.0
+Time spend (max) = 123.0
+Time spend (datapoints) = 13590
+Vists (selected genome) (avg) = 1.6456140350877193
+Vists (selected genome) (std.dev) = 2.2941244689644087
+Vists (selected genome) (min) = 0.0
+Vists (selected genome) (max) = 47.0
+Vists (selected genome) (datapoints) = 2280
+Generations (avg) = 2.395175438596491
+Generations (std.dev) = 2.3945247239132232
+Generations (min) = 0.0
+Generations (max) = 47.0
+Generations (datapoints) = 2280
+
+############################

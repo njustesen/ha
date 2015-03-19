@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import lib.UnitClassLib;
 import model.Card;
+import model.CardType;
 import model.Position;
 import game.GameState;
 import action.Action;
+import action.SingletonAction;
 import ai.AI;
 import ai.neat.jneat.NNode;
 import ai.neat.jneat.Network;
@@ -33,12 +36,14 @@ public abstract class NeatAI implements AI{
 		Collections.shuffle(possible);
 		boolean started = false;
 		double bestVal = 0;
-		Action bestAction = null;
+		Action bestAction = SingletonAction.endTurnAction;
+		//System.out.println("----------------");
 		for(Action action : possible){
 			if (started)
 				clone.imitate(state);
 			clone.update(action);
 			double val = eval(clone);
+			//System.out.println(val + "\t" + action);
 			if (started || val > bestVal){
 				bestVal = val;
 				bestAction = action;
@@ -49,6 +54,7 @@ public abstract class NeatAI implements AI{
 	}
 
 	private double eval(GameState clone) {
+		net.flush();
 		net.load_sensors(stateToArray(clone));
 		net.activate();
 		return ((NNode)net.getOutputs().get(0)).getActivation();
@@ -64,8 +70,21 @@ public abstract class NeatAI implements AI{
 				if (state.units[x][y] != null && 
 						state.units[x][y].p1Owner == p1 && 
 						state.units[x][y].unitClass.card != Card.CRYSTAL)
-					hp++;
+					hp+=state.units[x][y].hp;
 			}
+		}
+		
+		for(Card card : Card.values()){
+			if (card.type != CardType.UNIT)
+				continue;
+			if (p1 && state.p1Hand.contains(card))
+				hp += UnitClassLib.lib.get(card).maxHP * state.p1Hand.count(card);
+			else if (!p1 && state.p2Hand.contains(card))
+				hp += UnitClassLib.lib.get(card).maxHP * state.p2Hand.count(card);
+			if (p1 && state.p1Deck.contains(card))
+				hp += UnitClassLib.lib.get(card).maxHP * state.p1Deck.count(card);
+			else if (!p1 && state.p2Deck.contains(card))
+				hp += UnitClassLib.lib.get(card).maxHP * state.p2Deck.count(card);
 		}
 		
 		return hp;

@@ -1,0 +1,30 @@
+############################
+Processors: 4
+########### TEST ###########
+AP: 5
+SAP: 3
+TURN LIMT: 100
+~~~~~~~~~ Player 1 ~~~~~~~~~
+Rolling Horizon Evolution
+Pop. size = 100
+Budget = 12500ms.
+Mut. rate = 0.5
+Kill rate = 0.75
+State evaluator = Rollout Evaluator [depth=1 rolls=1 policy=Random heuristic evaluator=Heuristic Evaluator]
+History = false
+~~~~~~~~~ Player 2 ~~~~~~~~~
+Parallelized (island) Rolling Horizon Evolution
+Pop. size = 100
+Budget = 12500ms.
+Mut. rate = 0.5
+Kill rate = 0.75
+State evaluator = Rollout Evaluator [depth=1 rolls=1 policy=Random heuristic evaluator=Heuristic Evaluator]
+History = true
+Threads = 4
+~~~~~~~~~~~ SETUP ~~~~~~~~~~
+Map: a
+Deck Size: STANDARD
+Randomness: false
+Runs: 50
+~~~~~~~~~~ RUNNING ~~~~~~~~~
+222211122222121120201212111202
