@@ -29,13 +29,12 @@ public class NeatTrainer {
 	private static final double PROP_LINK = 0.5;
 	private static final boolean RECURRENT = false;
 	private static final int GENERATIONS = 200;
-	private static final int MATCHES = 50;
+	private static final int MATCHES = 100;
 	private static Random random;
 	private static GameArguments gameArgs = new GameArguments(false, null, null, "a-tiny", DECK_SIZE.TINY);
 
 	private static final String pop_file = "";
 	//private static final String pop_file = "pop_200";
-	
 	
 	public static void main(String[] args) throws Exception{
 		//gameArgs.sleep = 200;
@@ -52,7 +51,7 @@ public class NeatTrainer {
 			pop = new Population(pop_file);
 			gen = Integer.parseInt(pop_file.split("_")[1]) + 1;
 		} else {
-			pop = new Population(POP_SIZE,  4, 1, 10, RECURRENT, PROP_LINK);
+			pop = new Population(POP_SIZE, 5, 1, 10, RECURRENT, PROP_LINK);
 		}
 		
 		random = new Random();

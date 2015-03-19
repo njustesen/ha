@@ -14,13 +14,18 @@ public class NaiveNeatAI extends NeatAI{
 	
 	public double[] stateToArray(GameState state) {
 		
-		int inputs = state.map.width * state.map.height * 11 + 5 + 10;
+		//int inputs = state.map.width * state.map.height * 11 + 5 + 10;
+		int inputs = 5;
 		double[] arr = new double[inputs];
 		
 		// BASE
-		arr[0] = state.APLeft / GameState.ACTION_POINTS;
-		arr[1] = crystalHP(state, state.p1Turn) / MeanEvaluator.MAX_CRYSTAL_TINY;
-		arr[2] = crystalHP(state, !state.p1Turn) / MeanEvaluator.MAX_CRYSTAL_TINY;
+		arr[0] = crystalHP(state, state.p1Turn) / MeanEvaluator.MAX_CRYSTAL_TINY;
+		arr[1] = crystalHP(state, !state.p1Turn) / MeanEvaluator.MAX_CRYSTAL_TINY;
+		arr[2] = unitHP(state, state.p1Turn) / 4200;
+		arr[3] = unitHP(state, !state.p1Turn) / 4200;
+
+		// Bias
+		arr[4] = 1.0;
 		
 		// FOR EACH SQUARE
 		int i = 3;
@@ -59,8 +64,6 @@ public class NaiveNeatAI extends NeatAI{
 			arr[i++] = state.p2Hand.has(Card.SHINING_HELM) ? 1 : 0;
 		}
 		*/
-		// Bias
-		arr[i++] = 1.0;
 		
 		return arr;
 	}
