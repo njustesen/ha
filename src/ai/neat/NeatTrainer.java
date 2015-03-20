@@ -30,13 +30,13 @@ public class NeatTrainer {
 	private static final int POP_SIZE = 64;
 	private static final double PROP_LINK = 0.5;
 	private static final boolean RECURRENT = false;
-	private static final int GENERATIONS = 0;
-	private static final int MATCHES = 100;
+	private static final int GENERATIONS = 50;
+	private static final int MATCHES = 10;
 	private static Random random;
 	private static GameArguments gameArgs = new GameArguments(false, null, null, "a-tiny", DECK_SIZE.TINY);
 
-	//private static final String pop_file = "";
-	private static final String pop_file = "pop_50";
+	private static final String pop_file = "";
+	//private static final String pop_file = "pop_50";
 	
 	public static void main(String[] args) throws Exception{
 		//gameArgs.sleep = 200;
@@ -53,7 +53,7 @@ public class NeatTrainer {
 			pop = new Population(pop_file);
 			gen = Integer.parseInt(pop_file.split("_")[1]) + 1;
 		} else {
-			pop = new Population(POP_SIZE, 5, 1, 10, RECURRENT, PROP_LINK);
+			pop = new Population(POP_SIZE, 180, 1, 10, RECURRENT, PROP_LINK);
 		}
 		
 		random = new Random();
@@ -74,7 +74,7 @@ public class NeatTrainer {
 			while (itr_organism.hasNext()) {
 				Organism organism = ((Organism) itr_organism.next());
 				//double fitness = fitness(organism, pop.getOrganisms());
-				double fitness = fitnessVsRandom(organism.getNet(), MATCHES) * 100.0;
+				double fitness = fitness(organism.getNet(), pop.getOrganisms(), MATCHES) * 10.0;
 				//System.out.println(fitness);
 				organism.setFitness(fitness);
 				c++;
