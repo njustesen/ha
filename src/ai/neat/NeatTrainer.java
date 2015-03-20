@@ -123,7 +123,7 @@ public class NeatTrainer {
 		Game game = new Game(new GameState(null), gameArgs);
 		
 		game.state = new GameState(game.state.map);
-		game.player1 = new NaiveNeatAI(net);
+		game.player1 = new NaiveNeatAI(net, false);
 		game.player2 = new RandomAI(RAND_METHOD.TREE);
 		game.ui = new UI(game.state, false, false);
 		game.run();
@@ -149,7 +149,7 @@ public class NeatTrainer {
 		for(int i = 0; i < runs; i++){
 			if (i != 0)
 				game.state = new GameState(game.state.map);
-			game.player1 = new NaiveNeatAI(net);
+			game.player1 = new NaiveNeatAI(net, false);
 			game.player2 = new RandomAI(RAND_METHOD.TREE);
 			
 			game.run();
@@ -172,8 +172,8 @@ public class NeatTrainer {
 			Organism other = null;
 			while(other == null || other.getNet().equals(net))
 				other = (Organism) organisms.get(random.nextInt(organisms.size()));
-			game.player1 = new NaiveNeatAI(net);
-			game.player2 = new NaiveNeatAI(other.getNet());
+			game.player1 = new NaiveNeatAI(net, false);
+			game.player2 = new NaiveNeatAI(other.getNet(), false);
 			game.run();
 			double val = game.state.getWinner();
 			sum += score(1, val);

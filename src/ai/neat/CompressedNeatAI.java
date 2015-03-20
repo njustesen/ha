@@ -16,8 +16,8 @@ import ai.util.ActionPruner;
 
 public class CompressedNeatAI extends NeatAI{
 
-	public CompressedNeatAI(Network net) {
-		super(net);
+	public CompressedNeatAI(Network net, boolean debug) {
+		super(net, debug);
 	}
 
 	private List<Card> initCards;

@@ -21,10 +21,13 @@ public abstract class NeatAI implements AI{
 	private static final ActionPruner pruner = new ActionPruner();
 	
 	public Network net;
+
+	boolean debug;
 	
-	public NeatAI(Network net) {
+	public NeatAI(Network net, boolean debug) {
 		super();
 		this.net = net;
+		this.debug = debug;
 	}
 
 	@Override
@@ -37,18 +40,26 @@ public abstract class NeatAI implements AI{
 		boolean started = false;
 		double bestVal = 0;
 		Action bestAction = SingletonAction.endTurnAction;
-		//System.out.println("----------------");
+		if (debug)
+			System.out.println("----------------");
 		for(Action action : possible){
 			if (started)
 				clone.imitate(state);
 			clone.update(action);
 			double val = eval(clone);
-			//System.out.println(val + "\t" + action);
-			if (started || val > bestVal){
+			if (debug)
+				System.out.println(val + "\t" + action);
+			if (!started || val > bestVal){
 				bestVal = val;
 				bestAction = action;
+				if (debug)
+					System.out.println("BEST");
 			}
 			started = true;
+		}
+		if (debug){
+			System.out.println("-----------");
+			System.out.println(bestAction);
 		}
 		return bestAction;
 	}

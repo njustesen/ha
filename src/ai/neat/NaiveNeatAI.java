@@ -8,8 +8,8 @@ import ai.neat.jneat.Network;
 
 public class NaiveNeatAI extends NeatAI{
 	
-	public NaiveNeatAI(Network net) {
-		super(net);
+	public NaiveNeatAI(Network net, boolean debug) {
+		super(net, debug);
 	}
 	
 	public double[] stateToArray(GameState state) {
