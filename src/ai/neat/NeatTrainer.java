@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
+import ui.UI;
+
 import model.DECK_SIZE;
 import ai.RandomAI;
 import ai.neat.jneat.Neat;
@@ -28,13 +30,13 @@ public class NeatTrainer {
 	private static final int POP_SIZE = 64;
 	private static final double PROP_LINK = 0.5;
 	private static final boolean RECURRENT = false;
-	private static final int GENERATIONS = 200;
+	private static final int GENERATIONS = 0;
 	private static final int MATCHES = 100;
 	private static Random random;
 	private static GameArguments gameArgs = new GameArguments(false, null, null, "a-tiny", DECK_SIZE.TINY);
 
-	private static final String pop_file = "";
-	//private static final String pop_file = "pop_200";
+	//private static final String pop_file = "";
+	private static final String pop_file = "pop_50";
 	
 	public static void main(String[] args) throws Exception{
 		//gameArgs.sleep = 200;
@@ -107,12 +109,29 @@ public class NeatTrainer {
 			//System.out.print("\n             : cur_node_id = " + pop.getCur_node_id());
 			//System.out.print("\n   result    : " + pop.);
 		}
+		
+		show(bestNet);
 
 		saveStats(bestFitness, avg, gen);
 		pop.print_to_filename("pop_"+gen);
 		
 	}
 	
+	private static void show(Network net) {
+		
+		double sum = 0;
+		Game game = new Game(new GameState(null), gameArgs);
+		
+		game.state = new GameState(game.state.map);
+		game.player1 = new NaiveNeatAI(net);
+		game.player2 = new RandomAI(RAND_METHOD.TREE);
+		game.ui = new UI(game.state, false, false);
+		game.run();
+		double val = game.state.getWinner();
+		sum += score(1, val);
+		
+	}
+
 	private static void saveStats(double best, double mean, int gen) {
 		
 		try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("neat-stats", true)))) {

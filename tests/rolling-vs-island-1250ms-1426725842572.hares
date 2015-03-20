@@ -1,0 +1,57 @@
+########### TEST ###########
+AP: 5
+SAP: 3
+TURN LIMT: 100
+~~~~~~~~~ Player 1 ~~~~~~~~~
+Rolling Horizon Evolution
+Pop. size = 100
+Budget = 1250ms.
+Mut. rate = 0.5
+Kill rate = 0.75
+State evaluator = Rollout Evaluator [depth=1 rolls=1 policy=Random heuristic evaluator=Heuristic Evaluator]
+History = false
+~~~~~~~~~ Player 2 ~~~~~~~~~
+Parallelized (island) Rolling Horizon Evolution
+Pop. size = 100
+Budget = 1250ms.
+Mut. rate = 0.5
+Kill rate = 0.75
+State evaluator = Rollout Evaluator [depth=1 rolls=1 policy=Random heuristic evaluator=Heuristic Evaluator]
+History = false
+Threads = 4
+~~~~~~~~~~~ SETUP ~~~~~~~~~~
+Map: a
+Deck Size: STANDARD
+Randomness: false
+Runs: 50
+~~~~~~~~~~ RUNNING ~~~~~~~~~
+~~~~~~~~~~ RESULTS ~~~~~~~~~
+P1 = 13 = 34.0%
+P2 = 29 = 66.0%
+Dr = 8
+~~~~~~~~~~~ STATS ~~~~~~~~~~
+P1 Rolling Horizon Evolution
+Time spend (avg) = 211.1674709366089
+Time spend (std.dev) = 468.5902957184609
+Time spend (min) = 0.0
+Time spend (max) = 1261.0
+Time spend (datapoints) = 9118
+Vists (selected genome) (avg) = 42.2722547108512
+Vists (selected genome) (std.dev) = 382.90343291462443
+Vists (selected genome) (min) = 1.0
+Vists (selected genome) (max) = 6613.0
+Vists (selected genome) (datapoints) = 1539
+Generations (avg) = 498.8440545808967
+Generations (std.dev) = 373.8992322136634
+Generations (min) = 83.0
+Generations (max) = 6613.0
+Generations (datapoints) = 1539
+
+P2 Parallelized (island) Rolling Horizon Evolution
+Time spend (avg) = 212.195295404814
+Time spend (std.dev) = 471.0038084462173
+Time spend (min) = 0.0
+Time spend (max) = 1283.0
+Time spend (datapoints) = 9140
+
+############################
