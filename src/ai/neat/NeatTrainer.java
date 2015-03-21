@@ -15,9 +15,13 @@ import java.util.Random;
 import java.util.Vector;
 
 import ui.UI;
-
 import model.DECK_SIZE;
+import ai.GreedyActionAI;
+import ai.HeuristicAI;
 import ai.RandomAI;
+import ai.RandomHeuristicAI;
+import ai.RandomSwitchAI;
+import ai.evaluation.HeuristicEvaluator;
 import ai.neat.jneat.Neat;
 import ai.neat.jneat.Network;
 import ai.neat.jneat.Organism;
@@ -30,13 +34,16 @@ public class NeatTrainer {
 	private static final int POP_SIZE = 64;
 	private static final double PROP_LINK = 0.5;
 	private static final boolean RECURRENT = false;
-	private static final int GENERATIONS = 50;
-	private static final int MATCHES = 10;
+	private static final int GENERATIONS = 50000;
+	private static final int MATCHES = 20;
 	private static Random random;
 	private static GameArguments gameArgs = new GameArguments(false, null, null, "a-tiny", DECK_SIZE.TINY);
 
-	private static final String pop_file = "";
-	//private static final String pop_file = "pop_50";
+	private static final double step = 0.05;
+	
+	private static double level = 0.90;
+	//private static final String pop_file = "";
+	private static final String pop_file = "pop_473";
 	
 	public static void main(String[] args) throws Exception{
 		//gameArgs.sleep = 200;
@@ -74,7 +81,7 @@ public class NeatTrainer {
 			while (itr_organism.hasNext()) {
 				Organism organism = ((Organism) itr_organism.next());
 				//double fitness = fitness(organism, pop.getOrganisms());
-				double fitness = fitness(organism.getNet(), pop.getOrganisms(), MATCHES) * 10.0;
+				double fitness = fitnessVsPseudoRandom(organism.getNet(), MATCHES) * 100.0;
 				//System.out.println(fitness);
 				organism.setFitness(fitness);
 				c++;
@@ -97,7 +104,10 @@ public class NeatTrainer {
 				_specie.compute_max_fitness();
 			}
 			
-			saveStats(bestFitness, avg, gen);
+			saveStats(bestFitness, avg, gen, level);
+			
+			if (bestFitness == 100)
+				level += step;
 			
 			// EPOCH
 			pop.epoch(gen);
@@ -112,7 +122,7 @@ public class NeatTrainer {
 		
 		show(bestNet);
 
-		saveStats(bestFitness, avg, gen);
+		saveStats(bestFitness, avg, gen, level);
 		pop.print_to_filename("pop_"+gen);
 		
 	}
@@ -132,25 +142,27 @@ public class NeatTrainer {
 		
 	}
 
-	private static void saveStats(double best, double mean, int gen) {
+	private static void saveStats(double best, double mean, int gen, double level) {
 		
 		try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("neat-stats", true)))) {
-			out.println(gen+"\t"+best+"\t"+mean);
+			out.println(gen+"\t"+best+"\t"+mean + "\t" + level);
 		}catch (IOException e) {
 		    System.out.println("could not save to neat-stats");
 		}
 		
 	}
 	
-	private static double fitnessVsRandom(Network net, int runs) {
-		
+	private static RandomSwitchAI randomSwitch = new RandomSwitchAI(level, new RandomAI(RAND_METHOD.TREE), new GreedyActionAI(new HeuristicEvaluator(false)));
+	
+	private static double fitnessVsPseudoRandom(Network net, int runs) {
+		randomSwitch.prob = level;
 		double sum = 0;
 		Game game = new Game(new GameState(null), gameArgs);
 		for(int i = 0; i < runs; i++){
 			if (i != 0)
 				game.state = new GameState(game.state.map);
 			game.player1 = new NaiveNeatAI(net, false);
-			game.player2 = new RandomAI(RAND_METHOD.TREE);
+			game.player2 = randomSwitch;
 			
 			game.run();
 			double val = game.state.getWinner();

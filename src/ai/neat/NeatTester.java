@@ -15,9 +15,9 @@ import java.util.Random;
 import java.util.Vector;
 
 import ui.UI;
-
 import model.DECK_SIZE;
 import ai.RandomAI;
+import ai.RandomHeuristicAI;
 import ai.neat.jneat.Neat;
 import ai.neat.jneat.Network;
 import ai.neat.jneat.Organism;
@@ -31,7 +31,7 @@ public class NeatTester {
 	private static GameArguments gameArgs = new GameArguments(false, null, null, "a-tiny", DECK_SIZE.TINY);
 
 	//private static final String pop_file = "";
-	private static final String pop_file = "pop_50";
+	private static final String pop_file = "pop_52";
 	
 	public static void main(String[] args) throws Exception{
 		//gameArgs.sleep = 200;
@@ -68,7 +68,7 @@ public class NeatTester {
 		
 		game.state = new GameState(game.state.map);
 		game.player1 = new NaiveNeatAI(net, true);
-		game.player2 = new RandomAI(RAND_METHOD.TREE);
+		game.player2 = new RandomHeuristicAI(1);
 		game.ui = new UI(game.state, false, false);
 		game.run();
 		
