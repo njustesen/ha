@@ -1,0 +1,51 @@
+########### TEST ###########
+AP: 5
+SAP: 3
+TURN LIMT: 100
+~~~~~~~~~ Player 1 ~~~~~~~~~
+Hybrid
+State evaluatior = Heuristic Evaluator [positional=false, heal=150, spread=50]
+~~~~~~~~~ Player 2 ~~~~~~~~~
+Rolling Horizon Evolution
+Pop. size = 100
+Budget = 10000ms.
+Mut. rate = 0.5
+Kill rate = 0.75
+State evaluator = Rollout Evaluator [depth=1 rolls=1 policy=Random heuristic evaluator=Heuristic Evaluator [positional=false, heal=150, spread=50]]
+History = true
+~~~~~~~~~~~ SETUP ~~~~~~~~~~
+Map: a
+Deck Size: STANDARD
+Randomness: false
+Runs: 25
+~~~~~~~~~~ RUNNING ~~~~~~~~~
+~~~~~~~~~~ RESULTS ~~~~~~~~~
+P1 = 13 = 54.0%
+P2 = 11 = 46.0%
+Dr = 1
+~~~~~~~~~~~ STATS ~~~~~~~~~~
+P1 Hybrid
+Time spend (avg) = 1203.293533604888
+Time spend (std.dev) = 2768.2233341693936
+Time spend (min) = 0.0
+Time spend (max) = 8647.0
+Time spend (datapoints) = 3928
+
+P2 Rolling Horizon Evolution
+Time spend (avg) = 1696.0380131779016
+Time spend (std.dev) = 3752.7367998807777
+Time spend (min) = 0.0
+Time spend (max) = 10215.0
+Time spend (datapoints) = 3946
+Vists (selected genome) (avg) = 820.6636771300448
+Vists (selected genome) (std.dev) = 6528.195274010751
+Vists (selected genome) (min) = 1.0
+Vists (selected genome) (max) = 73876.0
+Vists (selected genome) (datapoints) = 669
+Generations (avg) = 5147.937219730941
+Generations (std.dev) = 6195.4597922924295
+Generations (min) = 646.0
+Generations (max) = 73876.0
+Generations (datapoints) = 669
+
+############################

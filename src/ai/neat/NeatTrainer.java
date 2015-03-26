@@ -19,7 +19,6 @@ import model.DECK_SIZE;
 import ai.GreedyActionAI;
 import ai.HeuristicAI;
 import ai.RandomAI;
-import ai.RandomHeuristicAI;
 import ai.RandomSwitchAI;
 import ai.evaluation.HeuristicEvaluator;
 import ai.neat.jneat.Neat;

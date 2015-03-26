@@ -2,9 +2,7 @@ package testcase;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.HashSet;
 
-import util.Statistics;
 import game.Game;
 import game.GameArguments;
 import game.GameState;
@@ -12,7 +10,6 @@ import model.DECK_SIZE;
 import model.HaMap;
 import ai.AI;
 import ai.StatisticAi;
-import ai.mcts.MctsNode;
 
 public class TestCase {
 

@@ -94,6 +94,9 @@ public class Unit {
 	public int damage(GameState state, Position attPos, Unit defender,
 			Position defPos) {
 
+		if (unitClass.attack == null)
+			return 0;
+		
 		double dam = power(state, attPos);
 
 		if (attPos.distance(defPos) == 1)

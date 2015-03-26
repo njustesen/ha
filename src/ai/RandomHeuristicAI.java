@@ -63,8 +63,10 @@ public class RandomHeuristicAI implements AI {
 			for (final Integer i : idxs) {
 				actions.clear();
 				state.possibleActions(state.currentHand().get(i), actions);
-				if (!actions.isEmpty())
-					return actions.get((int) (Math.random() * actions.size()));
+				if (!actions.isEmpty()){
+					comparator.sort(actions, state);
+					return semiRandom(actions);
+				}
 			}
 			positions.clear();
 			for (int x = 0; x < state.map.width; x++)
@@ -108,8 +110,10 @@ public class RandomHeuristicAI implements AI {
 					continue;
 				actions.clear();
 				state.possibleActions(state.currentHand().get(i), actions);
-				if (!actions.isEmpty())
-					return actions.get((int) (Math.random() * actions.size()));
+				if (!actions.isEmpty()){
+					comparator.sort(actions, state);
+					return semiRandom(actions);
+				}
 			}
 		}
 

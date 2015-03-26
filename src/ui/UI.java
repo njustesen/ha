@@ -47,6 +47,7 @@ public class UI extends JComponent {
 	private final boolean humanP1;
 	private final boolean humanP2;
 	private int turn = 0;
+	public static LevelPicker levelPicker;
 	
 	public List<Action> actionLayer;
 
@@ -68,6 +69,7 @@ public class UI extends JComponent {
 		this.state = state;
 		bottom = squareSize + state.map.height * squareSize + squareSize / 4;
 		actionLayer = new ArrayList<Action>();
+		repaint();
 	}
 
 	public void resetActions() {
@@ -675,12 +677,16 @@ public class UI extends JComponent {
 
 	private void paintGo(Graphics g) throws IOException {
 
-		BufferedImage image = ImageLib.lib.get("go-active");
-		if (state.APLeft != 0)
-			image = ImageLib.lib.get("go-inactive");
-
+		BufferedImage image = null;
+		
+		if (state.isTerminal){
+			image = ImageLib.lib.get("play-again");	
+		} else {
+			image = ImageLib.lib.get("go-active");
+			//if (state.APLeft != 0)
+			//	image = ImageLib.lib.get("go-inactive");
+		}
 		g.drawImage(image, this.getWidth() - 24 - squareSize*2, bottom, null);
-
 	}
 
 	private void paintAP(Graphics g) throws IOException {
@@ -704,6 +710,18 @@ public class UI extends JComponent {
 		final BufferedImage image = ImageLib.lib.get("header");
 		final int x = width / 2 - image.getWidth() / 2;
 		g.drawImage(image, x, 0, null, null);
+		g.setColor(Color.white);
+		g.setFont(new Font("Arial", 1, 32));
+		if (humanP1)
+			g.drawString("Human", 138, 48);
+		else
+			g.drawString("AI", 138, 48);
+			
+		if (humanP2)
+			g.drawString("Human", 412, 48);
+		else
+			g.drawString("AI", 412, 48);
+			
 		/*
 		 * BufferedImage bar = ImageLib.lib.get("bar"); int toBarA = 102;
 		 * g.drawImage(bar, x + toBarA, 9, null, null);

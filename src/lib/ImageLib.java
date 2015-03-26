@@ -136,6 +136,18 @@ public class ImageLib {
 					ImageIO.read(new File(basePath + "/img/sword-small.png")));
 			lib.put("shield-small",
 					ImageIO.read(new File(basePath + "/img/shield-small.png")));
+			
+			lib.put("beginner",
+					ImageIO.read(new File(basePath + "/img/beginner.png")));
+			
+			lib.put("intermediate",
+					ImageIO.read(new File(basePath + "/img/intermediate.png")));
+			
+			lib.put("expert",
+					ImageIO.read(new File(basePath + "/img/expert.png")));
+			
+			lib.put("play-again",
+					ImageIO.read(new File(basePath + "/img/play-again.png")));
 
 		} catch (final IOException e) {
 			e.printStackTrace();

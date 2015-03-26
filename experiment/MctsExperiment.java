@@ -5,7 +5,7 @@ import ai.AI;
 import ai.GreedyActionAI;
 import ai.HeuristicAI;
 import ai.RandomAI;
-import ai.RandomHeuristicAI;
+import ai.RandomSwitchAI;
 import ai.evaluation.HeuristicEvaluator;
 import ai.evaluation.RolloutEvaluator;
 import ai.mcts.Mcts;
@@ -23,7 +23,7 @@ public class MctsExperiment {
 	public static void main(String[] args) {
 		
 		//AI p1 = new Mcts(5000, 1 / Math.sqrt(2), new RolloutEvaluation(1, 300, random, new WinEvaluation(), false));
-		AI p1 = new Mcts(10000, new RolloutEvaluator(1, 2, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false), false));
+		AI p1 = new Mcts(10000, new RolloutEvaluator(1, 2, new RandomSwitchAI(0.5, new RandomAI(RAND_METHOD.TREE), new HeuristicAI()), new HeuristicEvaluator(false), false));
 		GameState state;
 		try {
 			state = new GameState(MapLoader.get("a"));

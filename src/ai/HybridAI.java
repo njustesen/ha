@@ -10,33 +10,35 @@ import action.Action;
 import action.SingletonAction;
 import ai.evaluation.IStateEvaluator;
 import ai.evaluation.RolloutEvaluator;
+import ai.evolution.IslandHorizonEvolution;
 import ai.evolution.RollingHorizonEvolution;
 import ai.movesearch.BestNMovesSearcher;
+import ai.movesearch.ParallelMoveSearcher;
 import ai.movesearch.ValuedMove;
 
 public class HybridAI implements AI {
 
-	private final BestNMovesSearcher searcher;
+	private final ParallelMoveSearcher searcher;
 	private List<Action> actions;
 	private List<ValuedMove> moves;
 	private final IStateEvaluator evaluator;
 	private int n;
 	private int m;
 	private RolloutEvaluator rolloutEvaluator;
-	private RollingHorizonEvolution evolution;
+	private IslandHorizonEvolution evolution;
 	private int searchBudget;
 	
-	public HybridAI(IStateEvaluator evaluator, int searchBudget, int n, RolloutEvaluator rolloutEvaluator, int m, RollingHorizonEvolution evolution) {
+	public HybridAI(IStateEvaluator evaluator, int searchBudget, int n, RolloutEvaluator rolloutEvaluator, int m, IslandHorizonEvolution evolution) {
 		super();
 		this.evaluator = evaluator;
 		this.moves = new ArrayList<ValuedMove>();
 		this.actions = new ArrayList<Action>();
-		this.searcher = new BestNMovesSearcher(n);
 		this.rolloutEvaluator = rolloutEvaluator;
 		this.n = n;
 		this.m = m;
-		this.searchBudget = searchBudget;
+		this.searcher = new ParallelMoveSearcher(n, searchBudget, evaluator);
 		this.evolution = evolution;
+		this.searchBudget = searchBudget;
 	}
 
 	@Override
@@ -48,27 +50,47 @@ public class HybridAI implements AI {
 			return action;
 		}
 		
-		// 1. GreedySearch
-		moves = searcher.bestMoves(state, evaluator, searchBudget);
+		// End game?
+		/*
+		if (endGame(state)){
+			evolution.budget = searchBudget * 3;
+			evolution.search(state);
+			actions = evolution.actions;
+			actions = moves.get(0).actions;
+			final Action action = actions.get(0);
+			actions.remove(0);
+			return action;
+		}
+		*/
 		
-		//System.out.println("1: Greedy Search");
-		//for (ValuedMove move : moves)
-		//	System.out.println(move);
+		// 1. GreedySearch
+		moves = searcher.search(state);
+		
+		/*
+		System.out.println("1: Greedy Search");
+		for (ValuedMove move : moves)
+			System.out.println(move);
+		*/
 		
 		// 2. Rollout phase
 		rolloutPhase(state);
-		
-		//System.out.println("2: Rollouts");
-		//for (ValuedMove move : moves)
-		//	System.out.println(move);
-		
+		/*
+		System.out.println("2: Rollouts");
+		for (ValuedMove move : moves)
+			System.out.println(move);
+		*/
 		// 3. Rolling horizon evolution
 		rollingPhase(state);
-		//System.out.println("3: Rolling horizon");
-		//for (ValuedMove move : moves)
-		//	System.out.println(move);
+		/*
+		System.out.println("3: Rolling horizon");
+		for (ValuedMove move : moves)
+			System.out.println(move);
 		
-		//System.out.println("---------------");
+		System.out.println("---------------");
+		*/
+
+		if (moves.isEmpty())
+			return SingletonAction.endTurnAction;
 		
 		actions = moves.get(0).actions;
 		
@@ -80,6 +102,12 @@ public class HybridAI implements AI {
 		
 		return action;
 
+	}
+
+	private boolean endGame(GameState state) {
+		if (!state.currentHand().hasUnits() && !state.currentDeck().hasUnits())
+			return true;
+		return false;
 	}
 
 	private void rollingPhase(GameState state) {
@@ -102,7 +130,8 @@ public class HybridAI implements AI {
 		
 		Collections.sort(moves);
 		List<ValuedMove> newMoves = new ArrayList<ValuedMove>();
-		newMoves.addAll(moves.subList(moves.size()-1, moves.size()));
+		if (!moves.isEmpty())
+			newMoves.addAll(moves.subList(moves.size()-1, moves.size()));
 		moves = newMoves;
 		
 	}
@@ -119,7 +148,9 @@ public class HybridAI implements AI {
 		
 		Collections.sort(moves);
 		List<ValuedMove> newMoves = new ArrayList<ValuedMove>();
-		newMoves.addAll(moves.subList(moves.size()-m, moves.size()));
+		int fromIndex = Math.max(0, moves.size()-m);
+		int toIndex = moves.size();
+		newMoves.addAll(moves.subList(fromIndex, toIndex));
 		moves = newMoves;
 		
 	}
@@ -143,7 +174,7 @@ public class HybridAI implements AI {
 
 	@Override
 	public AI copy() {
-		return new HybridAI(evaluator.copy(), searchBudget, n, (RolloutEvaluator)(rolloutEvaluator.copy()), m, (RollingHorizonEvolution)(evolution.copy()));
+		return new HybridAI(evaluator.copy(), searchBudget, n, (RolloutEvaluator)(rolloutEvaluator.copy()), m, (IslandHorizonEvolution)(evolution.copy()));
 	}
 	
 }

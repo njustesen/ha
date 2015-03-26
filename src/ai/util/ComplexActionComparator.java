@@ -41,32 +41,21 @@ public class ComplexActionComparator extends ActionComparator {
 						val += state.units[pos.x][pos.y].maxHP() * 2;
 					else
 						val += 300;
-
 				return val;
 			} else if (drop.type == Card.REVIVE_POTION) {
 				if (state.units[drop.to.x][drop.to.y].hp == 0)
-					return 300
-							- state.units[drop.to.x][drop.to.y].maxHP()
-							+ state.units[drop.to.x][drop.to.y].equipment
-									.size() * 200;
+					return state.units[drop.to.x][drop.to.y].maxHP()
+							+ state.units[drop.to.x][drop.to.y].equipment.size() * 200;
+				else
+					return state.units[drop.to.x][drop.to.y].maxHP() - state.units[drop.to.x][drop.to.y].hp - 300;
 			} else if (drop.type == Card.SCROLL)
-				return state.units[drop.to.x][drop.to.y].power(state,
-						drop.to)
-						* 2
-						+ state.units[drop.to.x][drop.to.y].hp;
+				return state.units[drop.to.x][drop.to.y].power(state, drop.to) * (state.units[drop.to.x][drop.to.y].hp / state.units[drop.to.x][drop.to.y].maxHP());
 			else if (drop.type == Card.DRAGONSCALE)
-				return state.units[drop.to.x][drop.to.y].power(state,
-						drop.to)
-						+ state.units[drop.to.x][drop.to.y].hp
-						* 2;
+				return state.units[drop.to.x][drop.to.y].power(state, drop.to) * (state.units[drop.to.x][drop.to.y].hp / state.units[drop.to.x][drop.to.y].maxHP());
 			else if (drop.type == Card.RUNEMETAL)
-				return state.units[drop.to.x][drop.to.y].power(state,
-						drop.to)
-						* 2
-						+ state.units[drop.to.x][drop.to.y].hp * 2;
+				return state.units[drop.to.x][drop.to.y].power(state, drop.to) * (state.units[drop.to.x][drop.to.y].hp / state.units[drop.to.x][drop.to.y].maxHP());
 			else if (drop.type == Card.SHINING_HELM)
-				return state.units[drop.to.x][drop.to.y].power(state,
-						drop.to) + state.units[drop.to.x][drop.to.y].hp;
+				return state.units[drop.to.x][drop.to.y].power(state, drop.to) * (state.units[drop.to.x][drop.to.y].hp / state.units[drop.to.x][drop.to.y].maxHP());
 			else
 				return 200;
 		} else if (action instanceof UnitAction)
@@ -77,8 +66,7 @@ public class ComplexActionComparator extends ActionComparator {
 					if (defender.hp == 0)
 						return defender.maxHP() * 2 + 200;
 					else
-						return attacker
-								.power(state, ((UnitAction) action).from) + 200;
+						return attacker.power(state, ((UnitAction) action).from) + 200;
 				} else if (defender.hp == 0)
 					return defender.maxHP() * 2;
 				else
@@ -93,8 +81,7 @@ public class ComplexActionComparator extends ActionComparator {
 				return 0;
 			else if (((UnitAction) action).type == UnitActionType.MOVE) {
 				if (state.units[((UnitAction) action).to.x][((UnitAction) action).to.y] != null)
-					return state.units[((UnitAction) action).to.x][((UnitAction) action).to.y]
-							.maxHP() * 2;
+					return state.units[((UnitAction) action).to.x][((UnitAction) action).to.y].maxHP() * 2;
 				if (state.map.squares[((UnitAction) action).to.x][((UnitAction) action).to.y] == SquareType.NONE)
 					return 0;
 				else
