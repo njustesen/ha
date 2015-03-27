@@ -5,11 +5,13 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.SocketException;
 import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.naming.CommunicationException;
 import javax.net.ssl.HttpsURLConnection;
 
 import com.google.gson.Gson;
@@ -71,7 +73,7 @@ public class Reporter {
 		super();
 	}
 	
-	public void updateReport(int turns, double heuristic, String winner) {
+	public void updateReport(int turns, double heuristic, String winner) throws Exception {
 		
 		try {
 			URL url = new URL(update);
@@ -85,18 +87,19 @@ public class Reporter {
 			//Response res = gson.fromJson(response, Response.class);
 			MatchReport report = gson.fromJson(response, MatchReport.class);
 			if (report == null || report._id == null || report._id == "")
-				System.out.println("Error");
+				throw new CommunicationException();
 			else
 				id = report._id;
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw e;
 		}
 		
 	}
 	
-	public void createReport(String mapName, String ai, int timeBudget, int level) {
+	public void createReport(String mapName, String ai, int timeBudget, int level) throws Exception {
 		
-		try {
+		
 			int processors = Runtime.getRuntime().availableProcessors();
 			URL url = new URL(create);
 			Map<String, Object> params = new HashMap<String, Object>();
@@ -110,12 +113,10 @@ public class Reporter {
 			//Response res = gson.fromJson(response, Response.class);
 			MatchReport report = gson.fromJson(response, MatchReport.class);
 			if (report == null || report._id == null || report._id == "")
-				System.out.println("Error");
+				throw new CommunicationException();
 			else
 				id = report._id;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
 		
 	}
 	
@@ -137,11 +138,16 @@ public class Reporter {
 		} 
 		// Send post request
 		con.setDoOutput(true);
-		DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-		wr.writeBytes(urlParameters);
-		wr.flush();
-		wr.close();
- 
+		try {
+			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+		
+			wr.writeBytes(urlParameters);
+			wr.flush();
+			wr.close();
+			
+		}catch (SocketException e){
+			throw new Exception();
+		}
 		int responseCode = con.getResponseCode();
 		System.out.println("\nSending 'POST' request to URL : " + url);
 		System.out.println("Post parameters : " + urlParameters);

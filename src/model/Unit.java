@@ -5,7 +5,7 @@ import game.GameState;
 import java.util.HashSet;
 import java.util.Set;
 
-import lib.UnitClassLib;
+import libs.UnitClassLib;
 
 public class Unit {
 

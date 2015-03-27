@@ -201,7 +201,9 @@ public class GameArguments {
 				if (args[a].toLowerCase().equals("islandrolling")){
 					a++;
 					int rolls = Integer.parseInt(args[a]);
-					IslandHorizonEvolution rolling = new IslandHorizonEvolution(true, 100, .33, .66, 5000, new RolloutEvaluator(rolls, 1, randomSwitch, new HeuristicEvaluator(false)));
+					a++;
+					int budget = Integer.parseInt(args[a]);
+					IslandHorizonEvolution rolling = new IslandHorizonEvolution(true, 100, .33, .66, budget, new RolloutEvaluator(rolls, 1, randomSwitch, new HeuristicEvaluator(false)));
 					players[p] = rolling;
 				}
 				if (args[a].toLowerCase().equals("hybrid")){

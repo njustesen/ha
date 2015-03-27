@@ -6,7 +6,7 @@ import java.util.List;
 import action.SingletonAction;
 import ai.util.NormUtil;
 import game.GameState;
-import lib.UnitClassLib;
+import libs.UnitClassLib;
 import model.Card;
 import model.CardType;
 import model.Position;

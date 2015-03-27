@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import lib.UnitClassLib;
+import libs.UnitClassLib;
 import model.Card;
 import model.CardType;
 import model.Position;

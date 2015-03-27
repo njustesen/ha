@@ -73,7 +73,7 @@ public class NeatTester {
 		game.state = new GameState(game.state.map);
 		game.player1 = new NaiveNeatAI(net, true);
 		game.player2 = new RandomSwitchAI(level, new RandomAI(RAND_METHOD.TREE), new GreedyActionAI(new HeuristicEvaluator(false)));
-		game.ui = new UI(game.state, false, false);
+		game.ui = new UI(game.state, false, false, false);
 		game.gameArgs.sleep = 500;
 		game.run();
 		

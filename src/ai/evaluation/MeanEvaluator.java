@@ -7,7 +7,7 @@ import java.util.Map;
 import util.MapLoader;
 import ai.util.NormUtil;
 import game.GameState;
-import lib.UnitClassLib;
+import libs.UnitClassLib;
 import model.Card;
 import model.CardType;
 import model.DECK_SIZE;

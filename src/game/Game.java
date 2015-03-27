@@ -1,6 +1,7 @@
 package game;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Stack;
 
 import reporting.Reporter;
@@ -28,19 +29,21 @@ public class Game {
 	public GameArguments gameArgs;
 	private Stack<GameState> history;
 	private int lastTurn;
+	private static boolean first = true;
+	private static int level = -1;
 
 	public static boolean PLAY_TEST = true;
-	public static LevelPicker levelPicker;
-	public static int level = -1;
 	public static Reporter reporter;
 	
 	private static String[] origArgs;
-	private static int budget = 6000;
+	private static int budget = 100;
 	
 	public static void main(String[] args) {
 		
-		if (args.length == 0 && PLAY_TEST)
-			args = ("p1 human p2 greedyturn heuristic " + budget + " sleep 500").split(" ");
+		System.out.println("args "+args.length);
+		
+		if (PLAY_TEST)
+			args = ("p1 human p2 islandrolling 1 " + budget + " sleep 5").split(" ");
 		
 		//args = ("p1 human p2 islandrolling 1 sleep 500").split(" ");
 		
@@ -63,24 +66,8 @@ public class Game {
 				ai = gameArgs.players[0].title();
 			else if (gameArgs.players[1] != null)
 				ai = gameArgs.players[1].title();
-			if (level == -1){
-				origArgs = args;
-				levelPicker = new LevelPicker();
-				reporter = new Reporter();
-			}
-			while(true){
-				try {
-					Thread.sleep(100);
-					if (levelPicker.level != -1){
-						level = levelPicker.level;
-						//levelPicker.frame.dispose();
-						reporter.createReport(map.name, ai, budget, level);
-						break;
-					}
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
+			origArgs = args;
+			reporter = new Reporter();
 		}
 		try {
 			GameState state = ObjectPools.borrowState(map);
@@ -115,8 +102,7 @@ public class Game {
 			SingletonAction.init(this.state.map);
 		
 		if (gameArgs.gfx){
-			this.ui = new UI(this.state, (this.player1 == null),
-					(this.player2 == null));
+			this.ui = new UI(this.state, (this.player1 == null), (this.player2 == null), PLAY_TEST && first );
 
 			if (player1 instanceof AiVisualizor && !PLAY_TEST)
 				((AiVisualizor)player1).enableVisualization(ui);
@@ -133,6 +119,25 @@ public class Game {
 
 	public void run() {
 
+		if (PLAY_TEST){
+			while(first && ui.levelPicker.level == -1){
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			if (first)
+				level = ui.levelPicker.level;
+			
+			createReport();
+			
+			if (first)
+				ui.frame.getContentPane().remove(0);
+			ui.frame.repaint();
+		}
+		
+		
 		state.init(gameArgs.deckSize);
 		GameState initState = ObjectPools.borrowState(state.map);
 		initState.imitate(state);
@@ -207,11 +212,14 @@ public class Game {
 			ui.repaint();
 		}
 		if (PLAY_TEST){
+			first = false;
 			while(true){
 				if (ui.action instanceof PlayAgainAction){
 					ui.frame.dispose();
 					ui = null;
-					main(origArgs);
+					state = new GameState(state.map);
+					Game game = new Game(null, gameArgs);
+					game.run();
 					break;
 				}
 				try {
@@ -223,6 +231,31 @@ public class Game {
 			}
 		}
 
+	}
+	
+	private void createReport() {
+		String ai = gameArgs.players[0] == null ? gameArgs.players[1].title() : gameArgs.players[0].title();
+		boolean created = false;
+		int time = 1000;
+		while(!created){
+			created = true;
+			try {
+				reporter.createReport(gameArgs.mapName, ai, budget, level);
+			} catch (Exception e) {
+				created = false;
+				time += 200;
+			}
+			ui.connection = false;
+			ui.frame.repaint();
+			try {
+				Thread.sleep(Math.min(time, 60000));
+			} catch (InterruptedException e) {
+				//e.printStackTrace();
+			}
+		}
+		ui.connection = true;
+		ui.frame.repaint();
+		
 	}
 
 	private void updateReport() {
@@ -242,7 +275,27 @@ public class Game {
 			else
 				winner = "draw";
 		}
-		reporter.updateReport(state.turn, new HeuristicEvaluator(false).eval(state, p1), winner);
+		boolean updated = false;
+		int time = 1000;
+		while(!updated){
+			updated = true;
+			try {
+				reporter.updateReport(state.turn, new HeuristicEvaluator(false).eval(state, p1), winner);
+			} catch (Exception e) {
+				ui.connection = false;
+				updated = false;
+				time += 200;
+			}
+			ui.frame.repaint();
+			try {
+				Thread.sleep(Math.min(time, 60000));
+			} catch (InterruptedException e) {
+				//e.printStackTrace();
+			}
+		}
+		ui.connection = true;
+		ui.frame.repaint();
+		
 	}
 
 	private void act(AI player, AI other) {

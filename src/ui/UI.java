@@ -17,8 +17,8 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
-import lib.ImageLib;
-import lib.UnitClassLib;
+import libs.ImageLib;
+import libs.UnitClassLib;
 import model.AttackType;
 import model.Card;
 import model.CardSet;
@@ -47,17 +47,27 @@ public class UI extends JComponent {
 	private final boolean humanP1;
 	private final boolean humanP2;
 	private int turn = 0;
-	public static LevelPicker levelPicker;
+	public LevelPicker levelPicker;
+	public static int level = -1;
+	public boolean showLevelPicker;
 	
 	public List<Action> actionLayer;
+	public boolean connection;
 
-	public UI(GameState state, boolean humanP1, boolean humanP2) {
+	public UI(GameState state, boolean humanP1, boolean humanP2, boolean showLevelPicker) {
+		connection = true;
 		frame = new JFrame();
 		width = Math.max(8, state.map.width) * squareSize + squareSize * 2;
 		height = state.map.height * squareSize + squareSize * 2 + squareSize;
 		frame.setSize(width, height);
 		frame.setTitle("Hero AI");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		if (showLevelPicker){
+			levelPicker = new LevelPicker();
+			levelPicker.width = width;
+			levelPicker.height = height;
+			frame.getContentPane().add(levelPicker);
+		}
 		frame.getContentPane().add(this);
 		frame.setVisible(true);
 		this.humanP1 = humanP1;
@@ -69,6 +79,7 @@ public class UI extends JComponent {
 		this.state = state;
 		bottom = squareSize + state.map.height * squareSize + squareSize / 4;
 		actionLayer = new ArrayList<Action>();
+		this.showLevelPicker = showLevelPicker;
 		repaint();
 	}
 
@@ -83,6 +94,17 @@ public class UI extends JComponent {
 
 		if (state == null)
 			return;
+		
+		if (!connection){
+			g.setColor(Color.darkGray);
+			g.fillRect(0, 0, width, height);
+			g.setColor(Color.lightGray);
+			g.setFont(new Font("Arial", 1, 32));
+			g.drawString("LOADING", 275, 140);
+			g.setFont(new Font("Arial", 1, 12));
+			g.drawString("If this takes more than a few seconds, check your internet connnection.", 142, 280);
+			return;
+		}
 		
 		if (state.turn != turn){
 			turn = state.turn;
@@ -710,7 +732,7 @@ public class UI extends JComponent {
 		final BufferedImage image = ImageLib.lib.get("header");
 		final int x = width / 2 - image.getWidth() / 2;
 		g.drawImage(image, x, 0, null, null);
-		g.setColor(Color.white);
+		g.setColor(new Color(1f,1f,1f,.5f));
 		g.setFont(new Font("Arial", 1, 32));
 		if (humanP1)
 			g.drawString("Human", 138, 48);
@@ -812,7 +834,7 @@ public class UI extends JComponent {
 		final int start = (width / 2) - ((6 * squareSize) / 2);
 
 		for (int x = 0; x < 6; x++) {
-			g.setColor(new Color(140, 155, 48));
+			g.setColor(new Color(60, 60, 60));
 			g.fillRect(start + x * squareSize, bottom, squareSize, squareSize);
 		}
 		/*
@@ -885,7 +907,7 @@ public class UI extends JComponent {
 	}
 
 	private void paintBoard(Graphics g) throws IOException {
-		g.setColor(new Color(170, 185, 68));
+		g.setColor(new Color(80, 80, 80));
 		g.fillRect(0, 0, width, height);
 
 		for (int x = 0; x < state.map.width; x++) {

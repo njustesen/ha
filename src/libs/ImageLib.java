@@ -1,4 +1,4 @@
-package lib;
+package libs;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
