@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import model.Card;
+import model.DECK_SIZE;
 import model.Position;
 import game.GameState;
 import action.Action;
@@ -23,13 +24,16 @@ public class CompressedNeatAI extends NeatAI{
 	private List<Card> initCards;
 	public double[] stateToArray(GameState state) {
 		
-		if (initCards == null)
-			countCards(new GameState(state.map), state.p1Turn);
-		
-		double[] arr = new double[initCards.size() + 5];
+		if (initCards == null){
+			GameState clone = new GameState(state.map);
+			clone.init(DECK_SIZE.TINY);
+			clone.dealCards();
+			countCards(clone, state.p1Turn);
+		}
+		double[] arr = new double[initCards.size()*3 + 5];
 		
 		// BASE
-		arr[0] = state.APLeft;
+		arr[0] = state.APLeft / 5;
 		arr[1] = crystalHP(state, state.p1Turn);
 		arr[2] = crystalHP(state, !state.p1Turn);
 		arr[3] = unitHP(state, state.p1Turn);
@@ -38,7 +42,7 @@ public class CompressedNeatAI extends NeatAI{
 		Map<Card, Integer> cards = new HashMap<Card, Integer>();
 		
 		// ON BOARD
-		int i = 4;
+		int i = 5;
 		Card card;
 		int u = 0;
 		int uIdx = 0;

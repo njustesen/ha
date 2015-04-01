@@ -15,7 +15,9 @@ public class NaiveNeatAI extends NeatAI{
 	public double[] stateToArray(GameState state) {
 		
 		//int inputs = state.map.width * state.map.height * 11 + 5 + 10;
-		int inputs = 180;
+		//int inputs = 180;
+		//int inputs = 323;
+		int inputs = 5;
 		double[] arr = new double[inputs];
 		
 		// BASE
@@ -26,7 +28,7 @@ public class NaiveNeatAI extends NeatAI{
 
 		// Bias
 		arr[4] = 1.0;
-		
+		/*
 		// FOR EACH SQUARE
 		int i = 5;
 		
@@ -62,7 +64,7 @@ public class NaiveNeatAI extends NeatAI{
 			arr[i++] = state.p2Hand.has(Card.SCROLL) ? 1 : 0;
 			arr[i++] = state.p2Hand.has(Card.SHINING_HELM) ? 1 : 0;
 		}
-		
+		*/
 		return arr;
 	}
 	

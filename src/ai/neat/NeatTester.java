@@ -31,7 +31,7 @@ public class NeatTester {
 	private static GameArguments gameArgs = new GameArguments(false, null, null, "a-tiny", DECK_SIZE.TINY);
 
 	//private static final String pop_file = "";
-	private static final String pop_file = "pop_52";
+	private static final String pop_file = "pop_1000";
 	
 	public static void main(String[] args) throws Exception{
 		//gameArgs.sleep = 200;
@@ -68,8 +68,9 @@ public class NeatTester {
 		
 		game.state = new GameState(game.state.map);
 		game.player1 = new NaiveNeatAI(net, true);
-		game.player2 = new RandomHeuristicAI(1);
-		game.ui = new UI(game.state, false, false);
+		//game.player2 = new RandomHeuristicAI(1);
+		game.gameArgs.sleep = 500;
+		game.ui = new UI(game.state, false, true);
 		game.run();
 		
 	}
