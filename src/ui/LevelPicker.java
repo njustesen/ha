@@ -20,11 +20,13 @@ public class LevelPicker extends JComponent implements MouseListener {
 	public int height; 
 	public int level;
 	private boolean loading;
+	private boolean showRules;
 	
 	public LevelPicker(){
 		//frame = new JFrame();
 		width = 800;
 		height = 600;
+		showRules = false;
 		//frame.setSize(width, height);
 		//frame.setTitle("Hero AI");
 		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,7 +46,23 @@ public class LevelPicker extends JComponent implements MouseListener {
 		g.fillRect(0, 0, width, height);
 		
 		g.setColor(Color.lightGray);
-		if (loading){
+		if (showRules){
+			g.setFont(new Font("Arial", 1, 32));
+			g.drawString("RULES", 60, 70);
+			g.setFont(new Font("Arial", 1, 16));	
+			g.drawString("The first player to destroy the opponents crystals wins the game.", 60, 100);
+			g.drawString("You will however lose the game if you run out of units.", 60, 120);
+			g.drawString("Players can make up to 5 actions each turn. The blue 'wheel'", 60, 160);
+			g.drawString("shows you how many action points you have left. You can always", 60, 180);
+			g.drawString("undo an action by clicking on the blue wheel.", 60, 200);
+			
+			g.setFont(new Font("Arial", 1, 32));
+			
+			g.drawImage(ImageLib.lib.get("ap-4"), 580, 140, null);
+			
+			g.drawImage(ImageLib.lib.get("play"), width/2 - 128, 300, null);
+			
+		} else if (loading){
 			g.setFont(new Font("Arial", 1, 32));
 			g.drawString("LOADING", 275, 140);
 			g.setFont(new Font("Arial", 1, 12));
@@ -70,25 +88,42 @@ public class LevelPicker extends JComponent implements MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		if (e.getX() >= width/2 - 128 && e.getX() <= width/2 + 128 &&
 				e.getY() >= 140 && e.getY() <= 140+64){
-			click(1);
+			if (!showRules)
+				click(1);
 		}
 		else if (e.getX() >= width/2 - 128 && e.getX() <= width/2 + 128 &&
 				e.getY() >= 220 && e.getY() <= 220+64){
-			click(2);
+			if (!showRules)
+				click(2);
 		}
 		else if (e.getX() >= width/2 - 128 && e.getX() <= width/2 + 128 &&
 				e.getY() >= 300 && e.getY() <= 300+64){
-			click(3);
+			if (showRules)
+				click1();
+			else 
+				click(3);
 		}
+	}
+	
+	private void click1() {
+		loading = true;
+		this.level = 1;
+		showRules = false;
+		repaint();
+		System.out.println("Level " + level);
 	}
 
 	private void click(int level) {
 		
-		loading = true;
-		this.level = level;
-		repaint();
-		System.out.println("Level " + level);
-		
+		if (level == 1){
+			showRules = true;
+			repaint();
+		} else {
+			loading = true;
+			this.level = level;
+			repaint();
+			System.out.println("Level " + level);
+		}
 	}
 
 	@Override

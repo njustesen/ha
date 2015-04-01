@@ -773,7 +773,7 @@ public class GameState {
 
 	private void heal(Unit healer, Position pos, Unit unitTo) {
 
-		int power = healer.unitClass.power;
+		int power = healer.power(this, pos);
 
 		if (unitTo.hp == 0)
 			power *= healer.unitClass.heal.revive;
@@ -781,6 +781,7 @@ public class GameState {
 			power *= healer.unitClass.heal.heal;
 		
 		unitTo.heal(power);
+		healer.equipment.remove(Card.SCROLL);
 		
 		APLeft--;
 

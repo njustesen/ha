@@ -121,8 +121,8 @@ public class HeuristicEvaluator implements IStateEvaluator {
 		}
 		
 		// INFERNO + POTIONS
-		int sp1 = p1Inferno * 700 + p1Potions * 600;
-		int sp2 = p2Inferno * 700 + p2Potions * 600;
+		int sp1 = p1Inferno * 750 + p1Potions * 600;
+		int sp2 = p2Inferno * 750 + p2Potions * 600;
 		
 		if (p1)
 			return (p1Units + sp1) - (p2Units + sp2);

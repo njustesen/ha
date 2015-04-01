@@ -845,6 +845,12 @@ public class UI extends JComponent {
 			paintHand(g, start, state.p1Hand, 1);
 		else if (!state.p1Turn && (humanP2 || (!humanP1 && !humanP2)))
 			paintHand(g, start, state.p2Hand, 2);
+		else{
+			g.setColor(Color.lightGray);
+			g.setFont(new Font("Arial", 1, 22));
+			g.drawString("COMPUTING", 286, bottom+40);
+		}
+			
 
 	}
 

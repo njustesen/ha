@@ -32,18 +32,18 @@ public class Game {
 	private static boolean first = true;
 	private static int level = -1;
 
-	public static boolean PLAY_TEST = true;
+	public static boolean PLAY_TEST = false;
 	public static Reporter reporter;
 	
 	private static String[] origArgs;
-	private static int budget = 100;
+	private static int budget = 6000;
 	
 	public static void main(String[] args) {
 		
 		System.out.println("args "+args.length);
 		
 		if (PLAY_TEST)
-			args = ("p1 human p2 islandrolling 1 " + budget + " sleep 5").split(" ");
+			args = ("p1 human p2 islandrolling 1 " + budget + " sleep 400").split(" ");
 		
 		//args = ("p1 human p2 islandrolling 1 sleep 500").split(" ");
 		

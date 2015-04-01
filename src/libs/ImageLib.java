@@ -148,6 +148,9 @@ public class ImageLib {
 			
 			lib.put("play-again",
 					ImageIO.read(new File(basePath + "/img/play-again.png")));
+			
+			lib.put("play",
+					ImageIO.read(new File(basePath + "/img/play.png")));
 
 		} catch (final IOException e) {
 			e.printStackTrace();

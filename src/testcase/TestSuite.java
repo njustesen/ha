@@ -54,7 +54,7 @@ public class TestSuite {
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}
-
+		
 		if (args[0].equals("mcts-rollouts-1"))
 			MctsRolloutTests(Integer.parseInt(args[1]), args[2]);
 		else if (args[0].equals("mcts-c"))
