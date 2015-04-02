@@ -55,30 +55,33 @@ public class TestSuiteFinal {
 			e.printStackTrace();
 		}
 		
-		if (args[0].equals("mcts-rollouts-1"))
+		if (args[0].equals("mcts-rollouts"))
 			MctsRolloutDepthTests(Integer.parseInt(args[1]), args[2]);
 		
 	}
 	
 	private static void MctsRolloutDepthTests(int runs, String size) {
 		final List<TestCase> tests = new ArrayList<TestCase>();
-
+		/*
 		final Mcts mcts10000 = new Mcts(6000, new RolloutEvaluator(1, 10000,
-				randomHeuristic, new WinLoseEvaluator()));
+				randomHeuristic, new HeuristicEvaluator(true)));
 		final Mcts mcts10 = new Mcts(6000, new RolloutEvaluator(1, 10,
-				randomHeuristic, new MaterialBalanceEvaluator(true)));
+				randomHeuristic, new HeuristicEvaluator(true)));
 		final Mcts mcts5 = new Mcts(6000, new RolloutEvaluator(1, 5,
-				randomHeuristic, new MaterialBalanceEvaluator(true)));
+				randomHeuristic, new HeuristicEvaluator(true)));
+		*/
 		final Mcts mcts1 = new Mcts(6000, new RolloutEvaluator(1, 1,
+		
 				randomHeuristic, new HeuristicEvaluator(true)));
 		final AI greedyaction = new GreedyActionAI(new HeuristicEvaluator(true));
-
+		/*
 		tests.add(new TestCase(new StatisticAi(mcts10000), new StatisticAi(greedyaction),
 				runs, "mcts-nodepth-vs-greedyaction", map(size), deck(size)));
 		tests.add(new TestCase(new StatisticAi(mcts10), new StatisticAi(greedyaction),
 				runs, "mcts-10depth-vs-greedyaction", map(size), deck(size)));
 		tests.add(new TestCase(new StatisticAi(mcts5), new StatisticAi(greedyaction),
 				runs, "mcts-5depth-vs-greedyaction", map(size), deck(size)));
+		*/
 		tests.add(new TestCase(new StatisticAi(mcts1), new StatisticAi(greedyaction),
 				runs, "mcts-1depth-vs-greedyaction", map(size), deck(size)));
 		
