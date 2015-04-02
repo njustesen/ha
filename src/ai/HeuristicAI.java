@@ -43,6 +43,11 @@ public class HeuristicAI implements AI {
 		comparator.state = state;
 		Collections.sort(actions, comparator);
 		
+		//System.out.println("-----");
+		//for(Action action : actions){
+		//System.out.println(actions.get(0));
+		//}
+		
 		return actions.get(0);
 
 	}

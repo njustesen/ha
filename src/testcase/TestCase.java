@@ -2,9 +2,7 @@ package testcase;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.HashSet;
 
-import util.Statistics;
 import game.Game;
 import game.GameArguments;
 import game.GameState;
@@ -12,11 +10,10 @@ import model.DECK_SIZE;
 import model.HaMap;
 import ai.AI;
 import ai.StatisticAi;
-import ai.mcts.MctsNode;
 
 public class TestCase {
 
-	public static boolean GFX = true;
+	public static boolean GFX = false;
 	public AI p1;
 	public AI p2;
 	public int runs;
@@ -107,7 +104,7 @@ public class TestCase {
 		res += "############################\n";
 		System.out.print(res);
 		
-		saveToFile(out + res, "tests/"+name+ "-" + System.currentTimeMillis() + ".hares");
+		saveToFile(out + res, "results/"+name+ "-" + System.currentTimeMillis() + ".hares");
 		
 	}
 

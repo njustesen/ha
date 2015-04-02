@@ -8,7 +8,7 @@ import ai.HeuristicAI;
 import ai.HybridAI;
 import ai.NmSearchAI;
 import ai.RandomAI;
-import ai.RandomHeuristicAI;
+import ai.RandomSwitchAI;
 import ai.evaluation.HeuristicEvaluator;
 import ai.evaluation.LeafParallelizer;
 import ai.evaluation.MaterialBalanceEvaluator;
@@ -71,6 +71,7 @@ public class GameArguments {
 	}
 
 	private void setup(String[] args) {
+		AI randomSwitch = new RandomSwitchAI(0.5, new HeuristicAI(), new RandomAI(RAND_METHOD.TREE));
 		for (int a = 0; a < args.length; a++) {
 			if (args[a].toLowerCase().equals("map")) {
 				m = true;
@@ -117,7 +118,7 @@ public class GameArguments {
 				else if (args[a].toLowerCase().equals("random"))
 					players[p] = new RandomAI(RAND_METHOD.TREE);
 				else if (args[a].toLowerCase().equals("randomheuristic"))
-					players[p] = new RandomHeuristicAI(0.5);
+					players[p] = randomSwitch;
 				else if (args[a].toLowerCase().equals("heuristic"))
 					players[p] = new HeuristicAI();
 				else if (args[a].toLowerCase().equals("nmsearch")) {
@@ -182,32 +183,34 @@ public class GameArguments {
 							new HeuristicEvaluator(true), false));
 					*/
 					players[p] = new Mcts(t, new RolloutEvaluator(
-							1, 10, new RandomHeuristicAI(0.2),
+							1, 10, randomSwitch,
 							new MaterialBalanceEvaluator(true), false));
 				}
 				if (args[a].toLowerCase().equals("rolling")){
 					a++;
 					int rolls = Integer.parseInt(args[a]);
-					RollingHorizonEvolution rolling = new RollingHorizonEvolution(false, 100, .33, .66, 5000, new RolloutEvaluator(rolls, 1, new RandomHeuristicAI(0.2), new HeuristicEvaluator(false)));
+					RollingHorizonEvolution rolling = new RollingHorizonEvolution(false, 100, .33, .66, 5000, new RolloutEvaluator(rolls, 1, randomSwitch, new HeuristicEvaluator(false)));
 					players[p] = rolling;
 				}
 				if (args[a].toLowerCase().equals("leafrolling")){
 					a++;
 					int rolls = Integer.parseInt(args[a]);
-					RollingHorizonEvolution rolling = new RollingHorizonEvolution(false, 100, .33, .66, 5000, new LeafParallelizer(new RolloutEvaluator(rolls, 1, new RandomHeuristicAI(0.2), new HeuristicEvaluator(false)), LEAF_METHOD.WORST));
+					RollingHorizonEvolution rolling = new RollingHorizonEvolution(false, 100, .33, .66, 5000, new LeafParallelizer(new RolloutEvaluator(rolls, 1, randomSwitch, new HeuristicEvaluator(false)), LEAF_METHOD.WORST));
 					players[p] = rolling;
 				}
 				if (args[a].toLowerCase().equals("islandrolling")){
 					a++;
 					int rolls = Integer.parseInt(args[a]);
-					IslandHorizonEvolution rolling = new IslandHorizonEvolution(false, 100, .33, .66, 5000, new RolloutEvaluator(rolls, 1, new RandomHeuristicAI(0.2), new HeuristicEvaluator(false)));
+					a++;
+					int budget = Integer.parseInt(args[a]);
+					IslandHorizonEvolution rolling = new IslandHorizonEvolution(true, 100, .33, .66, budget, new RolloutEvaluator(rolls, 1, randomSwitch, new HeuristicEvaluator(false)));
 					players[p] = rolling;
 				}
 				if (args[a].toLowerCase().equals("hybrid")){
-					players[p] = new HybridAI(new HeuristicEvaluator(false), 4000, 100, 
-							new RolloutEvaluator(100, 1, new RandomHeuristicAI(0.2), new HeuristicEvaluator(false), true), 10,
-							new RollingHorizonEvolution(false, 32, .3, .66, 1000, new HeuristicEvaluator(true)));
-					
+					players[p] = new HybridAI(
+							new HeuristicEvaluator(false), 4000, 500, 
+							new RolloutEvaluator(50, 1, randomSwitch, new HeuristicEvaluator(false), true), 10,
+							new IslandHorizonEvolution(false, 32, .3, .66, 800, new HeuristicEvaluator(true)));
 				}
 				p = -1;
 			} else if (args[a].toLowerCase().equals("sleep")) {

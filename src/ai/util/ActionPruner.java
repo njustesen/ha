@@ -72,9 +72,9 @@ public class ActionPruner {
 
 	private boolean onlyCard(GameState state, Card card) {
 		
-		if (state.p1Turn){
+		if (state.p1Turn)
 			return state.p1Hand.count(card) == 1;
-		}
+		
 		return state.p2Hand.count(card) == 1;	
 		
 	}

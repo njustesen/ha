@@ -22,7 +22,7 @@ public class ParallelMoveSearcher {
 
 	private IStateEvaluator evaluator;
 	private int n;
-	private int budget;
+	public int budget;
 	private ExecutorService executor;
 	private List<MoveThread> threads;
 	private List<Future<List<ValuedMove>>> futures;

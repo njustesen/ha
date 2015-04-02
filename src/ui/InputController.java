@@ -101,8 +101,12 @@ public class InputController implements MouseListener, KeyListener,
 					&& arg0.getX() <= buttonStart + buttonWidth
 					&& arg0.getY() >= bottom
 					&& arg0.getY() <= bottom + buttonHeight) {
-				if (state.APLeft == 0)
-					action = SingletonAction.endTurnAction;
+				if ((state.p1Turn && humanP1) || (!state.p1Turn && humanP2) || state.isTerminal){
+					if (state.isTerminal)
+						action = SingletonAction.playAgainAction;
+					else
+						action = SingletonAction.endTurnAction;
+				}
 			}
 
 			// Undo turn

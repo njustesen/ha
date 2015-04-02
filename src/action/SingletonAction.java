@@ -10,6 +10,7 @@ import model.Position;
 public class SingletonAction {
 
 	public static final EndTurnAction endTurnAction = new EndTurnAction();
+	public static final PlayAgainAction playAgainAction = new PlayAgainAction();
 	public static final UndoAction undoAction = new UndoAction();
 	public static final Map<Card, SwapCardAction> swapActions = new HashMap<Card, SwapCardAction>();
 	static {

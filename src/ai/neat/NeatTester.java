@@ -16,8 +16,11 @@ import java.util.Vector;
 
 import ui.UI;
 import model.DECK_SIZE;
+import ai.GreedyActionAI;
+import ai.HeuristicAI;
 import ai.RandomAI;
-import ai.RandomHeuristicAI;
+import ai.RandomSwitchAI;
+import ai.evaluation.HeuristicEvaluator;
 import ai.neat.jneat.Neat;
 import ai.neat.jneat.Network;
 import ai.neat.jneat.Organism;
@@ -29,9 +32,14 @@ public class NeatTester {
 
 	private static Random random;
 	private static GameArguments gameArgs = new GameArguments(false, null, null, "a-tiny", DECK_SIZE.TINY);
+	private static double level = .8;
 
 	//private static final String pop_file = "";
+<<<<<<< HEAD
 	private static final String pop_file = "pop_1000";
+=======
+	private static final String pop_file = "pop_473";
+>>>>>>> 2feac178fdb488501f13ebdfe090d41072bcb97f
 	
 	public static void main(String[] args) throws Exception{
 		//gameArgs.sleep = 200;
@@ -68,9 +76,15 @@ public class NeatTester {
 		
 		game.state = new GameState(game.state.map);
 		game.player1 = new NaiveNeatAI(net, true);
+<<<<<<< HEAD
 		//game.player2 = new RandomHeuristicAI(1);
 		game.gameArgs.sleep = 500;
 		game.ui = new UI(game.state, false, true);
+=======
+		game.player2 = new RandomSwitchAI(level, new RandomAI(RAND_METHOD.TREE), new GreedyActionAI(new HeuristicEvaluator(false)));
+		game.ui = new UI(game.state, false, false, false);
+		game.gameArgs.sleep = 500;
+>>>>>>> 2feac178fdb488501f13ebdfe090d41072bcb97f
 		game.run();
 		
 	}

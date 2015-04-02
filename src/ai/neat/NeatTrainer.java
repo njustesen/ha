@@ -19,7 +19,6 @@ import model.DECK_SIZE;
 import ai.GreedyActionAI;
 import ai.HeuristicAI;
 import ai.RandomAI;
-import ai.RandomHeuristicAI;
 import ai.RandomSwitchAI;
 import ai.evaluation.HeuristicEvaluator;
 import ai.neat.jneat.Neat;
@@ -136,7 +135,7 @@ public class NeatTrainer {
 		//game.player1 = new NaiveNeatAI(net, false);
 		game.player1 = new CompressedNeatAI(net, false);
 		game.player2 = new RandomAI(RAND_METHOD.TREE);
-		game.ui = new UI(game.state, false, false);
+		game.ui = new UI(game.state, false, false, false);
 		game.run();
 		double val = game.state.getWinner();
 		sum += score(1, val);

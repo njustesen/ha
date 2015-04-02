@@ -28,7 +28,7 @@ import action.UnitActionType;
 public class GameState {
 	
 	public static int TURN_LIMIT = 100;
-	public static final boolean RANDOMNESS = false;
+	public static boolean RANDOMNESS = false;
 	public static int STARTING_AP = 3;
 	public static int ACTION_POINTS = 5;
 	
@@ -37,6 +37,7 @@ public class GameState {
 	private static final int REQUIRED_UNITS = 3;
 	private static final int POTION_REVIVE = 100;
 	private static final int POTION_HEAL = 1000;
+	public static final boolean OPEN_HANDS = false;
 
 	public HaMap map;
 	public boolean p1Turn;
@@ -485,8 +486,9 @@ public class GameState {
 
 	}
 
-	private void attack(Unit attacker, Position attPos, Unit defender,
-			Position defPos) throws Exception {
+	private void attack(Unit attacker, Position attPos, Unit defender, Position defPos) throws Exception {
+		if (attacker.unitClass.attack == null)
+			return;
 		if (defender.hp == 0) {
 			ObjectPools.returnUnit(units[defPos.x][defPos.y]);
 			units[defPos.x][defPos.y] = null;
@@ -772,15 +774,15 @@ public class GameState {
 	private void heal(Unit healer, Position pos, Unit unitTo) {
 
 		int power = healer.power(this, pos);
+
 		if (unitTo.hp == 0)
 			power *= healer.unitClass.heal.revive;
 		else
 			power *= healer.unitClass.heal.heal;
-
+		
 		unitTo.heal(power);
-
-		// TODO: SCROLL EFFECTS HEAL?!
 		healer.equipment.remove(Card.SCROLL);
+		
 		APLeft--;
 
 	}
@@ -828,6 +830,7 @@ public class GameState {
 		if (!isTerminal) {
 			drawCards();
 			p1Turn = !p1Turn;
+			drawCards();
 			APLeft = ACTION_POINTS;
 			turn++;
 		}
@@ -876,8 +879,6 @@ public class GameState {
 				card = deck.random();
 			else
 				card = deck.determined();
-			if (card == Card.CRYSTAL)
-				System.out.println("CRYSTAL");
 			hand.add(card);
 			deck.remove(card);
 		}
@@ -1100,6 +1101,20 @@ public class GameState {
 					ObjectPools.returnUnit(units[x][y]);
 					units[x][y] = null;
 				}
+	}
+
+	public void hideCards(boolean p1) {
+		if (p1){
+			for(Card card : Card.values())
+				for(int i = 0; i < p1Hand.count(card); i++)
+					p1Deck.add(card);
+			p1Hand.clear();
+		} else {
+			for(Card card : Card.values())
+				for(int i = 0; i < p2Hand.count(card); i++)
+					p2Deck.add(card);
+			p2Hand.clear();
+		}
 	}
 
 }

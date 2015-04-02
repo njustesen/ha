@@ -9,7 +9,7 @@ import game.GameArguments;
 import ai.AI;
 import ai.HeuristicAI;
 import ai.RandomAI;
-import ai.RandomHeuristicAI;
+import ai.RandomSwitchAI;
 import ai.util.ComplexActionComparator;
 import ai.util.RAND_METHOD;
 import ai.util.SimpleActionComparator;
@@ -24,12 +24,12 @@ public class RolloutPerformance {
 			AI p2 = null;
 			
 			System.out.println("## Random Heuristic AI SIMPLE ##");
-			p1 = new RandomHeuristicAI(0.5);
+			p1 = new RandomSwitchAI(0.5, new RandomAI(RAND_METHOD.TREE), new HeuristicAI());
 			simulateGame(1000, p1, p1);
 			System.out.println("Done");
 
 			System.out.println("## Random Heuristic AI Complex ##");
-			p1 = new RandomHeuristicAI(0.5);
+			p1 = new RandomSwitchAI(0.5, new RandomAI(RAND_METHOD.TREE), new HeuristicAI());
 			simulateGame(1000, p1, p1);
 			System.out.println("Done");
 			
