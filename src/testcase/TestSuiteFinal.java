@@ -65,7 +65,8 @@ public class TestSuiteFinal {
 	
 	private static void MctsCTests(int runs, String size) {
 		final List<TestCase> tests = new ArrayList<TestCase>();
-		/*
+		final Mcts mcts0 = new Mcts(6000, new RolloutEvaluator(1, 1,randomHeuristic, new HeuristicEvaluator(true)));
+		
 		final Mcts mcts1 = new Mcts(6000, new RolloutEvaluator(1, 1,randomHeuristic, new HeuristicEvaluator(true)));
 		mcts1.c = mcts1.c / 2;
 		final Mcts mcts2 = new Mcts(6000, new RolloutEvaluator(1, 1,randomHeuristic, new HeuristicEvaluator(true)));
@@ -90,7 +91,6 @@ public class TestSuiteFinal {
 		
 		final Mcts mcts9 = new Mcts(6000, new RolloutEvaluator(1, 1,randomHeuristic, new HeuristicEvaluator(true)));
 		mcts9.c = mcts9.c / 92;
-		*/
 		
 		final Mcts mcts10 = new Mcts(6000, new RolloutEvaluator(1, 1,randomHeuristic, new HeuristicEvaluator(true)));
 		mcts10.c = mcts10.c / 192;
@@ -113,11 +113,13 @@ public class TestSuiteFinal {
 				runs, "mcts-c64-vs-greedyaction", map(size), deck(size)));
 		tests.add(new TestCase(new StatisticAi(mcts9), new StatisticAi(greedyaction),
 				runs, "mcts-c92-vs-greedyaction", map(size), deck(size)));
-		*/
+		
 		tests.add(new TestCase(new StatisticAi(mcts10), new StatisticAi(greedyaction),
 				runs, "mcts-c192-vs-greedyaction", map(size), deck(size)));
-		tests.add(new TestCase(new StatisticAi(mcts11), new StatisticAi(greedyaction),
-				runs, "mcts-c0-vs-greedyaction", map(size), deck(size)));
+		*/
+		
+		tests.add(new TestCase(new StatisticAi(mcts11), new StatisticAi(mcts0),
+				runs, "mcts-c192-vs-mcts", map(size), deck(size)));
 		
 		for (final TestCase test : tests)
 			test.run();
