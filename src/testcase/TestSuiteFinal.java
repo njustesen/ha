@@ -98,6 +98,12 @@ public class TestSuiteFinal {
 		final Mcts mcts11 = new Mcts(6000, new RolloutEvaluator(1, 1,randomHeuristic, new HeuristicEvaluator(true)));
 		mcts11.c = 0;
 		
+		final Mcts mcts11nonrandom = new Mcts(6000, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		mcts11nonrandom.c = 0;
+		
+		final Mcts mcts11random = new Mcts(6000, new RolloutEvaluator(1, 1,new RandomHeuristicAI(0), new HeuristicEvaluator(true)));
+		mcts11random.c = 0;
+		
 		final AI greedyaction = new GreedyActionAI(new HeuristicEvaluator(true));
 		  /*
 		tests.add(new TestCase(new StatisticAi(mcts1), new StatisticAi(greedyaction),
@@ -118,8 +124,12 @@ public class TestSuiteFinal {
 				runs, "mcts-c192-vs-greedyaction", map(size), deck(size)));
 		*/
 		
-		tests.add(new TestCase(new StatisticAi(mcts11), new StatisticAi(mcts0),
-				runs, "mcts-c192-vs-mcts", map(size), deck(size)));
+		tests.add(new TestCase(new StatisticAi(mcts11nonrandom), new StatisticAi(mcts11),
+				runs, "mcts-0random-vs-mcts05random", map(size), deck(size)));
+		
+		tests.add(new TestCase(new StatisticAi(mcts11random), new StatisticAi(mcts11),
+				runs, "mcts-1random-vs-mcts05random", map(size), deck(size)));
+		
 		
 		for (final TestCase test : tests)
 			test.run();
