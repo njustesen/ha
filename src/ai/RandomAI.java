@@ -91,7 +91,7 @@ public class RandomAI implements AI {
 							&& state.units[x][y].p1Owner == state.p1Turn
 							&& state.units[x][y].hp > 0
 							&& state.units[x][y].unitClass.card != Card.CRYSTAL)
-						positions.add(new Position(x, y));
+						positions.add(SingletonAction.positions[x][y]);
 			Collections.shuffle(positions);
 			for (final Position pos : positions) {
 				actions.clear();
@@ -108,7 +108,7 @@ public class RandomAI implements AI {
 							&& state.units[x][y].p1Owner == state.p1Turn
 							&& state.units[x][y].hp > 0
 							&& state.units[x][y].unitClass.card != Card.CRYSTAL)
-						positions.add(new Position(x, y));
+						positions.add(SingletonAction.positions[x][y]);
 			Collections.shuffle(positions);
 			for (final Position pos : positions) {
 				actions.clear();

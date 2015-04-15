@@ -39,7 +39,6 @@ public class ActionPruner {
 			} else if (action instanceof SwapCardAction)
 				if (onlyCard(state, ((SwapCardAction)action).card))
 					pruned.add(action);
-					
 
 		for (final DropAction spell : spellTargets.keySet())
 			if (spellTargets.get(spell).isEmpty())

@@ -62,7 +62,7 @@ public class ComplexActionComparator extends ActionComparator {
 			if (((UnitAction) action).type == UnitActionType.ATTACK) {
 				final Unit defender = state.units[((UnitAction) action).to.x][((UnitAction) action).to.y];
 				final Unit attacker = state.units[((UnitAction) action).from.x][((UnitAction) action).from.y];
-				if (attacker.unitClass.attack.chain) {
+				if (attacker.unitClass.attack.chain) {	
 					if (defender.hp == 0)
 						return defender.maxHP() * 2 + 200;
 					else
