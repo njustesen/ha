@@ -1,0 +1,70 @@
+########### TEST ###########
+AP: 5
+SAP: 3
+TURN LIMT: 100
+~~~~~~~~~ Player 1 ~~~~~~~~~
+MCTS
+Time budget = 6000
+C = 0.7071067811865475
+Leaf evaluation = Rollout Evaluator [depth=10000 rolls=1 policy=Random heuristic evaluator=Win Lose Evaluator]
+Cut = false
+Collapse = false
+~~~~~~~~~ Player 2 ~~~~~~~~~
+GreedyAction
+State evaluatior = Heuristic Evaluator [positional=false, heal=150, spread=50]
+~~~~~~~~~~~ SETUP ~~~~~~~~~~
+Map: a
+Deck Size: STANDARD
+Randomness: false
+Runs: 100
+~~~~~~~~~~ RUNNING ~~~~~~~~~
+2222222220222222222222222222222222222222222222222211111111111111111111111111111111111111111111111111
+~~~~~~~~~~ RESULTS ~~~~~~~~~
+P1 = 0 = 0.5%
+P2 = 99 = 99.5%
+Dr = 1
+~~~~~~~~~~~ STATS ~~~~~~~~~~
+P1 MCTS
+Time spend (avg) = 1357.8010013972985
+Time spend (std.dev) = 2510.988463099707
+Time spend (min) = 0.0
+Time spend (max) = 6218.0
+Time spend (datapoints) = 8588
+Iterations (avg) = 5910.710756562017
+Iterations (std.dev) = 5589.865295638992
+Iterations (min) = 2424.0
+Iterations (max) = 173295.0
+Iterations (datapoints) = 1943
+Max. depths (avg) = 4.369016984045291
+Max. depths (std.dev) = 0.7232677399083582
+Max. depths (min) = 3.0
+Max. depths (max) = 8.0
+Max. depths (datapoints) = 1943
+Avg. depths (avg) = 3.3539223739785933
+Avg. depths (std.dev) = 0.5438104504025282
+Avg. depths (min) = 2.292543021032505
+Avg. depths (max) = 6.9197912444264285
+Avg. depths (datapoints) = 1943
+Min. depths (avg) = 3.0458054554812146
+Min. depths (std.dev) = 0.31835536136560433
+Min. depths (min) = 2.0
+Min. depths (max) = 6.0
+Min. depths (datapoints) = 1943
+
+P2 GreedyAction
+Time spend (avg) = 0.6761304798066966
+Time spend (std.dev) = 0.8856582578897251
+Time spend (min) = 0.0
+Time spend (max) = 68.0
+Time spend (datapoints) = 11588
+Branching factor (avg) = 41.22678633068692
+Branching factor (std.dev) = 23.324895340036903
+Branching factor (min) = 1.0
+Branching factor (max) = 121.0
+Branching factor (datapoints) = 11588
+Pruned branching factor (avg) = 38.373489817052125
+Pruned branching factor (std.dev) = 22.702890958182877
+Pruned branching factor (min) = 1.0
+Pruned branching factor (max) = 99.0
+Pruned branching factor (datapoints) = 11588
+

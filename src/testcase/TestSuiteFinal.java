@@ -111,6 +111,22 @@ public class TestSuiteFinal {
 		//mcts12cut.c = 0;
 		mcts12cut.cut = true;
 		
+		final Mcts mcts12cut05 = new Mcts(6000, new RolloutEvaluator(1, 1,new RandomHeuristicAI(.5), new HeuristicEvaluator(true)));
+		//mcts12cut.c = 0;
+		mcts12cut05.cut = true;
+		
+		final Mcts mcts12cut05parallel = new Mcts(6000, new LeafParallelizer(new RolloutEvaluator(1, 1,new RandomHeuristicAI(.5), new HeuristicEvaluator(true)), LEAF_METHOD.AVERAGE));
+		//mcts12cut.c = 0;
+		mcts12cut05parallel.cut = true;
+		
+		final Mcts mcts1305 = new Mcts(6000, new RolloutEvaluator(1, 1,new RandomHeuristicAI(.5), new HeuristicEvaluator(true)));
+		mcts1305.c = 0;
+		//mcts1305.cut = true;
+		
+		final Mcts mcts1305parallel = new Mcts(6000, new LeafParallelizer(new RolloutEvaluator(1, 1,new RandomHeuristicAI(.5), new HeuristicEvaluator(true)), LEAF_METHOD.AVERAGE));
+		mcts1305parallel.c = 0;
+		//mcts1305parallel.cut = true;
+		
 		final Mcts mcts12collapse = new Mcts(6000, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
 		//mcts12collapse.c = 0;
 		mcts12collapse.collapse = true;
@@ -142,12 +158,12 @@ public class TestSuiteFinal {
 				runs, "mcts-c-collapse-vs-mcts-c", map(size), deck(size)));
 		*/
 		
-		tests.add(new TestCase(new StatisticAi(mcts12cut), new StatisticAi(greedyaction),
-				runs, "mcts-c-cut-vs-greedyaction", map(size), deck(size)));
-		
-		tests.add(new TestCase(new StatisticAi(mcts12collapse), new StatisticAi(greedyaction),
-				runs, "mcts-c-collapse-vs-greedyaction", map(size), deck(size)));
-		
+		tests.add(new TestCase(new StatisticAi(mcts12cut05), new StatisticAi(mcts12cut05parallel),
+				runs, "mcts-cut-05-vs-mcts-cut-05-parallel", map(size), deck(size)));
+		/*
+		tests.add(new TestCase(new StatisticAi(mcts1305), new StatisticAi(mcts1305parallel),
+				runs, "mcts-c0-05-vs-mcts-c0-05-parallel", map(size), deck(size)));
+		*/
 		for (final TestCase test : tests)
 			test.run();
 

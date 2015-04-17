@@ -35,7 +35,8 @@ public class NeatTester {
 	private static double level = .8;
 
 	//private static final String pop_file = "";
-	private static final String pop_file = "pop_473";
+	private static final String pop_file = "pop_1000";
+	//private static final String pop_file = "pop_473";
 	
 	public static void main(String[] args) throws Exception{
 		//gameArgs.sleep = 200;
@@ -72,9 +73,9 @@ public class NeatTester {
 		
 		game.state = new GameState(game.state.map);
 		game.player1 = new NaiveNeatAI(net, true);
-		game.player2 = new RandomSwitchAI(level, new RandomAI(RAND_METHOD.TREE), new GreedyActionAI(new HeuristicEvaluator(false)));
-		game.ui = new UI(game.state, false, false, false);
+		//game.player2 = new RandomHeuristicAI(1);
 		game.gameArgs.sleep = 500;
+		//game.ui = new UI(game.state, false, true);
 		game.run();
 		
 	}

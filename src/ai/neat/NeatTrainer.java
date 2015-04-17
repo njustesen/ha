@@ -36,14 +36,14 @@ public class NeatTrainer {
 	private static final int GENERATIONS = 50000;
 	private static final int MATCHES = 20;
 	private static Random random;
-	private static GameArguments gameArgs = new GameArguments(false, null, null, "a-tiny", DECK_SIZE.TINY);
+	private static GameArguments gameArgs = new GameArguments(false, null, null, "a-tiny", DECK_SIZE.SMALL);
 
 	private static final double step = 0.05;
 	
-	private static double level = 0.90;
+	private static double level = 0.8;
 	//private static final String pop_file = "";
-	private static final String pop_file = "pop_473";
-	
+	private static final String pop_file = "pop_1122";
+																																											
 	public static void main(String[] args) throws Exception{
 		//gameArgs.sleep = 200;
 		Neat.readParam("parameters.ne");
@@ -59,7 +59,7 @@ public class NeatTrainer {
 			pop = new Population(pop_file);
 			gen = Integer.parseInt(pop_file.split("_")[1]) + 1;
 		} else {
-			pop = new Population(POP_SIZE, 180, 1, 10, RECURRENT, PROP_LINK);
+			pop = new Population(POP_SIZE, 5, 1, 10, RECURRENT, PROP_LINK);
 		}
 		
 		random = new Random();
@@ -132,7 +132,8 @@ public class NeatTrainer {
 		Game game = new Game(new GameState(null), gameArgs);
 		
 		game.state = new GameState(game.state.map);
-		game.player1 = new NaiveNeatAI(net, false);
+		//game.player1 = new NaiveNeatAI(net, false);
+		game.player1 = new CompressedNeatAI(net, false);
 		game.player2 = new RandomAI(RAND_METHOD.TREE);
 		game.ui = new UI(game.state, false, false, false);
 		game.run();
