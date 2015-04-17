@@ -134,13 +134,19 @@ public class TestSuiteFinal {
 		tests.add(new TestCase(new StatisticAi(mcts10), new StatisticAi(greedyaction),
 				runs, "mcts-c192-vs-greedyaction", map(size), deck(size)));
 		*/
-		
+		/*
 		tests.add(new TestCase(new StatisticAi(mcts12cut), new StatisticAi(mcts12),
 				runs, "mcts-c-cut-vs-mcts-c", map(size), deck(size)));
 		
 		tests.add(new TestCase(new StatisticAi(mcts12collapse), new StatisticAi(mcts12),
 				runs, "mcts-c-collapse-vs-mcts-c", map(size), deck(size)));
+		*/
 		
+		tests.add(new TestCase(new StatisticAi(mcts12cut), new StatisticAi(greedyaction),
+				runs, "mcts-c-cut-vs-greedyaction", map(size), deck(size)));
+		
+		tests.add(new TestCase(new StatisticAi(mcts12collapse), new StatisticAi(greedyaction),
+				runs, "mcts-c-collapse-vs-greedyaction", map(size), deck(size)));
 		
 		for (final TestCase test : tests)
 			test.run();
