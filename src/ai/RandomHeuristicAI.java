@@ -140,7 +140,7 @@ public class RandomHeuristicAI implements AI {
 
 	@Override
 	public String title() {
-		return "Random heuristic";
+		return "Random heuristic [prob:" + prob + "]";
 	}
 
 	@Override
