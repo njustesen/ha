@@ -104,16 +104,9 @@ public class TestSuiteFinal {
 		final Mcts mcts11random = new Mcts(6000, new RolloutEvaluator(1, 1,new RandomHeuristicAI(0), new HeuristicEvaluator(true)));
 		mcts11random.c = 0;
 		
-		final Mcts mcts12 = new Mcts(6000, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
-		//mcts12.c = 0;
-		
 		final Mcts mcts12cut = new Mcts(6000, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
 		//mcts12cut.c = 0;
 		mcts12cut.cut = true;
-		
-		final Mcts mcts12cut05 = new Mcts(6000, new RolloutEvaluator(1, 1,new RandomHeuristicAI(.5), new HeuristicEvaluator(true)));
-		//mcts12cut.c = 0;
-		mcts12cut05.cut = true;
 		
 		final Mcts mcts12cut05parallel = new Mcts(6000, new LeafParallelizer(new RolloutEvaluator(1, 1,new RandomHeuristicAI(.5), new HeuristicEvaluator(true)), LEAF_METHOD.AVERAGE));
 		//mcts12cut.c = 0;
@@ -132,34 +125,16 @@ public class TestSuiteFinal {
 		mcts12collapse.collapse = true;
 		
 		final AI greedyaction = new GreedyActionAI(new HeuristicEvaluator(true));
-		  /*
-		tests.add(new TestCase(new StatisticAi(mcts1), new StatisticAi(greedyaction),
-				runs, "mcts-c2-vs-greedyaction-2", map(size), deck(size)));
-		tests.add(new TestCase(new StatisticAi(mcts2), new StatisticAi(greedyaction),
-				runs, "mcts-c4-vs-greedyaction-2", map(size), deck(size)));
-		tests.add(new TestCase(new StatisticAi(mcts3), new StatisticAi(greedyaction),
-				runs, "mcts-c8-vs-greedyaction-2", map(size), deck(size)));
 		
-		tests.add(new TestCase(new StatisticAi(mcts7), new StatisticAi(greedyaction),
-				runs, "mcts-c48-vs-greedyaction", map(size), deck(size)));
-		tests.add(new TestCase(new StatisticAi(mcts8), new StatisticAi(greedyaction),
-				runs, "mcts-c64-vs-greedyaction", map(size), deck(size)));
-		tests.add(new TestCase(new StatisticAi(mcts9), new StatisticAi(greedyaction),
-				runs, "mcts-c92-vs-greedyaction", map(size), deck(size)));
+		final Mcts mcts14c0 = new Mcts(6000, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		mcts14c0.c = 0;
+
+		final Mcts mcts14cut05 = new Mcts(6000, new RolloutEvaluator(1, 1,new RandomHeuristicAI(.5), new HeuristicEvaluator(true)));
+		//mcts12cut.c = 0;
+		mcts14cut05.cut = true;
 		
-		tests.add(new TestCase(new StatisticAi(mcts10), new StatisticAi(greedyaction),
-				runs, "mcts-c192-vs-greedyaction", map(size), deck(size)));
-		*/
-		/*
-		tests.add(new TestCase(new StatisticAi(mcts12cut), new StatisticAi(mcts12),
-				runs, "mcts-c-cut-vs-mcts-c", map(size), deck(size)));
-		
-		tests.add(new TestCase(new StatisticAi(mcts12collapse), new StatisticAi(mcts12),
-				runs, "mcts-c-collapse-vs-mcts-c", map(size), deck(size)));
-		*/
-		
-		tests.add(new TestCase(new StatisticAi(mcts12cut05), new StatisticAi(mcts12cut05parallel),
-				runs, "mcts-cut-05-vs-mcts-cut-05-parallel", map(size), deck(size)));
+		tests.add(new TestCase(new StatisticAi(mcts14c0), new StatisticAi(mcts14cut05),
+				runs, "mcts-c0-vs-mcts-cut", map(size), deck(size)));
 		/*
 		tests.add(new TestCase(new StatisticAi(mcts1305), new StatisticAi(mcts1305parallel),
 				runs, "mcts-c0-05-vs-mcts-c0-05-parallel", map(size), deck(size)));
