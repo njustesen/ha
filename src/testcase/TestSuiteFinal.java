@@ -61,8 +61,44 @@ public class TestSuiteFinal {
 		if (args[0].equals("mcts-c"))
 			MctsCTests(Integer.parseInt(args[1]), args[2]);
 		
+		if (args[0].equals("rolling"))
+			RollingTests(Integer.parseInt(args[1]), args[2]);
+		
 	}
 	
+	private static void RollingTests(int runs, String size) {
+		
+		final List<TestCase> tests = new ArrayList<TestCase>();
+		
+		final RollingHorizonEvolution rolling0 = new RollingHorizonEvolution(true, 100, .1, .5, 6000, 
+				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0), new HeuristicEvaluator(false)));
+		
+		final RollingHorizonEvolution rolling05 = new RollingHorizonEvolution(true, 100, .1, .5, 6000, 
+				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
+		
+		final RollingHorizonEvolution rolling1 = new RollingHorizonEvolution(true, 100, .1, .5, 6000, 
+				new RolloutEvaluator(1, 1, new RandomHeuristicAI(1), new HeuristicEvaluator(false)));
+		
+		
+		final AI greedyaction = new GreedyActionAI(new HeuristicEvaluator(true));
+		  
+		tests.add(new TestCase(new StatisticAi(rolling0), new StatisticAi(greedyaction),
+				runs, "rolling0-vs-greedyaction", map(size), deck(size)));
+		
+		tests.add(new TestCase(new StatisticAi(rolling05), new StatisticAi(greedyaction),
+				runs, "rolling05-vs-greedyaction", map(size), deck(size)));
+		
+		tests.add(new TestCase(new StatisticAi(rolling1), new StatisticAi(greedyaction),
+				runs, "rolling1-vs-greedyaction", map(size), deck(size)));
+		
+		
+		for (final TestCase test : tests)
+			test.run();
+		
+	}
+
+
+
 	private static void MctsCTests(int runs, String size) {
 		final List<TestCase> tests = new ArrayList<TestCase>();
 		final Mcts mcts0 = new Mcts(6000, new RolloutEvaluator(1, 1,randomHeuristic, new HeuristicEvaluator(true)));
