@@ -1,0 +1,70 @@
+########### TEST ###########
+AP: 5
+SAP: 3
+TURN LIMT: 100
+~~~~~~~~~ Player 1 ~~~~~~~~~
+MCTS
+Time budget = 6000
+C = 0.7071067811865475
+Leaf evaluation = Rollout Evaluator [depth=1 rolls=1 policy=Random heuristic [prob:0.5] evaluator=Heuristic Evaluator [positional=false, heal=150, spread=50]]
+Cut = true
+Collapse = false
+~~~~~~~~~ Player 2 ~~~~~~~~~
+MCTS - Root Parallelized
+Time budget = 6000
+C = 0.7071067811865475
+Threads = 4
+Cut = true
+Collapse = false
+Leaf evaluation = Rollout Evaluator [depth=1 rolls=1 policy=Random heuristic [prob:0.5] evaluator=Heuristic Evaluator [positional=false, heal=150, spread=50]]
+~~~~~~~~~~~ SETUP ~~~~~~~~~~
+Map: a
+Deck Size: STANDARD
+Randomness: false
+Runs: 100
+~~~~~~~~~~ RUNNING ~~~~~~~~~
+~~~~~~~~~~ RESULTS ~~~~~~~~~
+P1 = 96 = 98.0%
+P2 = 0 = 2.0%
+Dr = 4
+~~~~~~~~~~~ STATS ~~~~~~~~~~
+P1 MCTS
+Time spend (avg) = 1215.969009272816
+Time spend (std.dev) = 2743.8656109341314
+Time spend (min) = 0.0
+Time spend (max) = 18864.0
+Time spend (datapoints) = 16392
+Iterations (avg) = 178704.66557734204
+Iterations (std.dev) = 138773.09867642744
+Iterations (min) = 45636.0
+Iterations (max) = 2585155.0
+Iterations (datapoints) = 2754
+Max. depths (avg) = 7.702251270878722
+Max. depths (std.dev) = 1.3248430720734623
+Max. depths (min) = 1.0
+Max. depths (max) = 13.0
+Max. depths (datapoints) = 2754
+Avg. depths (avg) = 7.19905058118804
+Avg. depths (std.dev) = 1.0079944250718587
+Avg. depths (min) = 1.0
+Avg. depths (max) = 11.545110068567304
+Avg. depths (datapoints) = 2754
+Min. depths (avg) = 6.95679012345679
+Min. depths (std.dev) = 0.7837904902253525
+Min. depths (min) = 1.0
+Min. depths (max) = 9.0
+Min. depths (datapoints) = 2754
+
+P2 MCTS - Root Parallelized
+Time spend (avg) = 6243.023323823109
+Time spend (std.dev) = 19264.375475959896
+Time spend (min) = 0.0
+Time spend (max) = 226982.0
+Time spend (datapoints) = 14020
+Iterations (avg) = 393232.1183453237
+Iterations (std.dev) = 322121.75200184755
+Iterations (min) = 96984.0
+Iterations (max) = 5627913.0
+Iterations (datapoints) = 2780
+
+############################

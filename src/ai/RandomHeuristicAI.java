@@ -64,8 +64,7 @@ public class RandomHeuristicAI implements AI {
 				actions.clear();
 				state.possibleActions(state.currentHand().get(i), actions);
 				if (!actions.isEmpty()){
-					comparator.sort(actions, state);
-					return semiRandom(actions);
+					return semiRandom(actions,state);
 				}
 			}
 			positions.clear();
@@ -82,8 +81,7 @@ public class RandomHeuristicAI implements AI {
 				state.possibleActions(state.units[pos.x][pos.y], pos,
 						actions);
 				if (!actions.isEmpty()){
-					comparator.sort(actions, state);
-					return semiRandom(actions);
+					return semiRandom(actions, state);
 				}
 			}
 		} else {
@@ -100,8 +98,7 @@ public class RandomHeuristicAI implements AI {
 				actions.clear();
 				state.possibleActions(state.units[pos.x][pos.y], pos, actions);
 				if (!actions.isEmpty()){
-					comparator.sort(actions, state);
-					return semiRandom(actions);
+					return semiRandom(actions, state);
 				}
 			}
 			Collections.shuffle(idxs);
@@ -111,8 +108,7 @@ public class RandomHeuristicAI implements AI {
 				actions.clear();
 				state.possibleActions(state.currentHand().get(i), actions);
 				if (!actions.isEmpty()){
-					comparator.sort(actions, state);
-					return semiRandom(actions);
+					return semiRandom(actions, state);
 				}
 			}
 		}
@@ -120,9 +116,11 @@ public class RandomHeuristicAI implements AI {
 		return SingletonAction.endTurnAction;
 	}
 
-	private Action semiRandom(List<Action> actions) {
-		if (Math.random() < prob)
+	private Action semiRandom(List<Action> actions, GameState state) {
+		if (Math.random() < prob){
+			comparator.sort(actions, state);
 			return actions.get(0);
+		}
 		else return actions.get((int) (Math.random() * actions.size()));
 	}
 

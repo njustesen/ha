@@ -133,8 +133,12 @@ public class TestSuiteFinal {
 		//mcts12cut.c = 0;
 		mcts14cut05.cut = true;
 		
-		tests.add(new TestCase(new StatisticAi(mcts14c0), new StatisticAi(mcts14cut05),
-				runs, "mcts-c0-vs-mcts-cut", map(size), deck(size)));
+		final RootParallelizedMcts mcts14cut05rootparallel = new RootParallelizedMcts(6000, new RolloutEvaluator(1, 1,new RandomHeuristicAI(.5), new HeuristicEvaluator(true)));
+		//mcts12cut.c = 0;
+		mcts14cut05rootparallel.cut = true;
+		
+		tests.add(new TestCase(new StatisticAi(mcts14cut05), new StatisticAi(mcts14cut05rootparallel),
+				runs, "mcts-cut05-vs-mcts-cut05-rootparallel", map(size), deck(size)));
 		/*
 		tests.add(new TestCase(new StatisticAi(mcts1305), new StatisticAi(mcts1305parallel),
 				runs, "mcts-c0-05-vs-mcts-c0-05-parallel", map(size), deck(size)));

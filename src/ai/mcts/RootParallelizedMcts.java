@@ -60,6 +60,10 @@ public class RootParallelizedMcts implements AI {
 	private List<Future<MctsNode>> futures;
 	private MctsNode root;
 
+	public boolean cut;
+
+	public boolean collapse;
+
 	public RootParallelizedMcts(long budget, IStateEvaluator defaultPolicy) {
 		this.budget = budget;
 		this.defaultPolicy = defaultPolicy;
@@ -88,6 +92,8 @@ public class RootParallelizedMcts implements AI {
 		this.executor = Executors.newFixedThreadPool(processors);
 		for(int i=0; i < processors; i++) {
 			MctsThread thread = new MctsThread(new Mcts(budget, defaultPolicy.copy()), new GameState(null));
+			thread.mcts.cut = cut;
+			thread.mcts.cut = collapse;
 			thread.mcts.c = c;
 			thread.mcts.resetRoot = false;
 			threads.add(thread);
@@ -222,10 +228,12 @@ public class RootParallelizedMcts implements AI {
 
 	@Override
 	public String header() {
-		String name = "MCTS\n";
+		String name = title()+"\n";
 		name += "Time budget = " + budget + "\n";
 		name += "C = " + c + "\n";
 		name += "Threads = " + threads.size() + "\n";
+		name += "Cut = " + cut + "\n";
+		name += "Collapse = " + collapse + "\n";
 		name += "Leaf evaluation = " + defaultPolicy.title() + "\n";
 		return name;
 	}
