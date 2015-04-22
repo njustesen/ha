@@ -70,26 +70,41 @@ public class TestSuiteFinal {
 		
 		final List<TestCase> tests = new ArrayList<TestCase>();
 		
-		final RollingHorizonEvolution rolling0 = new RollingHorizonEvolution(true, 100, .1, .5, 6000, 
+		final RollingHorizonEvolution rolling0 = new RollingHorizonEvolution(true, 100, .1, .5, 3000, 
 				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0), new HeuristicEvaluator(false)));
 		
-		final RollingHorizonEvolution rolling05 = new RollingHorizonEvolution(true, 100, .1, .5, 6000, 
+		final RollingHorizonEvolution rolling05r1 = new RollingHorizonEvolution(true, 100, .1, .5, 3000, 
 				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
 		
-		final RollingHorizonEvolution rolling1 = new RollingHorizonEvolution(true, 100, .1, .5, 6000, 
+		final RollingHorizonEvolution rolling05r2 = new RollingHorizonEvolution(true, 100, .1, .5, 3000, 
+				new RolloutEvaluator(2, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
+		
+		final RollingHorizonEvolution rolling05r5 = new RollingHorizonEvolution(true, 100, .1, .5, 3000, 
+				new RolloutEvaluator(5, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
+		
+		final RollingHorizonEvolution rolling05r10 = new RollingHorizonEvolution(true, 100, .1, .5, 3000, 
+				new RolloutEvaluator(10, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
+		
+		final RollingHorizonEvolution rolling1r1 = new RollingHorizonEvolution(true, 100, .1, .5, 3000, 
 				new RolloutEvaluator(1, 1, new RandomHeuristicAI(1), new HeuristicEvaluator(false)));
 		
 		
 		final AI greedyaction = new GreedyActionAI(new HeuristicEvaluator(true));
 		  
-		tests.add(new TestCase(new StatisticAi(rolling0), new StatisticAi(greedyaction),
-				runs, "rolling0-vs-greedyaction", map(size), deck(size)));
+		tests.add(new TestCase(new StatisticAi(rolling05r1), new StatisticAi(greedyaction),
+				runs, "rolling05r1-vs-greedyaction", map(size), deck(size)));
 		
-		tests.add(new TestCase(new StatisticAi(rolling05), new StatisticAi(greedyaction),
-				runs, "rolling05-vs-greedyaction", map(size), deck(size)));
+		tests.add(new TestCase(new StatisticAi(rolling05r2), new StatisticAi(greedyaction),
+				runs, "rolling05r2-vs-greedyaction", map(size), deck(size)));
 		
-		tests.add(new TestCase(new StatisticAi(rolling1), new StatisticAi(greedyaction),
-				runs, "rolling1-vs-greedyaction", map(size), deck(size)));
+		tests.add(new TestCase(new StatisticAi(rolling05r5), new StatisticAi(greedyaction),
+				runs, "rolling05r5-vs-greedyaction", map(size), deck(size)));
+		
+		tests.add(new TestCase(new StatisticAi(rolling05r10), new StatisticAi(greedyaction),
+				runs, "rolling05r10-vs-greedyaction", map(size), deck(size)));
+		
+		tests.add(new TestCase(new StatisticAi(rolling05r1), new StatisticAi(rolling1r1),
+				runs, "rolling05r1-vs-rolling1r1", map(size), deck(size)));
 		
 		
 		for (final TestCase test : tests)
