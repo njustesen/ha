@@ -28,7 +28,7 @@ public class NaiveNeatAI extends NeatAI{
 
 		// Bias
 		arr[4] = 1.0;
-		/*
+		
 		// FOR EACH SQUARE
 		int i = 5;
 		
@@ -64,13 +64,15 @@ public class NaiveNeatAI extends NeatAI{
 			arr[i++] = state.p2Hand.has(Card.SCROLL) ? 1 : 0;
 			arr[i++] = state.p2Hand.has(Card.SHINING_HELM) ? 1 : 0;
 		}
-		*/
+		
 		return arr;
 	}
 	
 	private double[] squareArray(GameState state, int x, int y){
 		
 		double hp = 0.0;
+		double p1Unit = 0.0;
+		double p2Unit = 0.0;
 		double knight = 0.0;
 		double cleric = 0.0;
 		double archer = 0.0;
@@ -84,21 +86,27 @@ public class NaiveNeatAI extends NeatAI{
 		
 		if (state.units[x][y] != null){
 			hp = (double)state.units[x][y].hp / ((double)state.units[x][y].unitClass.maxHP * 1.5);
-			double owner = 1.0;
-			if (state.units[x][y].p1Owner != state.p1Turn)
-				owner = -1.0;
+			p1Unit = 0.0;
+			p2Unit = 0.0;
+			if (state.units[x][y].p1Owner == state.p1Turn){
+				p1Unit = 1;
+				p2Unit = 0;
+			} else if (state.units[x][y].p1Owner != state.p1Turn){
+				p1Unit = 0;
+				p2Unit = 1;
+			}
 			if (state.units[x][y].unitClass.card == Card.ARCHER)
-				archer = owner;
+				archer = 1.0;
 			if (state.units[x][y].unitClass.card == Card.CLERIC)
-				cleric = owner;
+				cleric = 1.0;
 			if (state.units[x][y].unitClass.card == Card.CRYSTAL)
-				crystal = owner;
+				crystal = 1.0;
 			if (state.units[x][y].unitClass.card == Card.KNIGHT)
-				knight = owner;
+				knight = 1.0;
 			if (state.units[x][y].unitClass.card == Card.NINJA)
-				ninja = owner;
+				ninja = 1.0;
 			if (state.units[x][y].unitClass.card == Card.WIZARD)
-				wizard = owner;
+				wizard = 1.0;
 			
 			for(Card card : state.units[x][y].equipment){
 				if (card == Card.DRAGONSCALE)
@@ -113,7 +121,7 @@ public class NaiveNeatAI extends NeatAI{
 				
 		}
 		
-		double[] arr = new double[11];
+		double[] arr = new double[13];
 		arr[0] = hp;
 		arr[1] = knight;
 		arr[2] = cleric;
@@ -125,6 +133,8 @@ public class NaiveNeatAI extends NeatAI{
 		arr[8] = dragonscale;
 		arr[9] = shininghelm;
 		arr[10] = scroll;
+		arr[11] = p1Unit;
+		arr[12] = p2Unit;
 		
 		return arr;
 
