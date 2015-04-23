@@ -101,23 +101,12 @@ public class TestSuiteFinal {
 		
 		final AI greedyturn = new GreedyTurnAI(new HeuristicEvaluator(true), budget);
 		
-		tests.add(new TestCase(new StatisticAi(rolling0), new StatisticAi(greedyturn),
-				runs, "rolling0r1-vs-greedyturn", map(size), deck(size)));
+		tests.add(new TestCase(new StatisticAi(rolling0), new StatisticAi(rolling05),
+				runs, "rolling0r1-vs-rolling05r1", map(size), deck(size)));
 		
-		tests.add(new TestCase(new StatisticAi(rolling05), new StatisticAi(greedyturn),
-				runs, "rolling05r1-vs-greedyturn", map(size), deck(size)));
+		tests.add(new TestCase(new StatisticAi(rolling05), new StatisticAi(rolling1),
+				runs, "rolling05r1-vs-rolling1", map(size), deck(size)));
 		
-		tests.add(new TestCase(new StatisticAi(rolling1), new StatisticAi(greedyturn),
-				runs, "rolling1r1-vs-greedyturn", map(size), deck(size)));
-		
-		tests.add(new TestCase(new StatisticAi(rolling05r2), new StatisticAi(greedyturn),
-				runs, "rolling05r2-vs-greedyturn", map(size), deck(size)));
-		
-		tests.add(new TestCase(new StatisticAi(rolling05r5), new StatisticAi(greedyturn),
-				runs, "rolling05r5-vs-greedyturn", map(size), deck(size)));
-		
-		tests.add(new TestCase(new StatisticAi(rolling05r10), new StatisticAi(greedyturn),
-				runs, "rolling05r10-vs-greedyturn", map(size), deck(size)));
 		
 		for (final TestCase test : tests)
 			test.run();
