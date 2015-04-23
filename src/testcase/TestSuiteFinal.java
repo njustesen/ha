@@ -95,17 +95,26 @@ public class TestSuiteFinal {
 		final RollingHorizonEvolution rolling05r10 = new RollingHorizonEvolution(true, 100, .1, .5, budget, 
 				new RolloutEvaluator(10, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
 		
+		final RollingHorizonEvolution rolling05r50 = new RollingHorizonEvolution(true, 100, .1, .5, budget, 
+				new RolloutEvaluator(50, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
+		
 		// --
 		
 		final AI greedyaction = new GreedyActionAI(new HeuristicEvaluator(true));
 		
 		final AI greedyturn = new GreedyTurnAI(new HeuristicEvaluator(true), budget);
 		
-		tests.add(new TestCase(new StatisticAi(rolling0), new StatisticAi(rolling05),
-				runs, "rolling0r1-vs-rolling05r1", map(size), deck(size)));
+		tests.add(new TestCase(new StatisticAi(rolling05r1), new StatisticAi(rolling05r50),
+				runs, "rolling05r1-vs-rolling05r50", map(size), deck(size)));
 		
-		tests.add(new TestCase(new StatisticAi(rolling05), new StatisticAi(rolling1),
-				runs, "rolling05r1-vs-rolling1", map(size), deck(size)));
+		tests.add(new TestCase(new StatisticAi(rolling05r1), new StatisticAi(rolling05r10),
+				runs, "rolling05r1-vs-rolling05r10", map(size), deck(size)));
+		
+		tests.add(new TestCase(new StatisticAi(rolling05r1), new StatisticAi(rolling05r5),
+				runs, "rolling05r1-vs-rolling05r15", map(size), deck(size)));
+		
+		tests.add(new TestCase(new StatisticAi(rolling05r1), new StatisticAi(rolling05r2),
+				runs, "rolling05r1-vs-rolling05r12", map(size), deck(size)));
 		
 		
 		for (final TestCase test : tests)
