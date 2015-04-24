@@ -61,8 +61,14 @@ public class TestSuiteFinal {
 		if (args[0].equals("mcts-c"))
 			MctsCTests(Integer.parseInt(args[1]), args[2]);
 		
+		if (args[0].equals("mcts-trans"))
+			MctsTransTests(Integer.parseInt(args[1]), args[2]);
+		
 		if (args[0].equals("rolling"))
 			RollingTests(Integer.parseInt(args[1]), args[2]);
+		
+		if (args[0].equals("rolling-para"))
+			RollingParaTests(Integer.parseInt(args[1]), args[2]);
 		
 	}
 	
@@ -123,6 +129,34 @@ public class TestSuiteFinal {
 		
 	}
 
+	private static void RollingParaTests(int runs, String size) {
+		
+		final List<TestCase> tests = new ArrayList<TestCase>();
+		
+		int budget = 1000;
+		
+		final RollingHorizonEvolution rolling05r1_1000 = new RollingHorizonEvolution(true, 100, .1, .5, budget, 
+				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
+		
+		final IslandHorizonEvolution rollingisland05r1_1000 = new IslandHorizonEvolution(true, 100, .1, .5, budget, 
+				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
+		
+		final RollingHorizonEvolution rolling05r1_2000 = new RollingHorizonEvolution(true, 100, .1, .5, budget*2, 
+				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
+		
+		final IslandHorizonEvolution rollingisland05r1_2000 = new IslandHorizonEvolution(true, 100, .1, .5, budget*2, 
+				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
+		
+		tests.add(new TestCase(new StatisticAi(rolling05r1_1000), new StatisticAi(rollingisland05r1_1000),
+				runs, "rolling05r1_1000-vs-rollingisland05r1_1000", map(size), deck(size)));
+		
+		tests.add(new TestCase(new StatisticAi(rolling05r1_2000), new StatisticAi(rollingisland05r1_2000),
+				runs, "rolling05r1_2000-vs-rollingisland05r1_2000", map(size), deck(size)));
+		
+		for (final TestCase test : tests)
+			test.run();
+		
+	}
 
 
 	private static void MctsCTests(int runs, String size) {
@@ -205,6 +239,36 @@ public class TestSuiteFinal {
 		tests.add(new TestCase(new StatisticAi(mcts1305), new StatisticAi(mcts1305parallel),
 				runs, "mcts-c0-05-vs-mcts-c0-05-parallel", map(size), deck(size)));
 		*/
+		for (final TestCase test : tests)
+			test.run();
+
+	}
+	
+	private static void MctsTransTests(int runs, String size) {
+		final List<TestCase> tests = new ArrayList<TestCase>();
+		
+		int budget = 2000;
+		
+		final Mcts mcts14c0 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		mcts14c0.c = 0;
+		
+		final Mcts mcts14c0notrans = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		mcts14c0notrans.c = 0;
+		mcts14c0notrans.useTrans = false;
+		
+		final Mcts mcts14cut05 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(.5), new HeuristicEvaluator(true)));
+		mcts14cut05.cut = true;
+		
+		final Mcts mcts14cut05notrans = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(.5), new HeuristicEvaluator(true)));
+		mcts14cut05notrans.cut = true;
+		mcts14cut05notrans.useTrans = false;
+		
+		tests.add(new TestCase(new StatisticAi(mcts14c0), new StatisticAi(mcts14c0notrans),
+				runs, "mcts14c0-vs-mcts14c0notrans", map(size), deck(size)));
+		
+		tests.add(new TestCase(new StatisticAi(mcts14cut05), new StatisticAi(mcts14cut05notrans),
+				runs, "mcts14cut05-vs-mcts14cut05notrans", map(size), deck(size)));
+		
 		for (final TestCase test : tests)
 			test.run();
 
