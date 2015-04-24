@@ -1,0 +1,66 @@
+########### TEST ###########
+AP: 5
+SAP: 3
+TURN LIMT: 100
+~~~~~~~~~ Player 1 ~~~~~~~~~
+Rolling Horizon Evolution
+Pop. size = 100
+Budget = 1000ms.
+Mut. rate = 0.1
+Kill rate = 0.5
+State evaluator = Rollout Evaluator [depth=1 rolls=1 policy=Random heuristic [prob:0.5] evaluator=Heuristic Evaluator [positional=false, heal=150, spread=50]]
+History = true
+~~~~~~~~~ Player 2 ~~~~~~~~~
+Rolling Horizon Evolution
+Pop. size = 100
+Budget = 1000ms.
+Mut. rate = 0.1
+Kill rate = 0.5
+State evaluator = Rollout Evaluator [depth=1 rolls=50 policy=Random heuristic [prob:0.5] evaluator=Heuristic Evaluator [positional=false, heal=150, spread=50]]
+History = true
+~~~~~~~~~~~ SETUP ~~~~~~~~~~
+Map: a
+Deck Size: STANDARD
+Randomness: false
+Runs: 100
+~~~~~~~~~~ RUNNING ~~~~~~~~~
+~~~~~~~~~~ RESULTS ~~~~~~~~~
+P1 = 68 = 73.0%
+P2 = 22 = 27.0%
+Dr = 10
+~~~~~~~~~~~ STATS ~~~~~~~~~~
+P1 Rolling Horizon Evolution
+Time spend (avg) = 168.7861707200763
+Time spend (std.dev) = 374.80411282993936
+Time spend (min) = 0.0
+Time spend (max) = 1028.0
+Time spend (datapoints) = 20970
+Vists (selected genome) (avg) = 26.650155675063687
+Vists (selected genome) (std.dev) = 256.9673092370533
+Vists (selected genome) (min) = 1.0
+Vists (selected genome) (max) = 5060.0
+Vists (selected genome) (datapoints) = 3533
+Generations (avg) = 344.37305406170395
+Generations (std.dev) = 252.48712253568056
+Generations (min) = 35.0
+Generations (max) = 5060.0
+Generations (datapoints) = 3533
+
+P2 Rolling Horizon Evolution
+Time spend (avg) = 173.80335949464012
+Time spend (std.dev) = 385.8435458997321
+Time spend (min) = 0.0
+Time spend (max) = 1107.0
+Time spend (datapoints) = 20896
+Vists (selected genome) (avg) = 30.58808510638298
+Vists (selected genome) (std.dev) = 336.4655723695258
+Vists (selected genome) (min) = 1.0
+Vists (selected genome) (max) = 6624.0
+Vists (selected genome) (datapoints) = 3525
+Generations (avg) = 45.65645390070922
+Generations (std.dev) = 335.1659011099718
+Generations (min) = 9.0
+Generations (max) = 6624.0
+Generations (datapoints) = 3525
+
+############################
