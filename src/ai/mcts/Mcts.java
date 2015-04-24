@@ -50,6 +50,8 @@ public class Mcts implements AI {
 	private int initTurn;
 	
 	public Map<Integer, Double> fitnesses;
+
+	public boolean useTrans;
 	
 	public Mcts(long budget, IStateEvaluator defaultPolicy) {
 		this.budget = budget;
@@ -69,6 +71,7 @@ public class Mcts implements AI {
 		lastState = 0;
 		initTurn = 0;
 		resetRoot = true;
+		useTrans = true;
 		this.fitnesses = new HashMap<Integer, Double>();
 	}
 
@@ -295,9 +298,9 @@ public class Mcts implements AI {
 		}
 		final Long hash = clone.hash();
 		MctsNode result = null;
-		if (transTable.containsKey(hash))
+		if (transTable.containsKey(hash) && useTrans){
 			result = transTable.get(hash);
-		else {
+		}else {
 			result = new MctsNode(actions(clone));
 			if (edge.action == SingletonAction.endTurnAction)
 				ends++;
