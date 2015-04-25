@@ -70,8 +70,101 @@ public class TestSuiteFinal {
 		if (args[0].equals("rolling-para"))
 			RollingParaTests(Integer.parseInt(args[1]), args[2]);
 		
+		if (args[0].equals("rolling-greedy"))
+			RollingGreedy(Integer.parseInt(args[1]), args[2]);
+		
+		if (args[0].equals("mcts-greedy"))
+			MctsGreedy(Integer.parseInt(args[1]), args[2]);
+		
 	}
 	
+	private static void MctsGreedy(int runs, String size) {
+		
+		final List<TestCase> tests = new ArrayList<TestCase>();
+		
+		int budget = 3000;
+		
+		final Mcts mcts14c0_3000 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		mcts14c0_3000.c = 0;
+		
+		final Mcts mcts14c0_1500 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		mcts14c0_1500.c = 0;
+		
+		final Mcts mcts14c0_750 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		mcts14c0_750.c = 0;
+		
+		final Mcts mcts14c0_375 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		mcts14c0_375.c = 0;
+		
+		final Mcts mcts14c0_87_5 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		mcts14c0_87_5.c = 0;
+		
+		final AI greedyaction = new GreedyActionAI(new HeuristicEvaluator(true));
+		
+		tests.add(new TestCase(new StatisticAi(mcts14c0_3000), new StatisticAi(greedyaction),
+				runs, "mcts14c0_3000-vs-greedyaction", map(size), deck(size)));
+		
+		tests.add(new TestCase(new StatisticAi(mcts14c0_1500), new StatisticAi(greedyaction),
+				runs, "mcts14c0_1500-vs-greedyaction", map(size), deck(size)));
+		
+		tests.add(new TestCase(new StatisticAi(mcts14c0_750), new StatisticAi(greedyaction),
+				runs, "mcts14c0_750-vs-greedyaction", map(size), deck(size)));
+		
+		tests.add(new TestCase(new StatisticAi(mcts14c0_375), new StatisticAi(greedyaction),
+				runs, "mcts14c0_375-vs-greedyaction", map(size), deck(size)));
+		
+		tests.add(new TestCase(new StatisticAi(mcts14c0_87_5), new StatisticAi(greedyaction),
+				runs, "mcts14c0_87_5-vs-greedyaction", map(size), deck(size)));
+		
+		
+		for (final TestCase test : tests)
+			test.run();
+		
+	}
+
+	private static void RollingGreedy(int runs, String size) {
+		
+		final List<TestCase> tests = new ArrayList<TestCase>();
+		
+		int budget = 3000;
+		
+		final IslandHorizonEvolution rollingisland_3000 = new IslandHorizonEvolution(true, 100, .1, .5, budget, 
+				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
+		
+		final IslandHorizonEvolution rollingisland_1500 = new IslandHorizonEvolution(true, 100, .1, .5, budget/2, 
+				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
+		
+		final IslandHorizonEvolution rollingisland_750 = new IslandHorizonEvolution(true, 100, .1, .5, budget/4, 
+				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
+		
+		final IslandHorizonEvolution rollingisland_375 = new IslandHorizonEvolution(true, 100, .1, .5, budget/8, 
+				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
+		
+		final IslandHorizonEvolution rollingisland_187_5 = new IslandHorizonEvolution(true, 100, .1, .5, budget/16, 
+				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
+		
+		final AI greedyaction = new GreedyActionAI(new HeuristicEvaluator(true));
+		
+		tests.add(new TestCase(new StatisticAi(rollingisland_3000), new StatisticAi(greedyaction),
+				runs, "rollingisland_3000-vs-greedyaction", map(size), deck(size)));
+		
+		tests.add(new TestCase(new StatisticAi(rollingisland_1500), new StatisticAi(greedyaction),
+				runs, "rollingisland_1500-vs-greedyaction", map(size), deck(size)));
+		
+		tests.add(new TestCase(new StatisticAi(rollingisland_750), new StatisticAi(greedyaction),
+				runs, "rollingisland_750-vs-greedyaction", map(size), deck(size)));
+		
+		tests.add(new TestCase(new StatisticAi(rollingisland_375), new StatisticAi(greedyaction),
+				runs, "rollingisland_375-vs-greedyaction", map(size), deck(size)));
+		
+		tests.add(new TestCase(new StatisticAi(rollingisland_187_5), new StatisticAi(greedyaction),
+				runs, "rollingisland_187_5-vs-greedyaction", map(size), deck(size)));
+		
+		for (final TestCase test : tests)
+			test.run();
+		
+	}
+
 	private static void RollingTests(int runs, String size) {
 		
 		final List<TestCase> tests = new ArrayList<TestCase>();
