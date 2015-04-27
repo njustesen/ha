@@ -36,13 +36,14 @@ public class NeatTrainer {
 	private static final int GENERATIONS = 50000;
 	private static final int MATCHES = 20;
 	private static Random random;
-	private static GameArguments gameArgs = new GameArguments(false, null, null, "a-tiny", DECK_SIZE.SMALL);
+	private static GameArguments gameArgs = new GameArguments(false, null, null, "a-tiny", DECK_SIZE.TINY);
 
 	private static final double step = 0.05;
 	
-	private static double level = 0.8;
-	//private static final String pop_file = "";
-	private static final String pop_file = "pop_1122";
+	private static double level = 0.0;
+	private static final String pop_file = "";
+	//private static final String pop_file = "pop_1122";
+	private static final boolean SIMPLE = false;
 																																											
 	public static void main(String[] args) throws Exception{
 		//gameArgs.sleep = 200;
@@ -53,13 +54,23 @@ public class NeatTrainer {
 		Neat.p_survival_thresh = 0.9;
 		Neat.p_compat_threshold = 0.2;
 		
+		int inputs = 5;
+		if (!SIMPLE){
+			int squares = 0;
+			if (gameArgs.mapName.equals("a-small"))
+				squares = 7*4;
+			else if (gameArgs.mapName.equals("a-small"))
+				squares = 5*3;
+			inputs = squares * 13 + 5 + 10;
+		}
+		
 		Population pop = null;
 		int gen = 1;
 		if (pop_file != ""){
 			pop = new Population(pop_file);
 			gen = Integer.parseInt(pop_file.split("_")[1]) + 1;
 		} else {
-			pop = new Population(POP_SIZE, 5, 1, 10, RECURRENT, PROP_LINK);
+			pop = new Population(POP_SIZE, inputs, 1, 10, RECURRENT, PROP_LINK);
 		}
 		
 		random = new Random();
@@ -144,7 +155,7 @@ public class NeatTrainer {
 
 	private static void saveStats(double best, double mean, int gen, double level) {
 		
-		try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("neat-stats", true)))) {
+		try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("neat-stats" + "-" + gameArgs.mapName + "-simple" + SIMPLE, true)))) {
 			out.println(gen+"\t"+best+"\t"+mean + "\t" + level);
 		}catch (IOException e) {
 		    System.out.println("could not save to neat-stats");
@@ -161,7 +172,7 @@ public class NeatTrainer {
 		for(int i = 0; i < runs; i++){
 			if (i != 0)
 				game.state = new GameState(game.state.map);
-			game.player1 = new NaiveNeatAI(net, false);
+			game.player1 = new NaiveNeatAI(net, false, SIMPLE);
 			game.player2 = randomSwitch;
 			
 			game.run();
@@ -184,8 +195,8 @@ public class NeatTrainer {
 			Organism other = null;
 			while(other == null || other.getNet().equals(net))
 				other = (Organism) organisms.get(random.nextInt(organisms.size()));
-			game.player1 = new NaiveNeatAI(net, false);
-			game.player2 = new NaiveNeatAI(other.getNet(), false);
+			game.player1 = new NaiveNeatAI(net, false, SIMPLE);
+			game.player2 = new NaiveNeatAI(other.getNet(), false, SIMPLE);
 			game.run();
 			double val = game.state.getWinner();
 			sum += score(1, val);
