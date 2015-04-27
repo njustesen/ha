@@ -1,0 +1,45 @@
+########### TEST ###########
+AP: 5
+SAP: 3
+TURN LIMT: 100
+~~~~~~~~~ Player 1 ~~~~~~~~~
+Parallelized (island) Rolling Horizon Evolution
+Pop. size = 100
+Budget = 750ms.
+Mut. rate = 0.1
+Kill rate = 0.5
+State evaluator = Rollout Evaluator [depth=1 rolls=1 policy=Random heuristic [prob:0.5] evaluator=Heuristic Evaluator [positional=false, heal=150, spread=50]]
+History = true
+Threads = 4
+~~~~~~~~~ Player 2 ~~~~~~~~~
+GreedyTurn
+State evaluatior = Heuristic Evaluator [positional=false, heal=150, spread=50]
+Parallelized = true
+Processors = 4
+Budget = 3000 ms.
+~~~~~~~~~~~ SETUP ~~~~~~~~~~
+Map: a
+Deck Size: STANDARD
+Randomness: false
+Runs: 100
+~~~~~~~~~~ RUNNING ~~~~~~~~~
+~~~~~~~~~~ RESULTS ~~~~~~~~~
+P1 = 83 = 85.0%
+P2 = 13 = 15.0%
+Dr = 4
+~~~~~~~~~~~ STATS ~~~~~~~~~~
+P1 Parallelized (island) Rolling Horizon Evolution
+Time spend (avg) = 127.29303530936184
+Time spend (std.dev) = 282.6825446153824
+Time spend (min) = 0.0
+Time spend (max) = 790.0
+Time spend (datapoints) = 15435
+
+P2 GreedyTurn
+Time spend (avg) = 401.61691248770893
+Time spend (std.dev) = 997.9453906088373
+Time spend (min) = 0.0
+Time spend (max) = 3136.0
+Time spend (datapoints) = 15255
+
+############################
