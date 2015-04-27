@@ -76,8 +76,31 @@ public class TestSuiteFinal {
 		if (args[0].equals("mcts-greedy"))
 			MctsGreedy(Integer.parseInt(args[1]), args[2]);
 		
+		if (args[0].equals("mcts-vs-rolling"))
+			MctsVsRolling(Integer.parseInt(args[1]), args[2]);
+		
 	}
 	
+	private static void MctsVsRolling(int runs, String size) {
+		
+		final List<TestCase> tests = new ArrayList<TestCase>();
+		
+		int budget = 6000;
+		
+		final Mcts mcts = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		mcts.c = 0;
+		
+		final IslandHorizonEvolution rollingisland = new IslandHorizonEvolution(true, 100, .1, .5, budget, 
+				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
+		
+		tests.add(new TestCase(new StatisticAi(mcts), new StatisticAi(rollingisland),
+				runs, "mcts-vs-rollingisland", map(size), deck(size)));
+		
+		for (final TestCase test : tests)
+			test.run();
+		
+	}
+
 	private static void MctsGreedy(int runs, String size) {
 		
 		final List<TestCase> tests = new ArrayList<TestCase>();
