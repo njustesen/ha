@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
+import sun.java2d.pipe.SpanShapeRenderer.Simple;
 import ui.UI;
 import model.DECK_SIZE;
 import ai.GreedyActionAI;
@@ -37,6 +38,7 @@ public class NeatTester {
 	//private static final String pop_file = "";
 	private static final String pop_file = "pop_1000";
 	//private static final String pop_file = "pop_473";
+	private static final boolean SIMPLE = false;
 	
 	public static void main(String[] args) throws Exception{
 		//gameArgs.sleep = 200;
@@ -72,7 +74,7 @@ public class NeatTester {
 		Game game = new Game(new GameState(null), gameArgs);
 		
 		game.state = new GameState(game.state.map);
-		game.player1 = new NaiveNeatAI(net, true);
+		game.player1 = new NaiveNeatAI(net, true, SIMPLE);
 		//game.player2 = new RandomHeuristicAI(1);
 		game.gameArgs.sleep = 500;
 		//game.ui = new UI(game.state, false, true);

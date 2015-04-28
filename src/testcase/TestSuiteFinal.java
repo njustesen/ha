@@ -79,8 +79,79 @@ public class TestSuiteFinal {
 		if (args[0].equals("mcts-vs-rolling"))
 			MctsVsRolling(Integer.parseInt(args[1]), args[2]);
 		
+		if (args[0].equals("last-time"))
+			LastTime(Integer.parseInt(args[1]), args[2]);
+		
+		if (args[0].equals("greedyturn"))
+			GreedyTurn(Integer.parseInt(args[1]), args[2]);
+		
 	}
 	
+	
+	
+	private static void GreedyTurn(int runs, String size) {
+		
+		final List<TestCase> tests = new ArrayList<TestCase>();
+		
+		int budget = 6000;
+		
+		final Mcts mcts = new Mcts(budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		mcts.c = 0;
+		
+		final IslandHorizonEvolution rollingisland = new IslandHorizonEvolution(true, 100, .1, .5, budget, 
+				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
+		
+		final AI greedtyurn = new GreedyTurnAI(new HeuristicEvaluator(true), budget);
+		
+		tests.add(new TestCase(new StatisticAi(mcts), new StatisticAi(greedtyurn),
+				runs, "mcts-vs-greedtyurn", map(size), deck(size)));
+		
+		tests.add(new TestCase(new StatisticAi(rollingisland), new StatisticAi(greedtyurn),
+				runs, "rollingisland-vs-greedtyurn", map(size), deck(size)));
+		
+		for (final TestCase test : tests)
+			test.run();
+	}
+
+
+
+	private static void LastTime(int runs, String size) {
+		
+		final List<TestCase> tests = new ArrayList<TestCase>();
+		
+		int budget = 3000;
+		
+		final Mcts mcts_93_75 = new Mcts(budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		mcts_93_75.c = 0;
+		
+		final Mcts mcts_46_875 = new Mcts(budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		mcts_46_875.c = 0;
+		
+		final IslandHorizonEvolution rollingisland_93_75 = new IslandHorizonEvolution(true, 100, .1, .5, budget/32, 
+				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
+		
+		final IslandHorizonEvolution rollingisland_46_875 = new IslandHorizonEvolution(true, 100, .1, .5, budget/46_875, 
+				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
+		
+		final AI greedtyurn = new GreedyTurnAI(new HeuristicEvaluator(true), 3000);
+		
+		tests.add(new TestCase(new StatisticAi(mcts_93_75), new StatisticAi(greedtyurn),
+				runs, "mcts_93_75-vs-greedtyurn", map(size), deck(size)));
+		
+		tests.add(new TestCase(new StatisticAi(mcts_46_875), new StatisticAi(greedtyurn),
+				runs, "mcts_46_875-vs-greedtyurn", map(size), deck(size)));
+		
+		tests.add(new TestCase(new StatisticAi(rollingisland_93_75), new StatisticAi(greedtyurn),
+				runs, "rollingisland_93_75-vs-greedtyurn", map(size), deck(size)));
+		
+		tests.add(new TestCase(new StatisticAi(rollingisland_46_875), new StatisticAi(greedtyurn),
+				runs, "rollingisland_46_875-vs-greedtyurn", map(size), deck(size)));
+		
+		for (final TestCase test : tests)
+			test.run();
+		
+	}
+
 	private static void MctsVsRolling(int runs, String size) {
 		
 		final List<TestCase> tests = new ArrayList<TestCase>();
@@ -119,8 +190,8 @@ public class TestSuiteFinal {
 		final Mcts mcts14c0_375 = new Mcts(budget/8, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
 		mcts14c0_375.c = 0;
 		
-		final Mcts mcts14c0_87_5 = new Mcts(budget/16, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
-		mcts14c0_87_5.c = 0;
+		final Mcts mcts14c0_187_5 = new Mcts(budget/16, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		mcts14c0_187_5.c = 0;
 		
 		final AI greedtyurn = new GreedyTurnAI(new HeuristicEvaluator(true), 3000);
 		
@@ -136,7 +207,7 @@ public class TestSuiteFinal {
 		tests.add(new TestCase(new StatisticAi(mcts14c0_375), new StatisticAi(greedtyurn),
 				runs, "mcts14c0_375-vs-greedtyurn_3000", map(size), deck(size)));
 		
-		tests.add(new TestCase(new StatisticAi(mcts14c0_87_5), new StatisticAi(greedtyurn),
+		tests.add(new TestCase(new StatisticAi(mcts14c0_187_5), new StatisticAi(greedtyurn),
 				runs, "mcts14c0_87_5-vs-greedtyurn_3000", map(size), deck(size)));
 		
 		
