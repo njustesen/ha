@@ -121,10 +121,10 @@ public class TestSuiteFinal {
 		
 		int budget = 3000;
 		
-		final Mcts mcts_93_75 = new Mcts(budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		final Mcts mcts_93_75 = new Mcts(budget/32, new RolloutEvaluator(1, 1, new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
 		mcts_93_75.c = 0;
 		
-		final Mcts mcts_46_875 = new Mcts(budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		final Mcts mcts_46_875 = new Mcts(budget/64, new RolloutEvaluator(1, 1, new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
 		mcts_46_875.c = 0;
 		
 		final IslandHorizonEvolution rollingisland_93_75 = new IslandHorizonEvolution(true, 100, .1, .5, budget/32, 
