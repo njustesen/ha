@@ -1,0 +1,66 @@
+########### TEST ###########
+AP: 5
+SAP: 3
+TURN LIMT: 100
+~~~~~~~~~ Player 1 ~~~~~~~~~
+MCTS
+Time budget = 6000
+C = 0.0
+Leaf evaluation = Rollout Evaluator [depth=1 rolls=1 policy=Random heuristic [prob:1.0] evaluator=Heuristic Evaluator [positional=false, heal=150, spread=50]]
+Cut = false
+Collapse = false
+~~~~~~~~~ Player 2 ~~~~~~~~~
+Parallelized (island) Rolling Horizon Evolution
+Pop. size = 100
+Budget = 6000ms.
+Mut. rate = 0.1
+Kill rate = 0.5
+State evaluator = Rollout Evaluator [depth=1 rolls=1 policy=Random heuristic [prob:0.5] evaluator=Heuristic Evaluator [positional=false, heal=150, spread=50]]
+History = true
+Threads = 4
+~~~~~~~~~~~ SETUP ~~~~~~~~~~
+Map: a
+Deck Size: STANDARD
+Randomness: false
+Runs: 100
+~~~~~~~~~~ RUNNING ~~~~~~~~~
+~~~~~~~~~~ RESULTS ~~~~~~~~~
+P1 = 42 = 42.5%
+P2 = 57 = 57.49999999999999%
+Dr = 1
+~~~~~~~~~~~ STATS ~~~~~~~~~~
+P1 MCTS
+Time spend (avg) = 1271.4946492271106
+Time spend (std.dev) = 2940.651617675491
+Time spend (min) = 0.0
+Time spend (max) = 24025.0
+Time spend (datapoints) = 16820
+Iterations (avg) = 162806.3520282187
+Iterations (std.dev) = 242929.0589028721
+Iterations (min) = 37374.0
+Iterations (max) = 3654635.0
+Iterations (datapoints) = 2835
+Max. depths (avg) = 23.02821869488536
+Max. depths (std.dev) = 9.771421861056888
+Max. depths (min) = 0.0
+Max. depths (max) = 101.0
+Max. depths (datapoints) = 2835
+Avg. depths (avg) = 12.723130535630204
+Avg. depths (std.dev) = 5.124120872511337
+Avg. depths (min) = 0.0
+Avg. depths (max) = 55.41513264489429
+Avg. depths (datapoints) = 2835
+Min. depths (avg) = 1.0617283950617284
+Min. depths (std.dev) = 0.42171963858423567
+Min. depths (min) = 0.0
+Min. depths (max) = 5.0
+Min. depths (datapoints) = 2835
+
+P2 Parallelized (island) Rolling Horizon Evolution
+Time spend (avg) = 1012.8496311596341
+Time spend (std.dev) = 2249.1206125821072
+Time spend (min) = 0.0
+Time spend (max) = 6437.0
+Time spend (datapoints) = 16945
+
+############################
