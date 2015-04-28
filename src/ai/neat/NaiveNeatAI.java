@@ -8,8 +8,11 @@ import ai.neat.jneat.Network;
 
 public class NaiveNeatAI extends NeatAI{
 	
-	public NaiveNeatAI(Network net, boolean debug) {
+	boolean simple;
+	
+	public NaiveNeatAI(Network net, boolean debug, boolean simple) {
 		super(net, debug);
+		simple = simple;
 	}
 	
 	public double[] stateToArray(GameState state) {
@@ -18,6 +21,8 @@ public class NaiveNeatAI extends NeatAI{
 		//int inputs = 180;
 		//int inputs = 323;
 		int inputs = 5;
+		if (!simple)
+			inputs = state.map.width * state.map.height * 13 + 5 + 10;
 		double[] arr = new double[inputs];
 		
 		// BASE
