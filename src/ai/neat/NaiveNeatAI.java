@@ -12,7 +12,7 @@ public class NaiveNeatAI extends NeatAI{
 	
 	public NaiveNeatAI(Network net, boolean debug, boolean simple) {
 		super(net, debug);
-		simple = simple;
+		this.simple = simple;
 	}
 	
 	public double[] stateToArray(GameState state) {

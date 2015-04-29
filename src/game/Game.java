@@ -37,15 +37,14 @@ public class Game {
 	
 	private static String[] origArgs;
 	private static int budget = 6000;
+	private static String map = "a-small";
 	
 	public static void main(String[] args) {
 		
 		System.out.println("args "+args.length);
 		
 		if (PLAY_TEST)
-			args = ("p1 human p2 islandrolling 1 " + budget + " sleep 400").split(" ");
-		
-		//args = ("p1 human p2 islandrolling 1 sleep 500").split(" ");
+			args = ("map " + map + " p1 human p2 islandrolling " + budget + " sleep 400").split(" ");
 		
 		origArgs = args;
 		

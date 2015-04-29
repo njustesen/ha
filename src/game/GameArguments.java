@@ -8,6 +8,7 @@ import ai.HeuristicAI;
 import ai.HybridAI;
 import ai.NmSearchAI;
 import ai.RandomAI;
+import ai.RandomHeuristicAI;
 import ai.RandomSwitchAI;
 import ai.evaluation.HeuristicEvaluator;
 import ai.evaluation.LeafParallelizer;
@@ -48,7 +49,7 @@ public class GameArguments {
 		this.mapName = mapName;
 		p = -1;
 		this.gfx = gfx;
-		sleep = 40;
+		sleep = gfx ? 40 : 0;
 		this.deckSize = deckSize;
 	}
 
@@ -59,7 +60,7 @@ public class GameArguments {
 		this.mapName = mapName;
 		p = -1;
 		this.gfx = gfx;
-		sleep = 40;
+		sleep = gfx ? 40 : 0;
 		this.deckSize = deckSize;
 		setAP(ap);
 	}
@@ -182,9 +183,8 @@ public class GameArguments {
 							1, 1, new RandomHeuristicAI(0.5),
 							new HeuristicEvaluator(true), false));
 					*/
-					players[p] = new Mcts(t, new RolloutEvaluator(
-							1, 10, randomSwitch,
-							new MaterialBalanceEvaluator(true), false));
+					players[p] = new Mcts(t, new RolloutEvaluator(1, 1, new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+					((Mcts)players[p]).c = 0;
 				}
 				if (args[a].toLowerCase().equals("rolling")){
 					a++;
@@ -200,10 +200,9 @@ public class GameArguments {
 				}
 				if (args[a].toLowerCase().equals("islandrolling")){
 					a++;
-					int rolls = Integer.parseInt(args[a]);
-					a++;
 					int budget = Integer.parseInt(args[a]);
-					IslandHorizonEvolution rolling = new IslandHorizonEvolution(true, 100, .33, .66, budget, new RolloutEvaluator(rolls, 1, randomSwitch, new HeuristicEvaluator(false)));
+					IslandHorizonEvolution rolling = new IslandHorizonEvolution(true, 100, .1, .5, budget, 
+							new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
 					players[p] = rolling;
 				}
 				if (args[a].toLowerCase().equals("hybrid")){
