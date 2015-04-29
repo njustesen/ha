@@ -156,11 +156,11 @@ public class TestSuiteFinal {
 		final IslandHorizonEvolution rollingisland_93_75 = new IslandHorizonEvolution(true, 100, .1, .5, budget/32, 
 				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
 		
-		final IslandHorizonEvolution rollingisland_46_875 = new IslandHorizonEvolution(true, 100, .1, .5, budget/46_875, 
+		final IslandHorizonEvolution rollingisland_46_875 = new IslandHorizonEvolution(true, 100, .1, .5, budget/64, 
 				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
 		
 		final AI greedtyurn = new GreedyTurnAI(new HeuristicEvaluator(true), 3000);
-		
+		/*
 		tests.add(new TestCase(new StatisticAi(mcts_93_75), new StatisticAi(greedtyurn),
 				runs, "mcts_93_75-vs-greedtyurn", map(size), deck(size)));
 		
@@ -169,7 +169,7 @@ public class TestSuiteFinal {
 		
 		tests.add(new TestCase(new StatisticAi(rollingisland_93_75), new StatisticAi(greedtyurn),
 				runs, "rollingisland_93_75-vs-greedtyurn", map(size), deck(size)));
-		
+		*/
 		tests.add(new TestCase(new StatisticAi(rollingisland_46_875), new StatisticAi(greedtyurn),
 				runs, "rollingisland_46_875-vs-greedtyurn", map(size), deck(size)));
 		
