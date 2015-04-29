@@ -147,31 +147,37 @@ public class TestSuiteFinal {
 		
 		int budget = 3000;
 		
-		final Mcts mcts_93_75 = new Mcts(budget/32, new RolloutEvaluator(1, 1, new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
-		mcts_93_75.c = 0;
+		final Mcts mcts_23_4375 = new Mcts(budget/32, new RolloutEvaluator(1, 1, new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		mcts_23_4375.c = 0;
 		
-		final Mcts mcts_46_875 = new Mcts(budget/64, new RolloutEvaluator(1, 1, new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
-		mcts_46_875.c = 0;
-		
-		final IslandHorizonEvolution rollingisland_93_75 = new IslandHorizonEvolution(true, 100, .1, .5, budget/32, 
-				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
+		final Mcts mcts_11_71875 = new Mcts(budget/64, new RolloutEvaluator(1, 1, new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		mcts_11_71875.c = 0;
 		
 		final IslandHorizonEvolution rollingisland_46_875 = new IslandHorizonEvolution(true, 100, .1, .5, budget/64, 
 				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
 		
+		final IslandHorizonEvolution rollingisland_23_4375 = new IslandHorizonEvolution(true, 100, .1, .5, budget/128, 
+				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
+		
+		final IslandHorizonEvolution rollingisland_11_71875 = new IslandHorizonEvolution(true, 100, .1, .5, budget/256, 
+				new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
+		
 		final AI greedtyurn = new GreedyTurnAI(new HeuristicEvaluator(true), 3000);
-		/*
-		tests.add(new TestCase(new StatisticAi(mcts_93_75), new StatisticAi(greedtyurn),
-				runs, "mcts_93_75-vs-greedtyurn", map(size), deck(size)));
 		
-		tests.add(new TestCase(new StatisticAi(mcts_46_875), new StatisticAi(greedtyurn),
-				runs, "mcts_46_875-vs-greedtyurn", map(size), deck(size)));
+		tests.add(new TestCase(new StatisticAi(mcts_23_4375), new StatisticAi(greedtyurn),
+				runs, "mcts_23_4375-vs-greedtyurn", map(size), deck(size)));
 		
-		tests.add(new TestCase(new StatisticAi(rollingisland_93_75), new StatisticAi(greedtyurn),
-				runs, "rollingisland_93_75-vs-greedtyurn", map(size), deck(size)));
-		*/
+		tests.add(new TestCase(new StatisticAi(mcts_11_71875), new StatisticAi(greedtyurn),
+				runs, "mcts_11_71875-vs-greedtyurn", map(size), deck(size)));
+		
 		tests.add(new TestCase(new StatisticAi(rollingisland_46_875), new StatisticAi(greedtyurn),
 				runs, "rollingisland_46_875-vs-greedtyurn", map(size), deck(size)));
+		
+		tests.add(new TestCase(new StatisticAi(rollingisland_23_4375), new StatisticAi(greedtyurn),
+				runs, "rollingisland_23_4375-vs-greedtyurn", map(size), deck(size)));
+		
+		tests.add(new TestCase(new StatisticAi(rollingisland_11_71875), new StatisticAi(greedtyurn),
+				runs, "rollingisland_11_71875-vs-greedtyurn", map(size), deck(size)));
 		
 		for (final TestCase test : tests)
 			test.run();

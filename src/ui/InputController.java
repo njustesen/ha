@@ -95,7 +95,9 @@ public class InputController implements MouseListener, KeyListener,
 
 			// End turn
 			final int buttonWidth = 90;
-			final int buttonStart = ui.getWidth() - 24 - squareSize*2;
+			int buttonStart = ui.getWidth() - 24 - squareSize*2;
+			if (state.map.width < 9)
+				buttonStart = (int) (ui.getWidth() - squareSize*1.5);
 			final int buttonHeight = 64;
 			if (arg0.getX() >= buttonStart
 					&& arg0.getX() <= buttonStart + buttonWidth
@@ -111,7 +113,9 @@ public class InputController implements MouseListener, KeyListener,
 
 			// Undo turn
 			final int undoWidth = 90 - 24;
-			final int undoStart = squareSize + 24;
+			int undoStart = squareSize + 24;
+			if (state.map.width < 9)
+				undoStart = squareSize;
 			final int undoHeight = 64;
 			if (arg0.getX() >= undoStart
 					&& arg0.getX() <= undoStart + undoWidth

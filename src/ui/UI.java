@@ -579,10 +579,16 @@ public class UI extends JComponent {
 			final int w = 158;
 			final int h = 15;
 			int xx = 132;
+			if(state.map.width < 9)
+				xx = 100;
 			final int border = 2;
 			final double per = (hp / maxHP);
-			if (p == 2)
-				xx = 411 + (int) ((w - border * 2) - ((w - border * 2) * per));
+			if (p == 2){
+				if (state.map.width == 9)
+					xx = 411 + (int) ((w - border * 2) - ((w - border * 2) * per));
+				else
+					xx = 411 - 32 + (int) ((w - border * 2) - ((w - border * 2) * per));
+			}
 			final int yy = 8;
 			// g.setColor(new Color(10,10,10));
 			// g.fillRect(xx, yy, w, h);
@@ -689,6 +695,7 @@ public class UI extends JComponent {
 				squareSize + image.getHeight() - 6);
 
 		image = ImageLib.lib.get("door-2");
+		
 		g.drawImage(image, width - image.getWidth() - squareSize / 8,
 				squareSize, null, null);
 
@@ -708,7 +715,11 @@ public class UI extends JComponent {
 			//if (state.APLeft != 0)
 			//	image = ImageLib.lib.get("go-inactive");
 		}
-		g.drawImage(image, this.getWidth() - 24 - squareSize*2, bottom, null);
+		
+		if (state.map.width == 9)
+			g.drawImage(image, this.getWidth() - 24 - squareSize*2, bottom, null);
+		else
+			g.drawImage(image, (int) (this.getWidth() - squareSize*1.5), bottom, null);
 	}
 
 	private void paintAP(Graphics g) throws IOException {
@@ -723,7 +734,10 @@ public class UI extends JComponent {
 		if (image == null)
 			System.out.println(state.APLeft);
 			
-		g.drawImage(image, squareSize + squareSize / 4, bottom + (squareSize - image.getHeight()) / 2, null, null);
+		if (state.map.width == 9)
+			g.drawImage(image, squareSize + squareSize / 4, bottom + (squareSize - image.getHeight()) / 2, null, null);
+		else
+			g.drawImage(image, squareSize, bottom + (squareSize - image.getHeight()) / 2, null, null);
 		
 	}
 

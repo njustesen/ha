@@ -17,7 +17,6 @@ import java.util.Vector;
 import ui.UI;
 import model.DECK_SIZE;
 import ai.GreedyActionAI;
-import ai.HeuristicAI;
 import ai.RandomAI;
 import ai.RandomSwitchAI;
 import ai.evaluation.HeuristicEvaluator;
@@ -36,7 +35,7 @@ public class NeatTrainer {
 	private static final int GENERATIONS = 50000;
 	private static final int MATCHES = 20;
 	private static Random random;
-	private static GameArguments gameArgs = new GameArguments(false, null, null, "a-tiny", DECK_SIZE.TINY);
+	private static GameArguments gameArgs = new GameArguments(true, null, null, "a-tiny", DECK_SIZE.TINY);
 
 	private static final double step = 0.05;
 	
@@ -59,7 +58,7 @@ public class NeatTrainer {
 			int squares = 0;
 			if (gameArgs.mapName.equals("a-small"))
 				squares = 7*4;
-			else if (gameArgs.mapName.equals("a-small"))
+			else if (gameArgs.mapName.equals("a-tiny"))
 				squares = 5*3;
 			inputs = squares * 13 + 5 + 10;
 		}
@@ -84,7 +83,7 @@ public class NeatTrainer {
 		double c = 0;
 		int g = gen;
 		for (; gen <= g + GENERATIONS; gen++) {
-			System.out.println("\n---------------- Generation ----------------------" + gen);
+			System.out.println("\n---------------- Generation ---------------------- " + gen);
 			bestFitness = -1;
 			
 			Iterator itr_organism = pop.getOrganisms().iterator();
@@ -100,8 +99,10 @@ public class NeatTrainer {
 					bestFitness = fitness;
 					bestNet = organism.net;
 				}
+				System.out.print("|");
 			}
 			
+			System.out.println("\nDone");
 			avg = sum / c;
 			
 			//compute average and max fitness for each species
@@ -163,7 +164,7 @@ public class NeatTrainer {
 		
 	}
 	
-	private static RandomSwitchAI randomSwitch = new RandomSwitchAI(level, new RandomAI(RAND_METHOD.TREE), new GreedyActionAI(new HeuristicEvaluator(false)));
+	private static RandomSwitchAI randomSwitch = new RandomSwitchAI(level, new RandomAI(RAND_METHOD.BRUTE), new GreedyActionAI(new HeuristicEvaluator(false)));
 	
 	private static double fitnessVsPseudoRandom(Network net, int runs) {
 		randomSwitch.prob = level;
