@@ -1,0 +1,39 @@
+########### TEST ###########
+AP: 5
+SAP: 3
+TURN LIMT: 100
+~~~~~~~~~ Player 1 ~~~~~~~~~
+GreedyTurn
+State evaluatior = Heuristic Evaluator [positional=false, heal=150, spread=50]
+Parallelized = true
+Processors = 4
+Budget = 6000 ms.
+~~~~~~~~~ Player 2 ~~~~~~~~~
+Random
+Randomization method = tree
+~~~~~~~~~~~ SETUP ~~~~~~~~~~
+Map: a
+Deck Size: STANDARD
+Randomness: false
+Runs: 100
+~~~~~~~~~~ RUNNING ~~~~~~~~~
+~~~~~~~~~~ RESULTS ~~~~~~~~~
+P1 = 100 = 100.0%
+P2 = 0 = 0.0%
+Dr = 0
+~~~~~~~~~~~ STATS ~~~~~~~~~~
+P1 GreedyTurn
+Time spend (avg) = 829.8022202373357
+Time spend (std.dev) = 2034.5085324636325
+Time spend (min) = 0.0
+Time spend (max) = 6330.0
+Time spend (datapoints) = 7837
+
+P2 Random
+Time spend (avg) = 0.022911219026273192
+Time spend (std.dev) = 0.1496205035047173
+Time spend (min) = 0.0
+Time spend (max) = 1.0
+Time spend (datapoints) = 8031
+
+############################

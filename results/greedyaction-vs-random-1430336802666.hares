@@ -1,0 +1,46 @@
+########### TEST ###########
+AP: 5
+SAP: 3
+TURN LIMT: 100
+~~~~~~~~~ Player 1 ~~~~~~~~~
+GreedyAction
+State evaluatior = Heuristic Evaluator [positional=false, heal=150, spread=50]
+~~~~~~~~~ Player 2 ~~~~~~~~~
+Random
+Randomization method = tree
+~~~~~~~~~~~ SETUP ~~~~~~~~~~
+Map: a
+Deck Size: STANDARD
+Randomness: false
+Runs: 100
+~~~~~~~~~~ RUNNING ~~~~~~~~~
+~~~~~~~~~~ RESULTS ~~~~~~~~~
+P1 = 100 = 100.0%
+P2 = 0 = 0.0%
+Dr = 0
+~~~~~~~~~~~ STATS ~~~~~~~~~~
+P1 GreedyAction
+Time spend (avg) = 0.5868335146898803
+Time spend (std.dev) = 0.5478424250306808
+Time spend (min) = 0.0
+Time spend (max) = 10.0
+Time spend (datapoints) = 9190
+Branching factor (avg) = 33.514004991878295
+Branching factor (std.dev) = 21.115797841315562
+Branching factor (min) = 0.0
+Branching factor (max) = 119.0
+Branching factor (datapoints) = 25241
+Pruned branching factor (avg) = 31.191711897309933
+Pruned branching factor (std.dev) = 19.880154083179033
+Pruned branching factor (min) = 0.0
+Pruned branching factor (max) = 105.0
+Pruned branching factor (datapoints) = 25241
+
+P2 Random
+Time spend (avg) = 0.024424663482414243
+Time spend (std.dev) = 0.15436352968296063
+Time spend (min) = 0.0
+Time spend (max) = 1.0
+Time spend (datapoints) = 9212
+
+############################
