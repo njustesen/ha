@@ -35,14 +35,14 @@ public class NeatTrainer {
 	private static final int GENERATIONS = 50000;
 	private static final int MATCHES = 20;
 	private static Random random;
-	private static GameArguments gameArgs = new GameArguments(true, null, null, "a-tiny", DECK_SIZE.TINY);
+	private static GameArguments gameArgs = new GameArguments(false, null, null, "a-tiny", DECK_SIZE.TINY);
 
 	private static final double step = 0.05;
 	
-	private static double level = 0.0;
-	private static final String pop_file = "";
-	//private static final String pop_file = "pop_1122";
-	private static final boolean SIMPLE = false;
+	private static double level = 0.9;
+	//private static final String pop_file = "";
+	private static final String pop_file = "pop_3259";
+	private static final boolean SIMPLE = true;
 																																											
 	public static void main(String[] args) throws Exception{
 		//gameArgs.sleep = 200;
@@ -147,7 +147,7 @@ public class NeatTrainer {
 		//game.player1 = new NaiveNeatAI(net, false);
 		game.player1 = new CompressedNeatAI(net, false);
 		game.player2 = new RandomAI(RAND_METHOD.TREE);
-		game.ui = new UI(game.state, false, false, false);
+		//game.ui = new UI(game.state, false, false, false);
 		game.run();
 		double val = game.state.getWinner();
 		sum += score(1, val);

@@ -34,42 +34,43 @@ public class NaiveNeatAI extends NeatAI{
 		// Bias
 		arr[4] = 1.0;
 		
-		// FOR EACH SQUARE
-		int i = 5;
-		
-		for(int x = 0; x < state.map.width; x++){
-			for(int y = 0; y < state.map.height; y++){
-				for(double d : squareArray(state, x, y)){
-					arr[i++] = d;
+		if (!simple){
+			// FOR EACH SQUARE
+			int i = 5;
+			
+			for(int x = 0; x < state.map.width; x++){
+				for(int y = 0; y < state.map.height; y++){
+					for(double d : squareArray(state, x, y)){
+						arr[i++] = d;
+					}
 				}
 			}
+			
+			// Own hand
+			if (state.p1Turn){
+				arr[i++] = state.p1Hand.has(Card.ARCHER) ? 1 : 0;
+				arr[i++] = state.p1Hand.has(Card.CLERIC) ? 1 : 0;
+				arr[i++] = state.p1Hand.has(Card.KNIGHT) ? 1 : 0;
+				arr[i++] = state.p1Hand.has(Card.NINJA) ? 1 : 0;
+				arr[i++] = state.p1Hand.has(Card.WIZARD) ? 1 : 0;
+				arr[i++] = state.p1Hand.has(Card.DRAGONSCALE) ? 1 : 0;
+				arr[i++] = state.p1Hand.has(Card.INFERNO) ? 1 : 0;
+				arr[i++] = state.p1Hand.has(Card.REVIVE_POTION) ? 1 : 0;
+				arr[i++] = state.p1Hand.has(Card.SCROLL) ? 1 : 0;
+				arr[i++] = state.p1Hand.has(Card.SHINING_HELM) ? 1 : 0;
+			} else {
+				arr[i++] = state.p2Hand.has(Card.ARCHER) ? 1 : 0;
+				arr[i++] = state.p2Hand.has(Card.CLERIC) ? 1 : 0;
+				arr[i++] = state.p2Hand.has(Card.KNIGHT) ? 1 : 0;
+				arr[i++] = state.p2Hand.has(Card.NINJA) ? 1 : 0;
+				arr[i++] = state.p2Hand.has(Card.WIZARD) ? 1 : 0;
+				arr[i++] = state.p2Hand.has(Card.DRAGONSCALE) ? 1 : 0;
+				arr[i++] = state.p2Hand.has(Card.INFERNO) ? 1 : 0;
+				arr[i++] = state.p2Hand.has(Card.REVIVE_POTION) ? 1 : 0;
+				arr[i++] = state.p2Hand.has(Card.SCROLL) ? 1 : 0;
+				arr[i++] = state.p2Hand.has(Card.SHINING_HELM) ? 1 : 0;
+			}
 		}
-		
-		// Own hand
-		if (state.p1Turn){
-			arr[i++] = state.p1Hand.has(Card.ARCHER) ? 1 : 0;
-			arr[i++] = state.p1Hand.has(Card.CLERIC) ? 1 : 0;
-			arr[i++] = state.p1Hand.has(Card.KNIGHT) ? 1 : 0;
-			arr[i++] = state.p1Hand.has(Card.NINJA) ? 1 : 0;
-			arr[i++] = state.p1Hand.has(Card.WIZARD) ? 1 : 0;
-			arr[i++] = state.p1Hand.has(Card.DRAGONSCALE) ? 1 : 0;
-			arr[i++] = state.p1Hand.has(Card.INFERNO) ? 1 : 0;
-			arr[i++] = state.p1Hand.has(Card.REVIVE_POTION) ? 1 : 0;
-			arr[i++] = state.p1Hand.has(Card.SCROLL) ? 1 : 0;
-			arr[i++] = state.p1Hand.has(Card.SHINING_HELM) ? 1 : 0;
-		} else {
-			arr[i++] = state.p2Hand.has(Card.ARCHER) ? 1 : 0;
-			arr[i++] = state.p2Hand.has(Card.CLERIC) ? 1 : 0;
-			arr[i++] = state.p2Hand.has(Card.KNIGHT) ? 1 : 0;
-			arr[i++] = state.p2Hand.has(Card.NINJA) ? 1 : 0;
-			arr[i++] = state.p2Hand.has(Card.WIZARD) ? 1 : 0;
-			arr[i++] = state.p2Hand.has(Card.DRAGONSCALE) ? 1 : 0;
-			arr[i++] = state.p2Hand.has(Card.INFERNO) ? 1 : 0;
-			arr[i++] = state.p2Hand.has(Card.REVIVE_POTION) ? 1 : 0;
-			arr[i++] = state.p2Hand.has(Card.SCROLL) ? 1 : 0;
-			arr[i++] = state.p2Hand.has(Card.SHINING_HELM) ? 1 : 0;
-		}
-		
 		return arr;
 	}
 	

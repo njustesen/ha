@@ -33,11 +33,11 @@ public class NeatTester {
 
 	private static Random random;
 	private static GameArguments gameArgs = new GameArguments(false, null, null, "a-tiny", DECK_SIZE.TINY);
-	private static double level = .8;
+	private static double level = 1;
 
 	//private static final String pop_file = "";
-	private static final String pop_file = "pop_1000";
-	//private static final String pop_file = "pop_473";
+	//private static final String pop_file = "pop_1000";
+	private static final String pop_file = "pop_655_normal";
 	private static final boolean SIMPLE = false;
 	
 	public static void main(String[] args) throws Exception{
