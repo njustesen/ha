@@ -15,12 +15,16 @@ import java.util.Random;
 import java.util.Vector;
 
 import sun.java2d.pipe.SpanShapeRenderer.Simple;
+import testcase.TestCase;
 import ui.UI;
+import util.MapLoader;
 import model.DECK_SIZE;
+import model.HaMap;
 import ai.GreedyActionAI;
 import ai.HeuristicAI;
 import ai.RandomAI;
 import ai.RandomSwitchAI;
+import ai.StatisticAi;
 import ai.evaluation.HeuristicEvaluator;
 import ai.neat.jneat.Neat;
 import ai.neat.jneat.Network;
@@ -33,10 +37,10 @@ public class NeatTester {
 
 	private static Random random;
 	private static GameArguments gameArgs = new GameArguments(false, null, null, "a-tiny", DECK_SIZE.TINY);
-	private static double level = .8;
+	private static double level = 1;
 
 	//private static final String pop_file = "";
-	private static final String pop_file = "pop_1000";
+	private static final String pop_file = "pop_655";
 	//private static final String pop_file = "pop_473";
 	private static final boolean SIMPLE = false;
 	
@@ -69,17 +73,53 @@ public class NeatTester {
 		
 	}
 	
+	private static RandomSwitchAI randomSwitch = new RandomSwitchAI(level, new RandomAI(RAND_METHOD.BRUTE), new GreedyActionAI(new HeuristicEvaluator(false)));
+	private static int runs = 100;
+	private static String size = "tiny";
+	
+	private static HaMap tiny;
+	private static HaMap small;
+	private static HaMap standard;
+	
 	private static void show(Network net) {
 		
-		Game game = new Game(new GameState(null), gameArgs);
+		try {
+			tiny = MapLoader.get("a-tiny");
+			small = MapLoader.get("a-small");
+			standard = MapLoader.get("a");
+		} catch (final IOException e) {
+			e.printStackTrace();
+		}
 		
-		game.state = new GameState(game.state.map);
-		game.player1 = new NaiveNeatAI(net, true, SIMPLE);
-		//game.player2 = new RandomHeuristicAI(1);
-		game.gameArgs.sleep = 500;
-		//game.ui = new UI(game.state, false, true);
-		game.run();
+		TestCase test = 
+				new TestCase(
+						new StatisticAi(new NaiveNeatAI(net, true, SIMPLE)), 
+						new StatisticAi(randomSwitch), 
+						runs, 
+						"neat-complex-vs-egreedy1", 
+						map(size), 
+						deck(size)
+						);
 		
+		test.run();
+		
+	}
+
+	private static DECK_SIZE deck(String size) {
+		if (size.equals("tiny"))
+			return DECK_SIZE.TINY;
+		if (size.equals("small"))
+			return DECK_SIZE.SMALL;
+	
+		return DECK_SIZE.STANDARD;
+	}
+	
+	private static HaMap map(String size) {
+		if (size.equals("tiny"))
+			return tiny;
+		if (size.equals("small"))
+			return small;
+		return standard;
 	}
 
 	private static double score(int p, double winner) {

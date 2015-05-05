@@ -112,14 +112,14 @@ public class RollingHorizonVisualizor extends JComponent implements KeyListener 
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		g.setColor(new Color(50,50,50));
+		g.setColor(new Color(220,220,220));
 		g.fillRect(0, 0, width*2, height*2);
 		
-		g.setColor(new Color(200, 200, 200));
+		g.setColor(new Color(20, 20, 20));
 		g.drawLine(div, div, div, height-div);
 		g.drawLine(div, height-div, width-div, height-div);
 		
-		g.setColor(Color.GREEN);
+		g.setColor(Color.RED);
 		
 		/*
 		if (p1)
