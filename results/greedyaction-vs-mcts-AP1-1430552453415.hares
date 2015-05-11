@@ -1,0 +1,70 @@
+########### TEST ###########
+AP: 1
+SAP: 1
+TURN LIMT: 1000
+~~~~~~~~~ Player 1 ~~~~~~~~~
+GreedyAction
+State evaluatior = Heuristic Evaluator [positional=false, heal=150, spread=50]
+~~~~~~~~~ Player 2 ~~~~~~~~~
+MCTS
+Time budget = 1000
+C = 0.7071067811865475
+Leaf evaluation = Rollout Evaluator [depth=1 rolls=1 policy=Random heuristic [prob:1.0] evaluator=Heuristic Evaluator [positional=false, heal=150, spread=50]]
+Cut = false
+Collapse = false
+~~~~~~~~~~~ SETUP ~~~~~~~~~~
+Map: a
+Deck Size: STANDARD
+Randomness: false
+Runs: 100
+~~~~~~~~~~ RUNNING ~~~~~~~~~
+~~~~~~~~~~ RESULTS ~~~~~~~~~
+P1 = 1 = 34.5%
+P2 = 32 = 65.5%
+Dr = 67
+~~~~~~~~~~~ STATS ~~~~~~~~~~
+P1 GreedyAction
+Time spend (avg) = 0.14273942501373374
+Time spend (std.dev) = 0.3540808190900712
+Time spend (min) = 0.0
+Time spend (max) = 13.0
+Time spend (datapoints) = 76454
+Branching factor (avg) = 19.6042195306982
+Branching factor (std.dev) = 20.091335081249376
+Branching factor (min) = 0.0
+Branching factor (max) = 99.0
+Branching factor (datapoints) = 76454
+Pruned branching factor (avg) = 19.168009522065557
+Pruned branching factor (std.dev) = 19.625583023378315
+Pruned branching factor (min) = 0.0
+Pruned branching factor (max) = 64.0
+Pruned branching factor (datapoints) = 76454
+
+P2 MCTS
+Time spend (avg) = 798.7772530448319
+Time spend (std.dev) = 813.7140140582723
+Time spend (min) = 0.0
+Time spend (max) = 4085.0
+Time spend (datapoints) = 76441
+Iterations (avg) = 38406.44977891735
+Iterations (std.dev) = 13914.520849774748
+Iterations (min) = 7534.0
+Iterations (max) = 574531.0
+Iterations (datapoints) = 38221
+Max. depths (avg) = 3.4452264461945004
+Max. depths (std.dev) = 0.6987709417236877
+Max. depths (min) = 0.0
+Max. depths (max) = 8.0
+Max. depths (datapoints) = 38221
+Avg. depths (avg) = 3.0992868922543826
+Avg. depths (std.dev) = 0.3046522796935375
+Avg. depths (min) = 0.0
+Avg. depths (max) = 6.110001641407234
+Avg. depths (datapoints) = 38221
+Min. depths (avg) = 3.0279689176107376
+Min. depths (std.dev) = 0.2141669609642445
+Min. depths (min) = 0.0
+Min. depths (max) = 5.0
+Min. depths (datapoints) = 38221
+
+############################

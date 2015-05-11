@@ -32,6 +32,9 @@ public class IslandHorizonEvolution implements AI, AiVisualizor {
 	private SharedStateTable table;
 	private boolean useHistory;
 	
+	public List<Double> generations;
+	public List<Double> bestVisits;
+	
 	public IslandHorizonEvolution(boolean useHistory, int popSize, double mutRate, double killRate, int budget, IStateEvaluator evaluator) {
 		super();
 		this.popSize = popSize;
@@ -44,6 +47,8 @@ public class IslandHorizonEvolution implements AI, AiVisualizor {
 		this.actions = new ArrayList<Action>();
 		this.table = new SharedStateTable();
 		this.useHistory = useHistory;
+		this.generations = new ArrayList<Double>();
+		this.bestVisits = new ArrayList<Double>();
 		setup();
 	}
 	
@@ -102,6 +107,10 @@ public class IslandHorizonEvolution implements AI, AiVisualizor {
 				if (f.get().fitnesses.isEmpty())
 					continue;
 				double fitness = f.get().fitnesses.get(f.get().fitnesses.size());
+				if (!f.get().generations.isEmpty())
+					generations.add(f.get().generations.get(f.get().generations.size()-1));
+				if (!f.get().bestVisits.isEmpty())
+					bestVisits.add(f.get().bestVisits.get(f.get().bestVisits.size()-1));
 				if (fitness > bestFitness && !f.get().actions.isEmpty()){
 					bestFitness = fitness;
 					actions = f.get().actions;
@@ -132,7 +141,6 @@ public class IslandHorizonEvolution implements AI, AiVisualizor {
 		name += "Threads = " + threads.size() + "\n";
 		return name;
 	}
-
 
 	@Override
 	public String title() {

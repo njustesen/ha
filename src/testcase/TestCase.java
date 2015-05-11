@@ -20,6 +20,7 @@ public class TestCase {
 	public String name;
 	public HaMap map;
 	public DECK_SIZE deckSize;
+	public int ap;
 	
 	public TestCase(AI p1, AI p2, int runs, String name, HaMap map, DECK_SIZE deckSize) {
 		super();
@@ -29,9 +30,15 @@ public class TestCase {
 		this.name = name;
 		this.map = map;
 		this.deckSize = deckSize;
+		this.ap = 5;
 	}
 	
 	public void run(){
+		
+		GameState.ACTION_POINTS = ap;
+		GameState.TURN_LIMIT = 1000;
+		if (ap != 5)
+			GameState.STARTING_AP = ap;
 		
 		String out = "";
 		out += "########### TEST ###########\n";

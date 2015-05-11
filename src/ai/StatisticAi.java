@@ -5,6 +5,7 @@ import java.util.List;
 
 import game.GameState;
 import action.Action;
+import ai.evolution.IslandHorizonEvolution;
 import ai.evolution.RollingHorizonEvolution;
 import ai.mcts.Mcts;
 import ai.mcts.RootParallelizedMcts;
@@ -48,6 +49,9 @@ public class StatisticAi implements AI {
 			aiStatistics.statsLists.put("Max. depths", ((Mcts)ai).maxDepths);
 		}else if (aiClass.equals(RootParallelizedMcts.class)){
 			aiStatistics.statsLists.put("Iterations", ((RootParallelizedMcts)ai).rollouts);
+		} else if (aiClass.equals(IslandHorizonEvolution.class)){
+			aiStatistics.statsLists.put("Generations", ((IslandHorizonEvolution)ai).generations);
+			aiStatistics.statsLists.put("Best visits", ((IslandHorizonEvolution)ai).bestVisits);
 		}
 		return action;
 	}
