@@ -40,7 +40,8 @@ public class NeatTester {
 	private static double level = 1;
 
 	//private static final String pop_file = "";
-	private static final String pop_file = "pop_655";
+	//private static final String pop_file = "pop_1000";
+	private static final String pop_file = "pop_1_normal";
 	//private static final String pop_file = "pop_473";
 	private static final boolean SIMPLE = false;
 	
@@ -74,7 +75,7 @@ public class NeatTester {
 	}
 	
 	private static RandomSwitchAI randomSwitch = new RandomSwitchAI(level, new RandomAI(RAND_METHOD.BRUTE), new GreedyActionAI(new HeuristicEvaluator(false)));
-	private static int runs = 100;
+	private static int runs = 10000;
 	private static String size = "tiny";
 	
 	private static HaMap tiny;
@@ -93,10 +94,10 @@ public class NeatTester {
 		
 		TestCase test = 
 				new TestCase(
-						new StatisticAi(new NaiveNeatAI(net, true, SIMPLE)), 
+						new StatisticAi(new NaiveNeatAI(net, false, SIMPLE)), 
 						new StatisticAi(randomSwitch), 
 						runs, 
-						"neat-complex-vs-egreedy1", 
+						"neat-complex-vs-egreedy1"+pop_file, 
 						map(size), 
 						deck(size)
 						);
