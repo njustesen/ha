@@ -75,7 +75,7 @@ public class Unit {
 
 		// Initial power
 		int power = unitClass.power;
-
+		
 		// Sword
 		if (equipment.contains(Card.RUNEMETAL))
 			power += power / 2;
