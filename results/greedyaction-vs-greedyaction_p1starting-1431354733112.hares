@@ -1,0 +1,40 @@
+########### TEST ###########
+AP: 5
+SAP: 3
+TURN LIMT: 1000
+~~~~~~~~~ Player 1 ~~~~~~~~~
+Random switch ai
+Probability = 1.0
+1. AI = Random
+2. AI = GreedyAction
+~~~~~~~~~ Player 2 ~~~~~~~~~
+Random switch ai
+Probability = 1.0
+1. AI = Random
+2. AI = GreedyAction
+~~~~~~~~~~~ SETUP ~~~~~~~~~~
+Map: a-tiny
+Deck Size: TINY
+Randomness: false
+Runs: 10000
+~~~~~~~~~~ RUNNING ~~~~~~~~~
+~~~~~~~~~~ RESULTS ~~~~~~~~~
+P1 = 5004 = 51.64%
+P2 = 4676 = 48.36%
+Dr = 320
+~~~~~~~~~~~ STATS ~~~~~~~~~~
+P1 Random switch ai
+Time spend (avg) = 0.02638437406844862
+Time spend (std.dev) = 0.7582644658265841
+Time spend (min) = 0.0
+Time spend (max) = 817.0
+Time spend (datapoints) = 1408940
+
+P2 Random switch ai
+Time spend (avg) = 0.023832941557973112
+Time spend (std.dev) = 0.5793070670830583
+Time spend (min) = 0.0
+Time spend (max) = 653.0
+Time spend (datapoints) = 1400037
+
+############################
