@@ -61,15 +61,18 @@ public class TestSuiteFinal {
 		if (args[0].equals("mcts-c"))
 			MctsCTests(Integer.parseInt(args[1]), args[2]);
 	
+		// YES
 		if (args[0].equals("mcts-cut-random"))
 			MctsCutRandom(Integer.parseInt(args[1]), args[2]);
 		
+		// YES
 		if (args[0].equals("mcts-c0"))
 			MctsC0(Integer.parseInt(args[1]), args[2]);
 		
 		if (args[0].equals("mcts-random"))
 			MctsRandom(Integer.parseInt(args[1]), args[2]);
 		
+		// YES
 		if (args[0].equals("mcts-ne-random"))
 			MctsNeRandom(Integer.parseInt(args[1]), args[2]);
 		
@@ -125,7 +128,7 @@ public class TestSuiteFinal {
 		tests.add(new TestCase(new StatisticAi(mctsCutR0), new StatisticAi(mctsCutR05),
 				runs, "mcts-cut-r0-vs-mcts-cut-r05", map(size), deck(size)));
 		
-		//TestCase.GFX = true;
+		TestCase.GFX = true;
 		
 		for (final TestCase test : tests)
 			test.run();
