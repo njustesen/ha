@@ -61,7 +61,8 @@ public class TestSuiteFinal {
 		if (args[0].equals("mcts-c"))
 			MctsCTests(Integer.parseInt(args[1]), args[2]);
 		
-		
+		if (args[0].equals("mcts-c0"))
+			MctsC0(Integer.parseInt(args[1]), args[2]);
 		
 		if (args[0].equals("mcts-random"))
 			MctsRandom(Integer.parseInt(args[1]), args[2]);
