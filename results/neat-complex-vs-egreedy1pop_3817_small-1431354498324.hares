@@ -1,0 +1,41 @@
+########### TEST ###########
+AP: 5
+SAP: 3
+TURN LIMT: 1000
+~~~~~~~~~ Player 1 ~~~~~~~~~
+Naive AI
+Network size (nodes): 264
+Network size (inputs): 5
+Network size (outputs): 1
+Network size (hidden): 258
+~~~~~~~~~ Player 2 ~~~~~~~~~
+Random switch ai
+Probability = 1.0
+1. AI = Random
+2. AI = GreedyAction
+~~~~~~~~~~~ SETUP ~~~~~~~~~~
+Map: a-tiny
+Deck Size: TINY
+Randomness: false
+Runs: 10000
+~~~~~~~~~~ RUNNING ~~~~~~~~~
+~~~~~~~~~~ RESULTS ~~~~~~~~~
+P1 = 3351 = 33.745000000000005%
+P2 = 6602 = 66.255%
+Dr = 47
+~~~~~~~~~~~ STATS ~~~~~~~~~~
+P1 Naive AI
+Time spend (avg) = 1.129253690928416
+Time spend (std.dev) = 0.9212477092696717
+Time spend (min) = 0.0
+Time spend (max) = 303.0
+Time spend (datapoints) = 642589
+
+P2 Random switch ai
+Time spend (avg) = 0.025654682925138124
+Time spend (std.dev) = 0.3582371213680508
+Time spend (min) = 0.0
+Time spend (max) = 238.0
+Time spend (datapoints) = 634582
+
+############################

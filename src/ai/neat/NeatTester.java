@@ -41,8 +41,8 @@ public class NeatTester {
 
 	//private static final String pop_file = "";
 	//private static final String pop_file = "pop_1000";
-	private static final String pop_file = "pop_1_normal";
-	//private static final String pop_file = "pop_473";
+	//private static final String pop_file = "pop_1_normal";
+	private static final String pop_file = "pop_3817_small";
 	private static final boolean SIMPLE = false;
 	
 	public static void main(String[] args) throws Exception{
@@ -92,6 +92,8 @@ public class NeatTester {
 			e.printStackTrace();
 		}
 		
+		TestCase.P1START = true;
+		/*
 		TestCase test = 
 				new TestCase(
 						new StatisticAi(new NaiveNeatAI(net, false, SIMPLE)), 
@@ -101,6 +103,18 @@ public class NeatTester {
 						map(size), 
 						deck(size)
 						);
+		*/
+		
+		TestCase test = 
+				new TestCase(
+						new StatisticAi(randomSwitch), 
+						new StatisticAi(randomSwitch), 
+						runs, 
+						"greedyaction-vs-greedyaction_p1starting", 
+						map(size), 
+						deck(size)
+						);
+		
 		
 		test.run();
 		
