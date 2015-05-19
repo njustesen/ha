@@ -60,6 +60,7 @@ public class TestSuiteFinal {
 		
 		if (args[0].equals("mcts-c"))
 			MctsCTests(Integer.parseInt(args[1]), args[2]);
+	
 		
 		if (args[0].equals("mcts-cut-random"))
 			MctsCutRandom(Integer.parseInt(args[1]), args[2]);
@@ -119,8 +120,11 @@ public class TestSuiteFinal {
 		final Mcts mctsCutR1 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
 		mctsCutR1.cut = true;
 		
-		tests.add(new TestCase(new StatisticAi(mctsCutR0), new StatisticAi(mctsCutR1),
-				runs, "mcts-cut-r0-vs-mcts-cut-r1", map(size), deck(size)));
+		final Mcts mctsCutR05 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(.5), new HeuristicEvaluator(true)));
+		mctsCutR05.cut = true;
+		
+		tests.add(new TestCase(new StatisticAi(mctsCutR0), new StatisticAi(mctsCutR05),
+				runs, "mcts-cut-r0-vs-mcts-cut-r05", map(size), deck(size)));
 		
 		//TestCase.GFX = true;
 		
@@ -362,9 +366,11 @@ public class TestSuiteFinal {
 		mcts0.c = 0;
 		final Mcts mcts1 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
 		mcts1.c = 0;
+		final Mcts mcts05 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(.5), new HeuristicEvaluator(true)));
+		mcts05.c = 0;
 		
-		tests.add(new TestCase(new StatisticAi(mcts0), new StatisticAi(mcts1),
-				runs, "ne-mcts-r0-vs-ne-mcts-r1", map(size), deck(size)));
+		tests.add(new TestCase(new StatisticAi(mcts0), new StatisticAi(mcts05),
+				runs, "ne-mcts-r0-vs-ne-mcts-r05", map(size), deck(size)));
 		
 		TestCase.GFX = true;
 		
@@ -381,9 +387,10 @@ public class TestSuiteFinal {
 		
 		final Mcts mcts0 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(0), new HeuristicEvaluator(true)));
 		final Mcts mcts1 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		final Mcts mcts05 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(.5), new HeuristicEvaluator(true)));
 		
-		tests.add(new TestCase(new StatisticAi(mcts0), new StatisticAi(mcts1),
-				runs, "mcts-r0-vs-mcts-r1", map(size), deck(size)));
+		tests.add(new TestCase(new StatisticAi(mcts0), new StatisticAi(mcts05),
+				runs, "mcts-r0-vs-mcts-r05", map(size), deck(size)));
 		
 		TestCase.GFX = true;
 		
