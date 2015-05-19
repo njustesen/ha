@@ -39,12 +39,13 @@ public class NeatTrainer {
 
 	private static final double step = 0.05;
 	
-	private static double level = 0.9;
-	//private static final String pop_file = "";
-	private static final String pop_file = "pop_3259";
-	private static final boolean SIMPLE = true;
+	private static double level = 0.0;
+	private static final String pop_file = "";
+	//private static final String pop_file = "pop_3259";
+	private static final boolean SIMPLE = false;
 																																											
 	public static void main(String[] args) throws Exception{
+		
 		//gameArgs.sleep = 200;
 		Neat.readParam("parameters.ne");
 		Neat.p_num_trait_params = 20;
