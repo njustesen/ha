@@ -18,7 +18,7 @@ import ai.util.ActionPruner;
 
 public abstract class NeatAI implements AI{
 
-	private static final ActionPruner pruner = new ActionPruner();
+	private ActionPruner pruner;
 	
 	public Network net;
 
@@ -28,6 +28,7 @@ public abstract class NeatAI implements AI{
 		super();
 		this.net = net;
 		this.debug = debug;
+		this.pruner = new ActionPruner();
 	}
 
 	@Override

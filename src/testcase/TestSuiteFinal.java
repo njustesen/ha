@@ -65,10 +65,10 @@ public class TestSuiteFinal {
 		if (args[0].equals("mcts-cut-random"))
 			MctsCutRandom(Integer.parseInt(args[1]), args[2]);
 		
-		// YES
 		if (args[0].equals("mcts-c0"))
 			MctsC0(Integer.parseInt(args[1]), args[2]);
 		
+		// YES
 		if (args[0].equals("mcts-random"))
 			MctsRandom(Integer.parseInt(args[1]), args[2]);
 		

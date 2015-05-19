@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.omg.IOP.Encoding;
 
+import ai.neat.NeatWorker;
 import model.HaMap;
 import model.Position;
 import model.SquareType;
@@ -46,10 +47,10 @@ public class MapLoader {
 	}
 	
 	public static void load(String name) throws IOException{
-		
+	
 		String basePath = PathHelper.basePath();
 		List<String> lines = readLines(basePath + "/maps/"+name+".mhap");
-
+	
 		List<Position> p1Crystals = new ArrayList<Position>();
 		List<Position> p2Crystals = new ArrayList<Position>();
 		List<List<SquareType>> squareLists = new ArrayList<List<SquareType>>();
@@ -86,7 +87,6 @@ public class MapLoader {
 			map.p2Crystals.add(p);
 		
 		maps.put(name, map);
-		
 	}
 
 	static List<String> readLines( String filename ) throws IOException {
