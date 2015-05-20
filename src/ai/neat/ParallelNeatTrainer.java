@@ -49,6 +49,7 @@ public class ParallelNeatTrainer {
 																																											
 	public static void main(String[] args) throws Exception{
 		pop_file = pop_file + args[0];
+		level = Double.parseDouble(args[1]);
 		//gameArgs.sleep = 200;
 		Neat.readParam("parameters.ne");
 		Neat.p_num_trait_params = 20;
