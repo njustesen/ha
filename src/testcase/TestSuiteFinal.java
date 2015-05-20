@@ -125,14 +125,11 @@ public class TestSuiteFinal {
 		final Mcts mctsCollapseR0 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(0), new HeuristicEvaluator(true)));
 		mctsCollapseR0.collapse = true;
 		
-		final Mcts mctsCollapseR1 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
-		mctsCollapseR1.collapse = true;
-		
-		final Mcts mctsCollapseR05 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		final Mcts mctsCollapseR05 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(.5), new HeuristicEvaluator(true)));
 		mctsCollapseR05.collapse = true;
 		
-		tests.add(new TestCase(new StatisticAi(mctsCollapseR0), new StatisticAi(mctsCollapseR1),
-				runs, "mcts-collapse-r0-vs-mcts-collapse-r1", map(size), deck(size)));
+		tests.add(new TestCase(new StatisticAi(mctsCollapseR0), new StatisticAi(mctsCollapseR05),
+				runs, "mcts-collapse-r0-vs-mcts-collapse-r05", map(size), deck(size)));
 		
 		TestCase.GFX = true;
 		
@@ -152,9 +149,6 @@ public class TestSuiteFinal {
 		
 		final Mcts mctsCollapseR1 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
 		mctsCollapseR1.collapse = true;
-		
-		final Mcts mctsCollapseR05 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
-		mctsCollapseR05.collapse = true;
 		
 		tests.add(new TestCase(new StatisticAi(mctsCollapseR0), new StatisticAi(mctsCollapseR1),
 				runs, "mcts-collapse-r0-vs-mcts-collapse-r1", map(size), deck(size)));
