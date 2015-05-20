@@ -43,12 +43,13 @@ public class ParallelNeatTrainer {
 	private static final double step = 0.05;
 	
 	private static double level = 0.0;
-	private static final String pop_file = "";
+	private static String pop_file = "pop_";
 	//private static final String pop_file = "pop_3259";
 	private static final boolean SIMPLE = false;
 																																											
 	public static void main(String[] args) throws Exception{
-		
+		pop_file = pop_file + args[0];
+		level = Double.parseDouble(args[1]);
 		//gameArgs.sleep = 200;
 		Neat.readParam("parameters.ne");
 		Neat.p_num_trait_params = 20;
