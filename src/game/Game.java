@@ -87,17 +87,23 @@ public class Game {
 		else
 			this.state = state;
 
-		if (this.state.map == null){
-			try {
-				this.state = new GameState(MapLoader.get(gameArgs.mapName));
-			} catch (IOException e) {
-				e.printStackTrace();
+		synchronized (Game.class) {
+		
+			if (this.state.map == null){
+				try {
+					this.state = new GameState(MapLoader.get(gameArgs.mapName));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
+			
+			if (SingletonAction.positions == null)
+				SingletonAction.init(this.state.map);
+			
+			if (CachedLines.posMap.isEmpty() || this.state.map != CachedLines.map)
+				CachedLines.load(this.state.map);
+			
 		}
-		
-		if (SingletonAction.positions == null)
-			SingletonAction.init(this.state.map);
-		
 		if (gameArgs.gfx){
 			this.ui = new UI(this.state, (this.player1 == null), (this.player2 == null), PLAY_TEST && first );
 
@@ -109,8 +115,7 @@ public class Game {
 		}
 		
 		history = new Stack<GameState>();
-		if (CachedLines.posMap.isEmpty() || this.state.map != CachedLines.map)
-			CachedLines.load(this.state.map);
+		
 
 	}
 

@@ -65,10 +65,16 @@ public class TestSuiteFinal {
 		if (args[0].equals("mcts-cut-random"))
 			MctsCutRandom(Integer.parseInt(args[1]), args[2]);
 		
-		// YES
+		if (args[0].equals("mcts-collapse-random1"))
+			MctsCollapseRandom1(Integer.parseInt(args[1]), args[2]);
+		
+		if (args[0].equals("mcts-collapse-random05"))
+			MctsCollapseRandom05(Integer.parseInt(args[1]), args[2]);
+		
 		if (args[0].equals("mcts-c0"))
 			MctsC0(Integer.parseInt(args[1]), args[2]);
 		
+		// YES
 		if (args[0].equals("mcts-random"))
 			MctsRandom(Integer.parseInt(args[1]), args[2]);
 		
@@ -110,6 +116,56 @@ public class TestSuiteFinal {
 		
 	}
 	
+	private static void MctsCollapseRandom05(int runs, String size) {
+		
+		final List<TestCase> tests = new ArrayList<TestCase>();
+		
+		int budget = 6000;
+		
+		final Mcts mctsCollapseR0 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(0), new HeuristicEvaluator(true)));
+		mctsCollapseR0.collapse = true;
+		
+		final Mcts mctsCollapseR1 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		mctsCollapseR1.collapse = true;
+		
+		final Mcts mctsCollapseR05 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		mctsCollapseR05.collapse = true;
+		
+		tests.add(new TestCase(new StatisticAi(mctsCollapseR0), new StatisticAi(mctsCollapseR1),
+				runs, "mcts-collapse-r0-vs-mcts-collapse-r1", map(size), deck(size)));
+		
+		TestCase.GFX = true;
+		
+		for (final TestCase test : tests)
+			test.run();
+		
+	}
+	
+	private static void MctsCollapseRandom1(int runs, String size) {
+		
+		final List<TestCase> tests = new ArrayList<TestCase>();
+		
+		int budget = 6000;
+		
+		final Mcts mctsCollapseR0 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(0), new HeuristicEvaluator(true)));
+		mctsCollapseR0.collapse = true;
+		
+		final Mcts mctsCollapseR1 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		mctsCollapseR1.collapse = true;
+		
+		final Mcts mctsCollapseR05 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		mctsCollapseR05.collapse = true;
+		
+		tests.add(new TestCase(new StatisticAi(mctsCollapseR0), new StatisticAi(mctsCollapseR1),
+				runs, "mcts-collapse-r0-vs-mcts-collapse-r1", map(size), deck(size)));
+		
+		TestCase.GFX = true;
+		
+		for (final TestCase test : tests)
+			test.run();
+		
+	}
+	
 	private static void MctsCutRandom(int runs, String size) {
 		
 		final List<TestCase> tests = new ArrayList<TestCase>();
@@ -125,8 +181,8 @@ public class TestSuiteFinal {
 		final Mcts mctsCutR05 = new Mcts(budget, new RolloutEvaluator(1, 1,new RandomHeuristicAI(.5), new HeuristicEvaluator(true)));
 		mctsCutR05.cut = true;
 		
-		tests.add(new TestCase(new StatisticAi(mctsCutR0), new StatisticAi(mctsCutR05),
-				runs, "mcts-cut-r0-vs-mcts-cut-r05", map(size), deck(size)));
+		tests.add(new TestCase(new StatisticAi(mctsCutR0), new StatisticAi(mctsCutR1),
+				runs, "mcts-cut-r0-vs-mcts-cut-r1", map(size), deck(size)));
 		
 		TestCase.GFX = true;
 		
