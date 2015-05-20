@@ -37,7 +37,7 @@ public class TestCase {
 	public void run(){
 		
 		GameState.ACTION_POINTS = ap;
-		GameState.TURN_LIMIT = 1000;
+		GameState.TURN_LIMIT = 100;
 		if (ap != 5)
 			GameState.STARTING_AP = ap;
 		
