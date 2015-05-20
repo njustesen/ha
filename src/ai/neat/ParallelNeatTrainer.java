@@ -137,7 +137,7 @@ public class ParallelNeatTrainer {
 				_specie.compute_max_fitness();
 			}
 			
-			saveStats(bestFitness, avg, gen, level);
+			saveStats(bestFitness, avg, gen, level, pop.getOrganisms().size());
 			
 			if (bestFitness == 100)
 				level += step;
@@ -153,17 +153,17 @@ public class ParallelNeatTrainer {
 			//System.out.print("\n   result    : " + pop.);
 		}
 
-		saveStats(bestFitness, avg, gen, level);
+		saveStats(bestFitness, avg, gen, level, pop.getOrganisms().size());
 		pop.print_to_filename("pop_"+gen);
 		
 	}
 	
 
-	private static void saveStats(double best, double mean, int gen, double level) {
+	private static void saveStats(double best, double mean, int gen, double level, int organisms) {
 		
 		try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("neat-stats" + "-" + gameArgs.mapName + "-simple" + SIMPLE, true)))) {
-			out.println(gen+"\t"+best+"\t"+mean + "\t" + level);
-			System.out.println(gen+"\t"+best+"\t"+mean + "\t" + level);
+			out.println(gen+"\t"+best+"\t"+mean + "\t" + level + "\t" + organisms);
+			System.out.println(gen+"\t"+best+"\t"+mean + "\t" + level + "\t" + organisms);
 		}catch (IOException e) {
 		    System.out.println("could not save to neat-stats");
 		}
