@@ -43,7 +43,7 @@ public class ParallelNeatTrainer {
 	private static final double step = 0.05;
 	
 	private static double level = 0.0;
-	private static String pop_file = "ndpop_";
+	private static String pop_file = "pop_";
 	//private static final String pop_file = "pop_3259";
 	private static final boolean SIMPLE = false;
 																																											
@@ -166,7 +166,7 @@ public class ParallelNeatTrainer {
 
 	private static void saveStats(double best, double mean, int gen, double level, int organisms) {
 		
-		try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("nd-neat-stats" + "-" + gameArgs.mapName + "-simple" + SIMPLE, true)))) {
+		try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("neat-stats" + "-" + gameArgs.mapName + "-simple" + SIMPLE, true)))) {
 			out.println(gen+"\t"+best+"\t"+mean + "\t" + level + "\t" + organisms);
 			System.out.println(gen+"\t"+best+"\t"+mean + "\t" + level + "\t" + organisms);
 		}catch (IOException e) {
