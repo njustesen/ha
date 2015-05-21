@@ -43,13 +43,18 @@ public class ParallelNeatTrainer {
 	private static final double step = 0.05;
 	
 	private static double level = 0.0;
-	private static String pop_file = "pop_";
+	private static String pop_file = "ndpop_";
 	//private static final String pop_file = "pop_3259";
 	private static final boolean SIMPLE = false;
 																																											
 	public static void main(String[] args) throws Exception{
-		pop_file = pop_file + args[0];
-		level = Double.parseDouble(args[1]);
+		if (args.length>0)
+			pop_file = pop_file + args[0];
+		else
+			pop_file = "";
+		if (args.length>1)
+			level = Double.parseDouble(args[1]);
+		
 		//gameArgs.sleep = 200;
 		Neat.readParam("parameters.ne");
 		Neat.p_num_trait_params = 20;
@@ -161,7 +166,7 @@ public class ParallelNeatTrainer {
 
 	private static void saveStats(double best, double mean, int gen, double level, int organisms) {
 		
-		try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("neat-stats" + "-" + gameArgs.mapName + "-simple" + SIMPLE, true)))) {
+		try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("nd-neat-stats" + "-" + gameArgs.mapName + "-simple" + SIMPLE, true)))) {
 			out.println(gen+"\t"+best+"\t"+mean + "\t" + level + "\t" + organisms);
 			System.out.println(gen+"\t"+best+"\t"+mean + "\t" + level + "\t" + organisms);
 		}catch (IOException e) {
