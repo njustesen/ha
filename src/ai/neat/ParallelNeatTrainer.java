@@ -32,7 +32,7 @@ import ai.util.RAND_METHOD;
 
 public class ParallelNeatTrainer {
 
-	private static final int POP_SIZE = 64;
+	private static final int POP_SIZE = 4;
 	private static final double PROP_LINK = 0.5;
 	private static final boolean RECURRENT = false;
 	private static final int GENERATIONS = 50000;
