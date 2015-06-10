@@ -27,6 +27,7 @@ public class GameArguments {
 	public DECK_SIZE deckSize = DECK_SIZE.STANDARD;
 	public int sleep;
 	public boolean gfx;
+	public int budget = 6000;
 	
 	private int p;
 	private boolean m = false;
@@ -118,98 +119,29 @@ public class GameArguments {
 					players[p] = null;
 				else if (args[a].toLowerCase().equals("random"))
 					players[p] = new RandomAI(RAND_METHOD.TREE);
-				else if (args[a].toLowerCase().equals("randomheuristic"))
-					players[p] = randomSwitch;
-				else if (args[a].toLowerCase().equals("heuristic"))
-					players[p] = new HeuristicAI();
-				else if (args[a].toLowerCase().equals("nmsearch")) {
-					a++;
-					final int n = Integer.parseInt(args[a]);
-					a++;
-					final int mm = Integer.parseInt(args[a]);
-					a++;
-					if (args[a].toLowerCase().equals("heuristic"))
-						players[p] = new NmSearchAI((p == 0), n, mm,
-								new HeuristicEvaluator(false));
-					else {
-						a++;
-						final int rolls = Integer.parseInt(args[a]);
-						a++;
-						final int depth = Integer.parseInt(args[a]);
-						players[p] = new NmSearchAI((p == 0), n, mm,
-								new RolloutEvaluator(rolls, depth,
-										new RandomAI(RAND_METHOD.TREE),
-										new HeuristicEvaluator(false), true));
-					}
-
-				}
 				if (args[a].toLowerCase().equals("greedyaction")) {
-					a++;
-					if (args[a].toLowerCase().equals("heuristic"))
-						players[p] = new GreedyActionAI(
-								new HeuristicEvaluator(false));
-					else if (args[a].toLowerCase().equals("rollouts")) {
-						a++;
-						final int rolls = Integer.parseInt(args[a]);
-						a++;
-						final int depth = Integer.parseInt(args[a]);
-						players[p] = new GreedyActionAI(new RolloutEvaluator(
-								rolls, depth, new RandomAI(RAND_METHOD.TREE),
-								new HeuristicEvaluator(false), true));
-					}
+					players[p] = new GreedyActionAI(new HeuristicEvaluator(false));
 				}
 				if (args[a].toLowerCase().equals("greedyturn")) {
-					a++;
-					if (args[a].toLowerCase().equals("heuristic")){
-						a++;
-						int budget = Integer.parseInt(args[a]);
-						players[p] = new GreedyTurnAI(new HeuristicEvaluator(false), budget);
-					} else if (args[a].toLowerCase().equals("rollouts")) {
-						a++;
-						final int rolls = Integer.parseInt(args[a]);
-						a++;
-						final int depth = Integer.parseInt(args[a]);
-						players[p] = new GreedyTurnAI(new RolloutEvaluator(
-								rolls, depth, new RandomAI(RAND_METHOD.TREE),
-								new HeuristicEvaluator(false), true));
-					}
-
+					players[p] = new GreedyTurnAI(new HeuristicEvaluator(false), budget);
 				}
-				if (args[a].toLowerCase().equals("mcts")) {
-					a++;
-					final int t = Integer.parseInt(args[a]);
-					/*
-					players[p] = new Mcts(t, new RolloutEvaluator(
-							1, 1, new RandomHeuristicAI(0.5),
-							new HeuristicEvaluator(true), false));
-					*/
-					players[p] = new Mcts(t, new RolloutEvaluator(1, 1, new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+				if (args[a].toLowerCase().equals("mcts-vanilla")) {
+					players[p] = new Mcts(budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(true)));
+				}
+				if (args[a].toLowerCase().equals("mcts-ne")) {
+					players[p] = new Mcts(budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
 					((Mcts)players[p]).c = 0;
 				}
-				if (args[a].toLowerCase().equals("rolling")){
-					a++;
-					int rolls = Integer.parseInt(args[a]);
-					RollingHorizonEvolution rolling = new RollingHorizonEvolution(false, 100, .33, .66, 5000, new RolloutEvaluator(rolls, 1, randomSwitch, new HeuristicEvaluator(false)));
-					players[p] = rolling;
+				if (args[a].toLowerCase().equals("mcts-cut")) {
+					players[p] = new Mcts(budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(.5), new HeuristicEvaluator(true)));
+					((Mcts)players[p]).cut = true;
 				}
-				if (args[a].toLowerCase().equals("leafrolling")){
-					a++;
-					int rolls = Integer.parseInt(args[a]);
-					RollingHorizonEvolution rolling = new RollingHorizonEvolution(false, 100, .33, .66, 5000, new LeafParallelizer(new RolloutEvaluator(rolls, 1, randomSwitch, new HeuristicEvaluator(false)), LEAF_METHOD.WORST));
-					players[p] = rolling;
+				if (args[a].toLowerCase().equals("mcts-collapse")) {
+					players[p] = new Mcts(budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0), new HeuristicEvaluator(true)));
+					((Mcts)players[p]).collapse = true;
 				}
-				if (args[a].toLowerCase().equals("islandrolling")){
-					a++;
-					int budget = Integer.parseInt(args[a]);
-					IslandHorizonEvolution rolling = new IslandHorizonEvolution(true, 100, .1, .5, budget, 
-							new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(false)));
-					players[p] = rolling;
-				}
-				if (args[a].toLowerCase().equals("hybrid")){
-					players[p] = new HybridAI(
-							new HeuristicEvaluator(false), 4000, 500, 
-							new RolloutEvaluator(50, 1, randomSwitch, new HeuristicEvaluator(false), true), 10,
-							new IslandHorizonEvolution(false, 32, .3, .66, 800, new HeuristicEvaluator(true)));
+				if (args[a].toLowerCase().equals("online-evolution")){
+					players[p] = new IslandHorizonEvolution(false, 100, .33, .66, budget, new RolloutEvaluator(1, 1, randomSwitch, new HeuristicEvaluator(false)));
 				}
 				p = -1;
 			} else if (args[a].toLowerCase().equals("sleep")) {
@@ -219,6 +151,10 @@ public class GameArguments {
 			} else if (args[a].toLowerCase().equals("gfx")) {
 				a++;
 				gfx = Boolean.parseBoolean(args[a]);
+				continue;
+			} else if (args[a].toLowerCase().equals("budget")) {
+				a++;
+				budget = Integer.parseInt(args[a]);
 				continue;
 			}
 		}

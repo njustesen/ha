@@ -144,7 +144,7 @@ public class IslandHorizonEvolution implements AI, AiVisualizor {
 
 	@Override
 	public String title() {
-		return "Parallelized (island) Rolling Horizon Evolution";
+		return "Online Evolution";
 	}
 
 	@Override

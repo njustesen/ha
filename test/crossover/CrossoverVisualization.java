@@ -60,7 +60,7 @@ public class CrossoverVisualization {
 		
 		state.units[8][4] = new Unit(Card.KNIGHT, false);
 		
-		UI ui = new UI(state, false, true, false);
+		UI ui = new UI(state, false, true, "", "", false);
 		
 		ui.repaint();
 		

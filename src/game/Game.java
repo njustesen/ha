@@ -35,7 +35,7 @@ public class Game {
 	
 	private static String[] origArgs;
 	private static int budget = 6000;
-	private static String map = "a-small";
+	private static String map = "a";
 	
 	public static void main(String[] args) {
 		
@@ -104,8 +104,12 @@ public class Game {
 				CachedLines.load(this.state.map);
 			
 		}
+		
+		String player1Title = player1 == null ? "Human" : player1.title();
+		String player2Title = player2 == null ? "Human" : player2.title();
+		
 		if (gameArgs.gfx){
-			this.ui = new UI(this.state, (this.player1 == null), (this.player2 == null), PLAY_TEST && first );
+			this.ui = new UI(this.state, (this.player1 == null), (this.player2 == null), player1Title, player2Title, PLAY_TEST && first );
 
 			if (player1 instanceof AiVisualizor && !PLAY_TEST)
 				((AiVisualizor)player1).enableVisualization(ui);

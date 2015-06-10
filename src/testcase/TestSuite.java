@@ -333,7 +333,7 @@ public class TestSuite {
 				i++;
 			}
 			
-			UI ui = new UI(cloneB, true, true, false);
+			UI ui = new UI(cloneB, true, true, "", "", false);
 			for(List<Action> actions : rolling.bestActions){
 				ui.actionLayer.addAll(actions);
 				ui.repaint();

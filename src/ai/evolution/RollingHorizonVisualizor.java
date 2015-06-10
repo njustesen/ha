@@ -46,9 +46,9 @@ public class RollingHorizonVisualizor extends JComponent implements KeyListener 
 		this.rendering = false;
 		frame = new JFrame();
 		frame.addKeyListener(this);
-		width = 500;
-		height = 160;
-		frame.setLocation(800, y);
+		width = 320;
+		height = 110;
+		frame.setLocation(705, y);
 		y += height*1.2;
 		div = 10;
 		frame.setSize(width, height+32);
