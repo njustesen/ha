@@ -60,6 +60,9 @@ public class TestSuiteFinal {
 		
 		if (args[0].equals("mcts-c"))
 			MctsCTests(Integer.parseInt(args[1]), args[2]);
+		
+		if (args[0].equals("mcts-depth-1-0"))
+			MctsDepth10(Integer.parseInt(args[1]), args[2]);
 	
 		// YES
 		if (args[0].equals("mcts-cut-random"))
@@ -116,6 +119,26 @@ public class TestSuiteFinal {
 		
 	}
 	
+	private static void MctsDepth10(int runs, String size) {
+		
+		final List<TestCase> tests = new ArrayList<TestCase>();
+		
+		int budget = 6000;
+		
+		final Mcts mctsD0 = new Mcts(budget, new RolloutEvaluator(1, 0, new RandomHeuristicAI(0.5), new HeuristicEvaluator(true)));
+		
+		final Mcts mctsD1 = new Mcts(budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(true)));
+		
+		tests.add(new TestCase(new StatisticAi(mctsD0), new StatisticAi(mctsD1),
+				runs, "mcts-d-0-vs-mcts-d-1", map(size), deck(size)));
+		
+		TestCase.GFX = true;
+		
+		for (final TestCase test : tests)
+			test.run();
+		
+	}
+
 	private static void MctsCollapseRandom05(int runs, String size) {
 		
 		final List<TestCase> tests = new ArrayList<TestCase>();

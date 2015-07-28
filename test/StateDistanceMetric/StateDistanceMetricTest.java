@@ -58,7 +58,7 @@ public class StateDistanceMetricTest {
 		stateA.possibleActions(possible);
 		stateB.imitate(stateA);
 		System.out.println(metric.distance(stateA, stateB));
-		new UI(stateA, false, false, false);
+		new UI(stateA, false, false, "", "", false);
 		
 		for(Action action : possible){
 			stateB.update(action);

@@ -44,8 +44,10 @@ public class UI extends JComponent {
 	private final int bottom;
 	private final InputController inputController;
 	public Action action;
-	private final boolean humanP1;
-	private final boolean humanP2;
+	private final String p1Name;
+	private final String p2Name;
+	private final Boolean p1Human;
+	private final Boolean p2Human;
 	private int turn = 0;
 	public LevelPicker levelPicker;
 	public static int level = -1;
@@ -54,7 +56,7 @@ public class UI extends JComponent {
 	public List<Action> actionLayer;
 	public boolean connection;
 
-	public UI(GameState state, boolean humanP1, boolean humanP2, boolean showLevelPicker) {
+	public UI(GameState state, boolean p1Human, boolean p2Human, String p1Name, String p2Name, boolean showLevelPicker) {
 		connection = true;
 		frame = new JFrame();
 		width = Math.max(8, state.map.width) * squareSize + squareSize * 2;
@@ -70,9 +72,11 @@ public class UI extends JComponent {
 		}
 		frame.getContentPane().add(this);
 		frame.setVisible(true);
-		this.humanP1 = humanP1;
-		this.humanP2 = humanP2;
-		inputController = new InputController(humanP1, humanP2, squareSize,
+		this.p1Human = p1Human;
+		this.p2Human = p2Human;
+		this.p1Name = p1Name;
+		this.p2Name = p2Name;
+		inputController = new InputController(p1Human, p2Human, squareSize,
 				squareSize, squareSize, this);
 		this.addMouseListener(inputController);
 		this.addMouseMotionListener(inputController);
@@ -747,16 +751,16 @@ public class UI extends JComponent {
 		final int x = width / 2 - image.getWidth() / 2;
 		g.drawImage(image, x, 0, null, null);
 		g.setColor(new Color(1f,1f,1f,.5f));
-		g.setFont(new Font("Arial", 1, 32));
-		if (humanP1)
+		g.setFont(new Font("Arial", 1, 22));
+		if (p1Human)
 			g.drawString("Human", 138, 48);
 		else
-			g.drawString("AI", 138, 48);
+			g.drawString(p1Name, 138, 48);
 			
-		if (humanP2)
+		if (p2Human)
 			g.drawString("Human", 412, 48);
 		else
-			g.drawString("AI", 412, 48);
+			g.drawString(p2Name, 412, 48);
 			
 		/*
 		 * BufferedImage bar = ImageLib.lib.get("bar"); int toBarA = 102;
@@ -855,9 +859,9 @@ public class UI extends JComponent {
 		 * for(int x = 0; x < 6; x++){ g.setColor(new Color(255, 255, 255, 30));
 		 * g.drawRect(start + x * squareSize, bottom, squareSize, squareSize); }
 		 */
-		if (state.p1Turn && (humanP1 || (!humanP1 && !humanP2)))
+		if (state.p1Turn && (p1Human || (!p1Human && !p2Human)))
 			paintHand(g, start, state.p1Hand, 1);
-		else if (!state.p1Turn && (humanP2 || (!humanP1 && !humanP2)))
+		else if (!state.p1Turn && (p2Human || (!p1Human && !p2Human)))
 			paintHand(g, start, state.p2Hand, 2);
 		else{
 			g.setColor(Color.lightGray);

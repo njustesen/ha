@@ -32,7 +32,7 @@ import ai.util.RAND_METHOD;
 
 public class ParallelNeatTrainer {
 
-	private static final int POP_SIZE = 64;
+	private static final int POP_SIZE = 4;
 	private static final double PROP_LINK = 0.5;
 	private static final boolean RECURRENT = false;
 	private static final int GENERATIONS = 50000;
@@ -48,8 +48,13 @@ public class ParallelNeatTrainer {
 	private static final boolean SIMPLE = false;
 																																											
 	public static void main(String[] args) throws Exception{
-		pop_file = pop_file + args[0];
-		level = Double.parseDouble(args[1]);
+		if (args.length>0)
+			pop_file = pop_file + args[0];
+		else
+			pop_file = "";
+		if (args.length>1)
+			level = Double.parseDouble(args[1]);
+		
 		//gameArgs.sleep = 200;
 		Neat.readParam("parameters.ne");
 		Neat.p_num_trait_params = 20;

@@ -15,6 +15,7 @@ public class TestCase {
 
 	public static boolean P1START = false;
 	public static boolean GFX = false;
+	public static int SLEEP = 0;
 	public AI p1;
 	public AI p2;
 	public int runs;
@@ -66,7 +67,9 @@ public class TestCase {
 		GameState state;
 		state = new GameState(map);
 		final GameState clone = state.copy();
-		final Game game = new Game(state, new GameArguments(GFX, p1, p2, map.name, deckSize));
+		GameArguments gameArgs = new GameArguments(GFX, p1, p2, map.name, deckSize);
+		gameArgs.sleep = SLEEP;
+		final Game game = new Game(state, gameArgs);
 		boolean p1Starting;
 		for (int i = 0; i < runs; i++) {
 			p1Starting = P1START || (i == 0 || i < runs / 2.0);
