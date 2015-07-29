@@ -63,6 +63,9 @@ public class TestSuiteFinal {
 		
 		if (args[0].equals("mcts-depth-1-0"))
 			MctsDepth10(Integer.parseInt(args[1]), args[2]);
+		
+		if (args[0].equals("aaai"))
+			AAAItests(Integer.parseInt(args[1]), args[2], Integer.parseInt(args[3]));
 	
 		// YES
 		if (args[0].equals("mcts-cut-random"))
@@ -119,6 +122,42 @@ public class TestSuiteFinal {
 		
 	}
 	
+	private static void AAAItests(int runs, String size, int num) {
+		
+		final List<TestCase> tests = new ArrayList<TestCase>();
+		
+		int budget = 6000;
+		
+		final Mcts mcts = new Mcts(budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(true)));
+		
+		final AI greedyAction = new GreedyActionAI(new HeuristicEvaluator(true));
+		final AI greedyTurn = new GreedyTurnAI(new HeuristicEvaluator(true), budget, false);
+		final RollingHorizonEvolution rolling = new RollingHorizonEvolution(true, 100, .1, .5, budget, new HeuristicEvaluator(false));
+		
+		if (num==1)
+			tests.add(new TestCase(new StatisticAi(rolling), new StatisticAi(greedyAction),
+				runs, "rolling-greedyaction", map(size), deck(size)));
+		if (num==2)
+			tests.add(new TestCase(new StatisticAi(rolling), new StatisticAi(greedyTurn),
+				runs, "rolling-greedyturn", map(size), deck(size)));
+		if (num==3)
+			tests.add(new TestCase(new StatisticAi(mcts), new StatisticAi(greedyAction),
+				runs, "mcts-greedyaction", map(size), deck(size)));
+		if (num==4)
+			tests.add(new TestCase(new StatisticAi(mcts), new StatisticAi(greedyTurn),
+				runs, "mcts-greedyturn", map(size), deck(size)));
+		if (num==5)
+			tests.add(new TestCase(new StatisticAi(mcts), new StatisticAi(rolling),
+				runs, "mcts-rolling", map(size), deck(size)));
+		
+		TestCase.GFX = true;
+		
+		for (final TestCase test : tests)
+			test.run();
+		
+		
+	}
+
 	private static void MctsDepth10(int runs, String size) {
 		
 		final List<TestCase> tests = new ArrayList<TestCase>();
