@@ -24,7 +24,7 @@ public class ParallelMoveSearcher {
 	private int n;
 	public int budget;
 	private ExecutorService executor;
-	private List<MoveThread> threads;
+	public List<MoveThread> threads;
 	private List<Future<List<ValuedMove>>> futures;
 	private List<Action> rootActions;
 	private ActionPruner pruner = new ActionPruner();

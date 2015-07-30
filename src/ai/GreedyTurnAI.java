@@ -84,7 +84,7 @@ public class GreedyTurnAI implements AI {
 	public String header() {
 		String name = title()+"\n";
 		name += "State evaluatior = " + evaluator.title() + "\n";
-		if (searcher instanceof ParallelMoveSearcher){
+		if (searcher.threads.size() > 1){
 			name += "Parallelized = true\n";
 			name += "Processors = " + Runtime.getRuntime().availableProcessors() + "\n";
 		} else {
