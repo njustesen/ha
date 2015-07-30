@@ -9,6 +9,7 @@ import action.Action;
 import action.SingletonAction;
 import ai.evaluation.IStateEvaluator;
 import ai.movesearch.BestMoveSearcher;
+import ai.movesearch.MoveSearch;
 import ai.movesearch.ParallelMoveSearcher;
 import ai.movesearch.ValuedMove;
 
@@ -39,6 +40,15 @@ public class GreedyTurnAI implements AI {
 		this.anytime = true;
 		this.budget = budget;
 		this.searcher = new ParallelMoveSearcher(1, budget, evaluator);
+	}
+	
+	public GreedyTurnAI(IStateEvaluator evaluator, int budget, boolean parallel) {
+		super();
+		this.evaluator = evaluator;
+		this.actions = new ArrayList<Action>();
+		this.anytime = true;
+		this.budget = budget;
+		this.searcher = new ParallelMoveSearcher(1, budget, evaluator, parallel);
 	}
 
 	@Override
@@ -74,7 +84,7 @@ public class GreedyTurnAI implements AI {
 	public String header() {
 		String name = title()+"\n";
 		name += "State evaluatior = " + evaluator.title() + "\n";
-		if (searcher instanceof ParallelMoveSearcher){
+		if (searcher.threads.size() > 1){
 			name += "Parallelized = true\n";
 			name += "Processors = " + Runtime.getRuntime().availableProcessors() + "\n";
 		} else {

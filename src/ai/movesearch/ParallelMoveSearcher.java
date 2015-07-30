@@ -24,7 +24,7 @@ public class ParallelMoveSearcher {
 	private int n;
 	public int budget;
 	private ExecutorService executor;
-	private List<MoveThread> threads;
+	public List<MoveThread> threads;
 	private List<Future<List<ValuedMove>>> futures;
 	private List<Action> rootActions;
 	private ActionPruner pruner = new ActionPruner();
@@ -36,12 +36,24 @@ public class ParallelMoveSearcher {
 		this.threads = new ArrayList<MoveThread>();
 		this.futures = new ArrayList<Future<List<ValuedMove>>>();
 		this.rootActions = new ArrayList<Action>();
-		setup();
+		setup(true);
+	}
+	
+	public ParallelMoveSearcher(int n, int budget, IStateEvaluator evaluator, boolean parallel){
+		this.n = n;
+		this.budget = budget;
+		this.evaluator = evaluator;
+		this.threads = new ArrayList<MoveThread>();
+		this.futures = new ArrayList<Future<List<ValuedMove>>>();
+		this.rootActions = new ArrayList<Action>();
+		setup(parallel);
 	}
 
-	private void setup() {
+	private void setup(boolean parallel) {
 		int processors = Runtime.getRuntime().availableProcessors();
 		System.out.println("Processors: " + processors);
+		if (!parallel)
+			processors = 1;
 		this.executor = Executors.newFixedThreadPool(processors);
 		for(int i=0; i < processors; i++) {
 			MoveThread thread = new MoveThread(n, evaluator.copy(), budget, this);
