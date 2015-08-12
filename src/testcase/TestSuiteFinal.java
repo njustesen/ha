@@ -149,6 +149,9 @@ public class TestSuiteFinal {
 		if (num==5)
 			tests.add(new TestCase(new StatisticAi(mcts), new StatisticAi(rolling),
 				runs, "mcts-rolling", map(size), deck(size)));
+		if (num==6)
+			tests.add(new TestCase(new StatisticAi(greedyAction), new StatisticAi(greedyTurn),
+				runs, "greedyaction-greedyturn", map(size), deck(size)));
 		
 		TestCase.GFX = true;
 		

@@ -1,0 +1,30 @@
+- Results
+	X Greedy Action vs. Greedy Turn - All rows
+	X Against random
+	X Write in legend that we have checked against wilcox signifcance
+	X Commonly used constants
+	X More explanation on one example.
+	X Use figure from thesis and write that it is paralellized
+
+- Hero AIcademy
+	- https://github.com/njustesen/hero-aicademy
+
+- Online Evolution
+	- Emphazise difference from offline evolution
+	- Mostly just explaining evolutionary algorithms..
+		X Pseudo code
+		X More formal - more details
+	- Action sequences.. moves.. actions.. turn
+		- Turns and action sequence
+		- We evolve an action sequence
+		- Move = action
+
+- Configurations
+	- Mention tests or include actual results?
+
+- Deadline
+	- Next meeting?
+	- 1. september
+	- julian is away one week from now
+	- Complete drart 20. august
+	- Go through Tobias writing
