@@ -66,6 +66,9 @@ public class TestSuiteFinal {
 		
 		if (args[0].equals("aaai"))
 			AAAItests(Integer.parseInt(args[1]), args[2], Integer.parseInt(args[3]));
+		
+		if (args[0].equals("tciaig"))
+			TCIAIG(Integer.parseInt(args[1]), args[2], Integer.parseInt(args[3]));
 	
 		// YES
 		if (args[0].equals("mcts-cut-random"))
@@ -119,6 +122,61 @@ public class TestSuiteFinal {
 			AP(Integer.parseInt(args[1]), args[2]);
 		
 		
+		
+	}
+	
+	private static void TCIAIG(int runs, String size, int num){
+		
+		final List<TestCase> tests = new ArrayList<TestCase>();
+		
+		int budget = 6000;
+		
+		final Mcts mcts = new Mcts(budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(true)));
+		
+		final Mcts nonexpl = new Mcts(budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		nonexpl.c = 0;
+		
+		final Mcts cutting = new Mcts(budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(true)));
+		cutting.cut = true;
+		
+		final AI greedyAction = new GreedyActionAI(new HeuristicEvaluator(true));
+		final AI greedyTurn = new GreedyTurnAI(new HeuristicEvaluator(true), budget, false);
+		final RollingHorizonEvolution rolling = new RollingHorizonEvolution(true, 100, .1, .5, budget, new HeuristicEvaluator(false));
+		
+		if (num==1 || num==0)
+			tests.add(new TestCase(new StatisticAi(nonexpl), new StatisticAi(greedyAction),
+				runs, "nonexpl-greedyaction", map(size), deck(size)));
+		if (num==2 || num==0)
+			tests.add(new TestCase(new StatisticAi(nonexpl), new StatisticAi(greedyTurn),
+					runs, "nonexpl-greedyturn", map(size), deck(size)));
+		if (num==3 || num==0)
+			tests.add(new TestCase(new StatisticAi(nonexpl), new StatisticAi(mcts),
+					runs, "nonexpl-mcts", map(size), deck(size)));
+		if (num==4 || num==0) 
+			tests.add(new TestCase(new StatisticAi(nonexpl), new StatisticAi(rolling),
+				runs, "nonexpl-rolling", map(size), deck(size)));
+			
+		
+		if (num==5  || num==0 || num==-1)
+			tests.add(new TestCase(new StatisticAi(cutting), new StatisticAi(greedyAction),
+				runs, "cutting-greedyaction", map(size), deck(size)));
+		if (num==6  || num==0 || num==-1)
+			tests.add(new TestCase(new StatisticAi(cutting), new StatisticAi(greedyTurn),
+					runs, "cutting-greedyturn", map(size), deck(size)));
+		if (num==7  || num==0 || num==-1)
+			tests.add(new TestCase(new StatisticAi(cutting), new StatisticAi(mcts),
+					runs, "cutting-mcts", map(size), deck(size)));
+		if (num==8  || num==0 || num==-1)
+			tests.add(new TestCase(new StatisticAi(cutting), new StatisticAi(rolling),
+				runs, "cutting-rolling", map(size), deck(size)));
+		if (num==9  || num==0 || num==-1)
+			tests.add(new TestCase(new StatisticAi(cutting), new StatisticAi(nonexpl),
+				runs, "cutting-nonexpl", map(size), deck(size)));
+		
+		TestCase.GFX = true;
+		
+		for (final TestCase test : tests)
+			test.run();
 		
 	}
 	
