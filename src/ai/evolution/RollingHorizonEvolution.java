@@ -39,6 +39,7 @@ public class RollingHorizonEvolution implements AI, AiVisualizor {
 	private final Random random;
 	public SharedStateTable table;
 	public boolean useHistory;
+	public int count;
 	
 	public RollingHorizonEvolution(boolean useHistory, int popSize, double mutRate, double killRate, int budget, IStateEvaluator evaluator) {
 		super();
@@ -107,6 +108,7 @@ public class RollingHorizonEvolution implements AI, AiVisualizor {
 						val = table.visit(hash, val);
 					}
 					genome.value = val;
+					table.visit(clone.hash(), val);	// Does not do anything but counting
 				}
 				genome.visits++;
 			}
@@ -163,6 +165,7 @@ public class RollingHorizonEvolution implements AI, AiVisualizor {
 		actions = pop.get(0).actions;
 		
 		generations.add((double)g);
+		count = table.size();
 		bestVisits.add((double)(pop.get(0).visits));
 
 	}

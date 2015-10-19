@@ -47,6 +47,7 @@ public class TestSuiteFinal {
 
 	public static void main(String[] args) {
 
+		
 		try {
 			tiny = MapLoader.get("a-tiny");
 			small = MapLoader.get("a-small");
@@ -55,6 +56,10 @@ public class TestSuiteFinal {
 			e.printStackTrace();
 		}
 		
+
+		AAAICount();
+		return;
+		/*
 		if (args[0].equals("mcts-rollouts"))
 			MctsRolloutDepthTests(Integer.parseInt(args[1]), args[2]);
 		
@@ -118,7 +123,32 @@ public class TestSuiteFinal {
 		if (args[0].equals("ap"))
 			AP(Integer.parseInt(args[1]), args[2]);
 		
+		//if (args[0].equals("count"))
+			//AAAICount();
+		*/
+	}
+	
+	private static void AAAICount(){
 		
+		final List<TestCase> tests = new ArrayList<TestCase>();
+		
+		int budget = 6000;
+		
+		final Mcts mcts = new Mcts(budget, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(true)));
+		
+		final AI greedyTurn = new GreedyTurnAI(new HeuristicEvaluator(true), budget, false);
+		final RollingHorizonEvolution rolling = new RollingHorizonEvolution(true, 100, .1, .5, budget, new HeuristicEvaluator(false));
+		
+		tests.add(new TestCase(new StatisticAi(mcts), new StatisticAi(rolling),
+			1, "mcts-rolling-count", map("standard"), deck("standard")));
+		
+		tests.add(new TestCase(new StatisticAi(mcts), new StatisticAi(greedyTurn),
+				1, "mcts-greedyturn-count", map("standard"), deck("standard")));
+		
+		TestCase.GFX = true;
+		
+		for (final TestCase test : tests)
+			test.run();
 		
 	}
 	

@@ -1,0 +1,72 @@
+########### TEST ###########
+AP: 5
+SAP: 3
+TURN LIMT: 200
+~~~~~~~~~ Player 1 ~~~~~~~~~
+MCTS
+Time budget = 6000
+C = 0.7071067811865475
+Leaf evaluation = Rollout Evaluator [depth=1 rolls=1 policy=Random heuristic [prob:0.5] evaluator=Heuristic Evaluator [positional=false, heal=150, spread=50]]
+Cut = false
+Collapse = false
+~~~~~~~~~ Player 2 ~~~~~~~~~
+GreedyTurn
+State evaluatior = Heuristic Evaluator [positional=false, heal=150, spread=50]
+Parallelized = false
+Budget = 6000 ms.
+~~~~~~~~~~~ SETUP ~~~~~~~~~~
+Map: a
+Deck Size: STANDARD
+Randomness: false
+Runs: 1
+~~~~~~~~~~ RUNNING ~~~~~~~~~
+~~~~~~~~~~ RESULTS ~~~~~~~~~
+P1 = 0 = 0.0%
+P2 = 1 = 100.0%
+Dr = 0
+~~~~~~~~~~~ STATS ~~~~~~~~~~
+P1 MCTS
+Time spend (avg) = 1151.4020618556701
+Time spend (std.dev) = 2412.443214052234
+Time spend (min) = 0.0
+Time spend (max) = 6392.0
+Time spend (datapoints) = 97
+Iterations (avg) = 206637.88888888888
+Iterations (std.dev) = 61335.7234497056
+Iterations (min) = 93397.0
+Iterations (max) = 298353.0
+Iterations (datapoints) = 18
+Moves considered (avg) = 9185120.0
+Moves considered (std.dev) = 0.0
+Moves considered (min) = 9185120.0
+Moves considered (max) = 9185120.0
+Moves considered (datapoints) = 1
+Max. depths (avg) = 6.666666666666667
+Max. depths (std.dev) = 0.5773502691896256
+Max. depths (min) = 6.0
+Max. depths (max) = 8.0
+Max. depths (datapoints) = 18
+Avg. depths (avg) = 4.865872757147617
+Avg. depths (std.dev) = 0.6793907150084426
+Avg. depths (min) = 4.058863767281106
+Avg. depths (max) = 6.302664196435561
+Avg. depths (datapoints) = 18
+Min. depths (avg) = 3.888888888888889
+Min. depths (std.dev) = 0.45812284729085123
+Min. depths (min) = 3.0
+Min. depths (max) = 5.0
+Min. depths (datapoints) = 18
+
+P2 GreedyTurn
+Time spend (avg) = 727.5327102803739
+Time spend (std.dev) = 1856.194410125828
+Time spend (min) = 0.0
+Time spend (max) = 6003.0
+Time spend (datapoints) = 107
+Considered moves (avg) = 395521.0
+Considered moves (std.dev) = 0.0
+Considered moves (min) = 395521.0
+Considered moves (max) = 395521.0
+Considered moves (datapoints) = 1
+
+############################

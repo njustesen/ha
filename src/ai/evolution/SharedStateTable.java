@@ -25,4 +25,8 @@ public class SharedStateTable {
 		visited.clear();
 	}
 	
+	public int size() {
+		return visited.size();
+	}
+	
 }

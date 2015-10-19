@@ -29,6 +29,8 @@ public class ParallelMoveSearcher {
 	private List<Action> rootActions;
 	private ActionPruner pruner = new ActionPruner();
 	
+	public static int UNIQUE_COUNTER = 0;
+	
 	public ParallelMoveSearcher(int n, int budget, IStateEvaluator evaluator){
 		this.n = n;
 		this.budget = budget;
@@ -64,6 +66,7 @@ public class ParallelMoveSearcher {
 	public List<ValuedMove> search(GameState state){
 		
 		// Possible actions
+		UNIQUE_COUNTER = 0;
 		rootActions.clear();
 		state.possibleActions(rootActions);
 		pruner.prune(rootActions, state);
@@ -83,6 +86,7 @@ public class ParallelMoveSearcher {
 		}
 		Collections.sort(moves);
 		Collections.reverse(moves);
+		UNIQUE_COUNTER = transTable.size();
 		transTable.clear();
 		List<ValuedMove> best = new ArrayList<ValuedMove>();
 		for(ValuedMove m : moves)

@@ -52,6 +52,8 @@ public class Mcts implements AI {
 	public Map<Integer, Double> fitnesses;
 
 	public boolean useTrans;
+
+	public List<Double> counts;
 	
 	public Mcts(long budget, IStateEvaluator defaultPolicy) {
 		this.budget = budget;
@@ -144,11 +146,15 @@ public class Mcts implements AI {
 			minDepths.add(Collections.min(depths));
 			maxDepths.add(Collections.max(depths));
 			depths.clear();
+			int a = (state.turn == 1 && state.p1Turn) ? 3 : 5;
+			counts = new ArrayList<Double>();
+			counts.add(0d + leavesInPly(a));
 		}
 		rollouts.add((double) rolls);
 
 		saveTree();
-
+		
+		
 		move = bestMove(state, rolls);
 		final Action action = move.get(0);
 		move.remove(0);
@@ -161,6 +167,26 @@ public class Mcts implements AI {
 
 		return action;
 
+	}
+	
+	private int leavesInPly(int ply){
+		int c = 0;
+		HashSet<Long> v = new HashSet<Long>();
+		for(Long l : transTable.keySet()){
+			if (!v.contains(l) && isPly(transTable.get(l), ply))
+				v.add(l);	
+		}
+		return v.size();
+	}
+
+	private boolean isPly(MctsNode node, int ply) {
+		int p = 0;
+		MctsNode n = node;
+		while(!n.isRoot()){
+			p++;
+			n = n.in.get(0).from;
+		}
+		return p == ply;
 	}
 
 	private void saveTree() {
