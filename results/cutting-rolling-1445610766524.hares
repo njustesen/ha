@@ -1,0 +1,75 @@
+########### TEST ###########
+AP: 5
+SAP: 3
+TURN LIMT: 200
+~~~~~~~~~ Player 1 ~~~~~~~~~
+MCTS
+Time budget = 6000
+C = 0.7071067811865475
+Leaf evaluation = Rollout Evaluator [depth=1 rolls=1 policy=Random heuristic [prob:0.5] evaluator=Heuristic Evaluator [positional=false, heal=150, spread=50]]
+Cut = true
+Collapse = false
+~~~~~~~~~ Player 2 ~~~~~~~~~
+Rolling Horizon Evolution
+Pop. size = 100
+Budget = 6000ms.
+Mut. rate = 0.1
+Kill rate = 0.5
+State evaluator = Heuristic Evaluator [positional=false, heal=150, spread=50]
+History = true
+~~~~~~~~~~~ SETUP ~~~~~~~~~~
+Map: a
+Deck Size: STANDARD
+Randomness: false
+Runs: 100
+~~~~~~~~~~ RUNNING ~~~~~~~~~
+~~~~~~~~~~ RESULTS ~~~~~~~~~
+P1 = 47 = 48.0%
+P2 = 51 = 52.0%
+Dr = 2
+~~~~~~~~~~~ STATS ~~~~~~~~~~
+P1 MCTS
+Time spend (avg) = 1189.705147864184
+Time spend (std.dev) = 2670.322633227138
+Time spend (min) = 0.0
+Time spend (max) = 9520.0
+Time spend (datapoints) = 18260
+Iterations (avg) = 229421.13172468354
+Iterations (std.dev) = 159895.49231325407
+Iterations (min) = 39699.0
+Iterations (max) = 3583640.0
+Iterations (datapoints) = 12640
+Max. depths (avg) = 7.879509493670886
+Max. depths (std.dev) = 1.430607249099401
+Max. depths (min) = 0.0
+Max. depths (max) = 40.0
+Max. depths (datapoints) = 12640
+Avg. depths (avg) = 7.343368752678664
+Avg. depths (std.dev) = 0.9941240454278336
+Avg. depths (min) = 0.0
+Avg. depths (max) = 20.84456794550018
+Avg. depths (datapoints) = 12640
+Min. depths (avg) = 7.068037974683544
+Min. depths (std.dev) = 0.6727921781751535
+Min. depths (min) = 0.0
+Min. depths (max) = 10.0
+Min. depths (datapoints) = 12640
+
+P2 Rolling Horizon Evolution
+Time spend (avg) = 1011.3562967410885
+Time spend (std.dev) = 2246.365588694063
+Time spend (min) = 0.0
+Time spend (max) = 6624.0
+Time spend (datapoints) = 18319
+Vists (selected genome) (avg) = 3406.1261543822966
+Vists (selected genome) (std.dev) = 2634.2592523221265
+Vists (selected genome) (min) = 1.0
+Vists (selected genome) (max) = 32414.0
+Vists (selected genome) (datapoints) = 5739
+Generations (avg) = 3958.952256490678
+Generations (std.dev) = 2597.349220954172
+Generations (min) = 183.0
+Generations (max) = 32414.0
+Generations (datapoints) = 5739
+
+############################
