@@ -57,9 +57,9 @@ public class TestSuiteFinal {
 		}
 		
 
-		AAAICount();
-		return;
-		/*
+		//AAAICount();
+		//return;
+		
 		if (args[0].equals("mcts-rollouts"))
 			MctsRolloutDepthTests(Integer.parseInt(args[1]), args[2]);
 		
@@ -75,6 +75,13 @@ public class TestSuiteFinal {
 		if (args[0].equals("tciaig"))
 			TCIAIG(Integer.parseInt(args[1]), args[2], Integer.parseInt(args[3]));
 	
+		if (args[0].equals("tciaig_timebudget"))
+			TCIAIG_timebudget(Integer.parseInt(args[1]), args[2]);
+	
+		if (args[0].equals("tciaig_actions"))
+			TCIAIG_actions(Integer.parseInt(args[1]), args[2]);
+		
+		
 		// YES
 		if (args[0].equals("mcts-cut-random"))
 			MctsCutRandom(Integer.parseInt(args[1]), args[2]);
@@ -126,9 +133,6 @@ public class TestSuiteFinal {
 		if (args[0].equals("ap"))
 			AP(Integer.parseInt(args[1]), args[2]);
 		
-		//if (args[0].equals("count"))
-			//AAAICount();
-		*/
 	}
 	
 	private static void AAAICount(){
@@ -207,6 +211,87 @@ public class TestSuiteFinal {
 		
 		for (final TestCase test : tests)
 			test.run();
+		
+	}
+	
+	private static void TCIAIG_timebudget(int runs, String size){
+		
+		TestCase.GFX = true;
+		
+		final Mcts nonexpl = new Mcts(2000, new RolloutEvaluator(1, 1, new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		nonexpl.c = 0;
+		
+		final Mcts cutting = new Mcts(2000, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(true)));
+		cutting.cut = true;
+		
+		final RollingHorizonEvolution rolling = new RollingHorizonEvolution(true, 100, .1, .5, 2000, new HeuristicEvaluator(false));
+		
+		TestCase test1 = new TestCase(new StatisticAi(cutting), new StatisticAi(rolling),
+				runs, "cutting-rolling-2000ms", map(size), deck(size));
+		TestCase test2 = new TestCase(new StatisticAi(nonexpl), new StatisticAi(rolling),
+				runs, "nonexpl-rolling-2000ms", map(size), deck(size));
+		test1.run();
+		test2.run();
+		nonexpl.budget = 500;
+		cutting.budget = 500;
+		rolling.budget = 500;
+		TestCase test3 = new TestCase(new StatisticAi(cutting), new StatisticAi(rolling),
+				runs, "cutting-rolling-500ms", map(size), deck(size));
+		TestCase test4 = new TestCase(new StatisticAi(nonexpl), new StatisticAi(rolling),
+				runs, "nonexpl-rolling-500ms", map(size), deck(size));
+		test3.run();
+		test4.run();
+		nonexpl.budget = 100;
+		cutting.budget = 100;
+		rolling.budget = 100;
+		TestCase test5 = new TestCase(new StatisticAi(cutting), new StatisticAi(rolling),
+				runs, "cutting-rolling-100ms", map(size), deck(size));
+		TestCase test6 = new TestCase(new StatisticAi(nonexpl), new StatisticAi(rolling),
+				runs, "nonexpl-rolling-100ms", map(size), deck(size));
+		test5.run();
+		test6.run();
+		
+		
+	}
+	
+	private static void TCIAIG_actions(int runs, String size){
+		
+		TestCase.GFX = true;
+		
+		final Mcts nonexpl = new Mcts(2000, new RolloutEvaluator(1, 1, new RandomHeuristicAI(1), new HeuristicEvaluator(true)));
+		nonexpl.c = 0;
+		
+		final Mcts cutting = new Mcts(2000, new RolloutEvaluator(1, 1, new RandomHeuristicAI(0.5), new HeuristicEvaluator(true)));
+		cutting.cut = true;
+		
+		final RollingHorizonEvolution rolling = new RollingHorizonEvolution(true, 100, .1, .5, 2000, new HeuristicEvaluator(false));
+		
+		TestCase test1 = new TestCase(new StatisticAi(cutting), new StatisticAi(rolling),
+				runs, "cutting-rolling-2000ms-ap10", map(size), deck(size));
+		TestCase test2 = new TestCase(new StatisticAi(nonexpl), new StatisticAi(rolling),
+				runs, "nonexpl-rolling-2000ms-ap10", map(size), deck(size));
+		test1.ap = 10;
+		test2.ap = 10;
+		test1.run();
+		test2.run();
+		
+		TestCase test3 = new TestCase(new StatisticAi(cutting), new StatisticAi(rolling),
+				runs, "cutting-rolling-2000ms-ap20", map(size), deck(size));
+		TestCase test4 = new TestCase(new StatisticAi(nonexpl), new StatisticAi(rolling),
+				runs, "nonexpl-rolling-2000ms-ap20", map(size), deck(size));
+		test3.ap = 20;
+		test4.ap = 20;
+		test3.run();
+		test4.run();
+		
+		TestCase test5 = new TestCase(new StatisticAi(cutting), new StatisticAi(rolling),
+				runs, "cutting-rolling-2000ms-ap30", map(size), deck(size));
+		TestCase test6 = new TestCase(new StatisticAi(nonexpl), new StatisticAi(rolling),
+				runs, "nonexpl-rolling-2000ms-ap30", map(size), deck(size));
+		test5.ap = 30;
+		test6.ap = 30;
+		test5.run();
+		test6.run();
 		
 	}
 	
