@@ -226,6 +226,7 @@ public class TestSuiteFinal {
 		
 		final RollingHorizonEvolution rolling = new RollingHorizonEvolution(true, 100, .1, .5, 2000, new HeuristicEvaluator(false));
 		
+		/*
 		TestCase test1 = new TestCase(new StatisticAi(cutting), new StatisticAi(rolling),
 				runs, "cutting-rolling-2000ms", map(size), deck(size));
 		TestCase test2 = new TestCase(new StatisticAi(nonexpl), new StatisticAi(rolling),
@@ -250,7 +251,23 @@ public class TestSuiteFinal {
 				runs, "nonexpl-rolling-100ms", map(size), deck(size));
 		test5.run();
 		test6.run();
+		*/
 		
+		TestCase test7 = new TestCase(new StatisticAi(cutting), new StatisticAi(nonexpl),
+				runs, "cutting-rolling-100ms", map(size), deck(size));
+		TestCase test8 = new TestCase(new StatisticAi(cutting), new StatisticAi(nonexpl),
+				runs, "cutting-rolling-500ms", map(size), deck(size));
+		TestCase test9 = new TestCase(new StatisticAi(cutting), new StatisticAi(nonexpl),
+				runs, "cutting-rolling-2000ms", map(size), deck(size));
+		nonexpl.budget = 100;
+		cutting.budget = 100;
+		test7.run();
+		nonexpl.budget = 500;
+		cutting.budget = 500;
+		test8.run();
+		nonexpl.budget = 2000;
+		cutting.budget = 2000;
+		test9.run();
 		
 	}
 	
