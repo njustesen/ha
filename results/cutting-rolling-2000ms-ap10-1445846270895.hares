@@ -1,0 +1,85 @@
+########### TEST ###########
+AP: 10
+SAP: 10
+TURN LIMT: 200
+~~~~~~~~~ Player 1 ~~~~~~~~~
+MCTS
+Time budget = 2000
+C = 0.7071067811865475
+Leaf evaluation = Rollout Evaluator [depth=1 rolls=1 policy=Random heuristic [prob:0.5] evaluator=Heuristic Evaluator [positional=false, heal=150, spread=50]]
+Cut = true
+Collapse = false
+~~~~~~~~~ Player 2 ~~~~~~~~~
+Rolling Horizon Evolution
+Pop. size = 100
+Budget = 2000ms.
+Mut. rate = 0.1
+Kill rate = 0.5
+State evaluator = Heuristic Evaluator [positional=false, heal=150, spread=50]
+History = true
+~~~~~~~~~~~ SETUP ~~~~~~~~~~
+Map: a
+Deck Size: STANDARD
+Randomness: false
+Runs: 100
+~~~~~~~~~~ RUNNING ~~~~~~~~~
+~~~~~~~~~~ RESULTS ~~~~~~~~~
+P1 = 34 = 34.0%
+P2 = 66 = 66.0%
+Dr = 0
+~~~~~~~~~~~ STATS ~~~~~~~~~~
+P1 MCTS
+Time spend (avg) = 185.39761123267687
+Time spend (std.dev) = 583.3731328783531
+Time spend (min) = 0.0
+Time spend (max) = 2363.0
+Time spend (datapoints) = 10968
+Iterations (avg) = 88472.05268389662
+Iterations (std.dev) = 79888.64315018711
+Iterations (min) = 29883.0
+Iterations (max) = 1025356.0
+Iterations (datapoints) = 1006
+Moves considered (avg) = 5107.0
+Moves considered (std.dev) = 0.0
+Moves considered (min) = 5107.0
+Moves considered (max) = 5107.0
+Moves considered (datapoints) = 1
+Max. depths (avg) = 12.090457256461233
+Max. depths (std.dev) = 1.535778854368328
+Max. depths (min) = 2.0
+Max. depths (max) = 30.0
+Max. depths (datapoints) = 1006
+Avg. depths (avg) = 11.82493078402902
+Avg. depths (std.dev) = 1.2367501679185295
+Avg. depths (min) = 2.0
+Avg. depths (max) = 20.450448895027623
+Avg. depths (datapoints) = 1006
+Min. depths (avg) = 11.636182902584492
+Min. depths (std.dev) = 1.156210192951185
+Min. depths (min) = 2.0
+Min. depths (max) = 14.0
+Min. depths (datapoints) = 1006
+
+P2 Rolling Horizon Evolution
+Time spend (avg) = 184.5643756050339
+Time spend (std.dev) = 579.1247978041812
+Time spend (min) = 0.0
+Time spend (max) = 2189.0
+Time spend (datapoints) = 11363
+Moves considered (avg) = 3173.0
+Moves considered (std.dev) = 0.0
+Moves considered (min) = 3173.0
+Moves considered (max) = 3173.0
+Moves considered (datapoints) = 1
+Vists (selected genome) (avg) = 624.3581661891118
+Vists (selected genome) (std.dev) = 659.2838149832238
+Vists (selected genome) (min) = 1.0
+Vists (selected genome) (max) = 9233.0
+Vists (selected genome) (datapoints) = 1047
+Generations (avg) = 842.4116523400191
+Generations (std.dev) = 680.8099533122144
+Generations (min) = 42.0
+Generations (max) = 9233.0
+Generations (datapoints) = 1047
+
+############################
