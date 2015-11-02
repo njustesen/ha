@@ -1,1 +1,28 @@
-<node h='986577687' vis='0' />
+<node h='1250606125' vis='63990' >
+	<edge p='1' a='DropAction [type=KNIGHT, to=(0,4)]' vis='58155' avg='0.5235600779526931' >
+		<node h='814950818' vis='58155' >
+			<edge p='1' a='DropAction [type=KNIGHT, to=(0,0)]' vis='50521' avg='0.5239225882966466' >
+				<node h='599378713' vis='50656' >
+					<edge p='1' a='UnitAction [from=(0,0), to=(1,0)]' vis='42329' avg='0.5240045103042157' >
+						<node h='723124183' vis='42340' >
+							<edge p='1' a='DropAction [type=ARCHER, to=(0,0)]' vis='33650' avg='0.5241159546805458' >
+								<node h='887969101' vis='33651' >
+									<edge p='1' a='DropAction [type=RUNEMETAL, to=(0,0)]' vis='25269' avg='0.5227229329085631' >
+										<node h='488289355' vis='25269' >
+											<edge p='1' a='UnitAction [from=(0,0), to=(2,0)]' vis='17431' avg='0.5205371388139881' >
+												<node h='1888900594' vis='17459' >
+													<edge p='1' a='UnitAction [from=(2,0), to=(4,0)]' vis='12728' avg='0.5200516093127979' >
+													</edge>
+												</node>
+											</edge>
+										</node>
+									</edge>
+								</node>
+							</edge>
+						</node>
+					</edge>
+				</node>
+			</edge>
+		</node>
+	</edge>
+</node>
